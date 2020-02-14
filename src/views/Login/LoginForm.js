@@ -93,8 +93,20 @@ function LoginForm(props) {
   }, [formState.values]);
 
   useEffect(() => {
-    if (session.loggedIn) {
+    if (session.loading) {
+      setFormState((prevFormState) => ({
+        ...prevFormState,
+        isValid: false
+      }));
+    }
+    else if (session.loggedIn) {
       history.push('/dashboards/analytics');
+    }
+    else if (!loading && !session.loggedIn) {
+      setFormState((prevFormState) => ({
+        ...prevFormState,
+        errors: {password: ['Oops! Password is incorrect.']},
+      }));
     }
     setLoading(session.loading);
     setLoggedIn(session.loggedIn);

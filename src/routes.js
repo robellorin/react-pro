@@ -127,6 +127,11 @@ export default [
         component: lazy(() => import('src/views/Profile'))
       },
       {
+        path: '/projects/create',
+        exact: true,
+        component: lazy(() => import('src/views/ProjectCreate'))
+      },
+      {
         path: '/settings',
         exact: true,
         component: lazy(() => import('src/views/Settings'))

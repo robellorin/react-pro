@@ -10,10 +10,10 @@ import { Button, TextField } from '@material-ui/core';
 import { login } from 'src/actions';
 
 const schema = {
-  username: {
+  email: {
     presence: { allowEmpty: false, message: 'is required' }
   },
-  password: {
+  key: {
     presence: { allowEmpty: false, message: 'is required' }
   }
 };
@@ -50,7 +50,7 @@ function LoginForm(props) {
   const session = useSelector(state => state.session);
   const [loading, setLoading] = useState(session.loading);
   const [loggedIn, setLoggedIn] = useState(session.loggedIn);
-// if (session.lggedIn) history.push('/dashboards/analytics');
+
   const handleChange = (event) => {
     event.persist();
 
@@ -75,8 +75,8 @@ function LoginForm(props) {
     event.persist();
     dispatch(login(
       {
-        username: event.target.username.value,
-        password: event.target.password.value
+        email: event.target.email.value,
+        key: event.target.key.value
       }
     ));
   };
@@ -102,10 +102,10 @@ function LoginForm(props) {
     else if (session.loggedIn) {
       history.push('/dashboards/analytics');
     }
-    else if (!loading && !session.loggedIn) {
+    else if (!loading && (!session.loggedIn || session.error)) {
       setFormState((prevFormState) => ({
         ...prevFormState,
-        errors: {password: ['Oops! Password is incorrect.']},
+        errors: {key: [session.error ? session.error : 'Oops! key is incorrect.']},
       }));
     }
     setLoading(session.loading);
@@ -120,26 +120,27 @@ function LoginForm(props) {
     >
       <div className={classes.fields}>
         <TextField
-          error={hasError('username')}
+          error={hasError('email')}
           fullWidth
-          helperText={hasError('username') ? formState.errors.username[0] : null}
-          label="Username"
-          name="username"
+          helperText={hasError('email') ? formState.errors.email[0] : null}
+          label="Email"
+          name="email"
+          type="email"
           onChange={handleChange}
-          value={formState.values.username || ''}
+          value={formState.values.email || ''}
           variant="outlined"
         />
         <TextField
-          error={hasError('password')}
+          error={hasError('key')}
           fullWidth
           helperText={
-            hasError('password') ? formState.errors.password[0] : null
+            hasError('key') ? formState.errors.key[0] : null
           }
-          label="Password"
-          name="password"
+          label="Key"
+          name="key"
           onChange={handleChange}
           type="password"
-          value={formState.values.password || ''}
+          value={formState.values.key || ''}
           variant="outlined"
         />
       </div>

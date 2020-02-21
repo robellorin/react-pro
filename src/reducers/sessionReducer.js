@@ -1,8 +1,9 @@
-import * as actionTypes from 'src/actions';
+import * as constant from 'src/constant';
 
 const initialState = {
   loggedIn: false,
   loading: false,
+  error: '',
   user: {
     
   }
@@ -10,7 +11,7 @@ const initialState = {
 
 const sessionReducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.SESSION_LOGIN_REQUEST: {
+    case constant.SESSION_LOGIN_REQUEST: {
       return {
         ...initialState,
         loading: true,
@@ -18,7 +19,7 @@ const sessionReducer = (state = initialState, action) => {
       };
     }
 
-    case actionTypes.SESSION_LOGIN_SUCCESS: {
+    case constant.SESSION_LOGIN_SUCCESS: {
       return {
         ...initialState,
         ...action.data,
@@ -27,14 +28,15 @@ const sessionReducer = (state = initialState, action) => {
       };
     }
 
-    case actionTypes.SESSION_LOGIN_FAILED: {
+    case constant.SESSION_LOGIN_FAILED: {
       return {
         loading: false,
-        loggedIn: false
+        loggedIn: false,
+        error: action.error
       };
     }
 
-    case actionTypes.SESSION_LOGOUT: {
+    case constant.SESSION_LOGOUT: {
       return {
         ...initialState
       };

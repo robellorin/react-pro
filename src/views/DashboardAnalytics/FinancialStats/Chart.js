@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { Bar } from 'react-chartjs-2';
-import { makeStyles, useTheme } from '@material-ui/styles';
 import { colors } from '@material-ui/core';
+import { makeStyles, useTheme } from '@material-ui/styles';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -18,18 +18,27 @@ function Chart({ data: dataProp, labels, className, ...rest }) {
   const data = {
     datasets: [
       {
-        label: 'This year',
+        label: 'Profit/Loss',
         backgroundColor: theme.palette.primary.main,
-        data: dataProp.thisYear,
+        data: dataProp.pl,
         barThickness: 12,
         maxBarThickness: 10,
         barPercentage: 0.5,
         categoryPercentage: 0.5
       },
       {
-        label: 'Last year',
-        backgroundColor: colors.grey[200],
-        data: dataProp.lastYear,
+        label: 'Rollover',
+        backgroundColor: colors.indigo[300],
+        data: dataProp.rollover,
+        barThickness: 12,
+        maxBarThickness: 10,
+        barPercentage: 0.5,
+        categoryPercentage: 0.5
+      },
+      {
+        label: 'ROI',
+        backgroundColor: colors.indigo[100],
+        data: dataProp.roi,
         barThickness: 12,
         maxBarThickness: 10,
         barPercentage: 0.5,
@@ -45,7 +54,7 @@ function Chart({ data: dataProp, labels, className, ...rest }) {
     animation: false,
     cornerRadius: 20,
     legend: {
-      display: false
+      display: true
     },
     layout: {
       padding: 0
@@ -78,10 +87,9 @@ function Chart({ data: dataProp, labels, className, ...rest }) {
             padding: 20,
             fontColor: theme.palette.text.secondary,
             beginAtZero: true,
-            min: 0,
             maxTicksLimit: 5,
             callback: value => {
-              return value > 0 ? value + 'K' : value;
+              return value;
             }
           }
         }
@@ -101,15 +109,11 @@ function Chart({ data: dataProp, labels, className, ...rest }) {
       bodyFontColor: theme.palette.text.secondary,
       footerFontColor: theme.palette.text.secondary,
       callbacks: {
-        title: () => {},
-        label: tooltipItem => {
-          let label = `This year: ${tooltipItem.yLabel}`;
-
-          if (tooltipItem.yLabel > 0) {
-            label += 'K';
-          }
-
-          return label;
+        label: function(tooltipItem, data) {
+          const label = data['datasets'][tooltipItem['datasetIndex']].label;
+          const value = tooltipItem.value;
+          const symbol = tooltipItem['datasetIndex'] === 2 ? '%' : '';
+          return `${label}: ${value}${symbol}`;
         }
       }
     }

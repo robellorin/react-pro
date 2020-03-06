@@ -19,7 +19,7 @@ function Chart({ data: dataProp, className, ...rest }) {
       {
         data: [],
         backgroundColor: [],
-        borderWidth: 8,
+        borderWidth: 2,
         borderColor: theme.palette.common.white,
         hoverBorderColor: theme.palette.common.white
       }
@@ -37,9 +37,9 @@ function Chart({ data: dataProp, className, ...rest }) {
     responsive: true,
     maintainAspectRatio: false,
     animation: false,
-    cutoutPercentage: 80,
+    cutoutPercentage: 0,
     legend: {
-      display: false
+      display: true
     },
     layout: {
       padding: 0
@@ -62,7 +62,7 @@ function Chart({ data: dataProp, className, ...rest }) {
           const label = data['labels'][tooltipItem['index']];
           const value = data['datasets'][0]['data'][tooltipItem['index']];
 
-          return `${label}: ${value}%`;
+          return `${label}: ${value}`;
         }
       }
     }

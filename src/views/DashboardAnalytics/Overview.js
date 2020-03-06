@@ -1,161 +1,78 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
-import {
-  Card, Typography, Grid, colors
-} from '@material-ui/core';
-import Label from 'src/components/Label';
+import { Grid } from '@material-ui/core';
+
+import EuroSymbolIcon from '@material-ui/icons/EuroSymbol';
+import StateItem from './StateItem';
+import RoiPerBetting from './RoiPerBetting';
+import gradients from 'src/utils/gradients';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
-  content: {
-    padding: 0
-  },
-  item: {
-    padding: theme.spacing(3),
-    textAlign: 'center',
-    [theme.breakpoints.up('md')]: {
-      '&:not(:last-of-type)': {
-        borderRight: `1px solid ${theme.palette.divider}`
-      }
-    },
-    [theme.breakpoints.down('sm')]: {
-      '&:not(:last-of-type)': {
-        borderBottom: `1px solid ${theme.palette.divider}`
-      }
-    }
-  },
-  valueContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  label: {
-    marginLeft: theme.spacing(1)
+  grid: {
+    marginTop: theme.spacing(2)
   }
 }));
 
-function Overview({ className, ...rest }) {
+function Overview({ data }) {
+  const { profits } = data;
+  let pl = 0;
+  let rollover = 0;
+  if (profits) {
+    for(const profit of profits) {
+      pl += profit.pl;
+      rollover += profit.rollover;
+    }
+  }
+  const roi = rollover === 0 ? 0 : (pl / rollover * 100).toFixed(2);
+  const stateList = [
+    {
+      title: 'PROFITS/LOSS',
+      value: pl,
+      icon: EuroSymbolIcon,
+      color: gradients.green
+    },
+    {
+      title: 'ROLLOVER',
+      value: rollover,
+      currency: '€',
+      icon: EuroSymbolIcon,
+      color: gradients.red
+    }
+  ];
   const classes = useStyles();
-  const data = {
-    income: '854,355.00',
-    expanses: '373,250.50',
-    profit: '123,532.00',
-    subscriptions: '26,000'
-  };
 
   return (
-    <Card
-      {...rest}
-      className={clsx(classes.root, className)}
-    >
+    <div>
       <Grid
-        alignItems="center"
-        container
-        justify="space-between"
-      >
-        <Grid
-          className={classes.item}
-          item
-          md={3}
-          sm={6}
-          xs={12}
+          container
+          spacing={3}
+          className={classes.grid}
         >
-          <Typography
-            component="h2"
-            gutterBottom
-            variant="overline"
-          >
-            Total Income
-          </Typography>
-          <div className={classes.valueContainer}>
-            <Typography variant="h3">
-              $
-              {data.income}
-            </Typography>
-            <Label
-              className={classes.label}
-              color={colors.green[600]}
-              variant="contained"
+        {
+          stateList.map((item, index) => (
+            <Grid
+              key={index}
+              item
+              md={4}
+              sm={4}
+              xs={12}
             >
-              +25%
-            </Label>
-          </div>
-        </Grid>
+              <StateItem data={item} />
+            </Grid>
+          ))
+        }
         <Grid
-          className={classes.item}
           item
-          md={3}
-          sm={6}
+          md={4}
+          sm={4}
           xs={12}
         >
-          <Typography
-            component="h2"
-            gutterBottom
-            variant="overline"
-          >
-            Total Expanses
-          </Typography>
-          <div className={classes.valueContainer}>
-            <Typography variant="h3">
-              $
-              {data.expanses}
-            </Typography>
-            <Label
-              className={classes.label}
-              color={colors.green[600]}
-              variant="contained"
-            >
-              +12%
-            </Label>
-          </div>
-        </Grid>
-        <Grid
-          className={classes.item}
-          item
-          md={3}
-          sm={6}
-          xs={12}
-        >
-          <Typography
-            component="h2"
-            gutterBottom
-            variant="overline"
-          >
-            Net Profit
-          </Typography>
-          <div className={classes.valueContainer}>
-            <Typography variant="h3">{data.profit}</Typography>
-            <Label
-              className={classes.label}
-              color={colors.red[600]}
-              variant="contained"
-            >
-              -20%
-            </Label>
-          </div>
-        </Grid>
-        <Grid
-          className={classes.item}
-          item
-          md={3}
-          sm={6}
-          xs={12}
-        >
-          <Typography
-            component="h2"
-            gutterBottom
-            variant="overline"
-          >
-            Active Subscriptions
-          </Typography>
-          <div className={classes.valueContainer}>
-            <Typography variant="h3">{data.subscriptions}</Typography>
-          </div>
+          <RoiPerBetting roi={roi} />
         </Grid>
       </Grid>
-    </Card>
+    </div>
   );
 }
 

@@ -6,7 +6,6 @@ import AuthLayout from './layouts/Auth';
 import ErrorLayout from './layouts/Error';
 import DashboardLayout from './layouts/Dashboard';
 import DashboardAnalyticsView from './views/DashboardAnalytics';
-import DashboardDefaultView from './views/DashboardDefault';
 
 export default [
   {
@@ -24,9 +23,24 @@ export default [
         component: lazy(() => import('src/views/Login'))
       },
       {
+        path: '/auth/signup-verify-email/:token',
+        exact: true,
+        component: lazy(() => import('src/views/Register/SignupEmailVerify'))
+      },
+      {
         path: '/auth/register',
         exact: true,
         component: lazy(() => import('src/views/Register'))
+      },
+      {
+        path: '/auth/forgot-password',
+        exact: true,
+        component: lazy(() => import('src/views/ResetPassword/ForgotPassword'))
+      },
+      {
+        path: '/auth/reset-password/:token',
+        exact: true,
+        component: lazy(() => import('src/views/ResetPassword'))
       },
       {
         component: () => <Redirect to="/errors/error-404" />
@@ -77,59 +91,9 @@ export default [
         component: DashboardAnalyticsView
       },
       {
-        path: '/dashboards/default',
+        path: '/credentials',
         exact: true,
-        component: DashboardDefaultView
-      },
-      {
-        path: '/kanban-board',
-        exact: true,
-        component: lazy(() => import('src/views/KanbanBoard'))
-      },
-      {
-        path: '/management/customers',
-        exact: true,
-        component: lazy(() => import('src/views/CustomerManagementList'))
-      },
-      {
-        path: '/management/customers/:id',
-        exact: true,
-        component: lazy(() => import('src/views/CustomerManagementDetails'))
-      },
-      {
-        path: '/management/customers/:id/:tab',
-        exact: true,
-        component: lazy(() => import('src/views/CustomerManagementDetails'))
-      },
-      {
-        path: '/management/projects',
-        exact: true,
-        component: lazy(() => import('src/views/ProjectManagementList'))
-      },
-      {
-        path: '/management/orders',
-        exact: true,
-        component: lazy(() => import('src/views/OrderManagementList'))
-      },
-      {
-        path: '/management/orders/:id',
-        exact: true,
-        component: lazy(() => import('src/views/OrderManagementDetails'))
-      },
-      {
-        path: '/profile/:id',
-        exact: true,
-        component: lazy(() => import('src/views/Profile'))
-      },
-      {
-        path: '/profile/:id/:tab',
-        exact: true,
-        component: lazy(() => import('src/views/Profile'))
-      },
-      {
-        path: '/projects/create',
-        exact: true,
-        component: lazy(() => import('src/views/ProjectCreate'))
+        component: lazy(() => import('src/views/Credentials'))
       },
       {
         path: '/settings',
@@ -140,6 +104,21 @@ export default [
         path: '/settings/:tab',
         exact: true,
         component: lazy(() => import('src/views/Settings'))
+      },
+      // {
+      //   path: '/payment',
+      //   exact: true,
+      //   component: lazy(() => import('src/views/Payment'))
+      // },
+      {
+        path: '/payment/invoices',
+        exact: true,
+        component: lazy(() => import('src/views/Payment/Invoices'))
+      },
+      {
+        path: '/payment/checkout',
+        exact: true,
+        component: lazy(() => import('src/views/Payment/Checkout'))
       },
       {
         component: () => <Redirect to="/errors/error-404" />

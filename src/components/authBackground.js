@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 
 function AuthBackground({ type }) {
   const classes = useStyles();
-  const offest = type === 'login' ? 0 : 75;
+  const offest = type === 'login' ? 0 : 100;
   return (
     <CardMedia
       className={classes.media}

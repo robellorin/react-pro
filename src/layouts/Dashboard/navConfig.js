@@ -2,12 +2,12 @@
 /* eslint-disable react/display-name */
 import React from 'react';
 import { colors } from '@material-ui/core';
-import BarChartIcon from '@material-ui/icons/BarChart';
+// import BarChartIcon from '@material-ui/icons/BarChart';
 import ChatIcon from '@material-ui/icons/ChatOutlined';
 import DashboardIcon from '@material-ui/icons/DashboardOutlined';
-import ListAltIcon from '@material-ui/icons/ListAlt';
-import PersonIcon from '@material-ui/icons/PersonOutlined';
+import PaymentIcon from '@material-ui/icons/Payment';
 import SettingsIcon from '@material-ui/icons/SettingsOutlined';
+import LockOpenIcon from '@material-ui/icons/LockOpen';
 import Label from 'src/components/Label';
 
 export default [
@@ -15,74 +15,19 @@ export default [
     subheader: 'Pages',
     items: [
       {
-        title: 'Dashboards',
-        href: '/dashboards',
-        icon: DashboardIcon,
-        items: [
-          {
-            title: 'Default',
-            href: '/dashboards/default'
-          },
-          {
-            title: 'Analytics',
-            href: '/dashboards/analytics'
-          }
-        ]
+        title: 'ANALYTICS OVERVIEW',
+        href: '/dashboards/analytics',
+        icon: DashboardIcon
       },
       {
-        title: 'Management',
-        href: '/management',
-        icon: BarChartIcon,
-        items: [
-          {
-            title: 'Customers',
-            href: '/management/customers'
-          },
-          {
-            title: 'Customer Details',
-            href: '/management/customers/1/summary'
-          },
-          {
-            title: 'Projects',
-            href: '/management/projects'
-          },
-          {
-            title: 'Orders',
-            href: '/management/orders'
-          },
-          {
-            title: 'Order Details',
-            href: '/management/orders/1'
-          }
-        ]
+        title: 'CREDENTIALS',
+        href: '/credentials',
+        icon: LockOpenIcon,
       },
       {
-        title: 'Profile',
-        href: '/profile',
-        icon: PersonIcon,
-        items: [
-          {
-            title: 'Timeline',
-            href: '/profile/1/timeline'
-          },
-          {
-            title: 'Connections',
-            href: '/profile/1/connections'
-          },
-          {
-            title: 'Projects',
-            href: '/profile/1/projects'
-          },
-          {
-            title: 'Reviews',
-            href: '/profile/1/reviews'
-          }
-        ]
-      },
-      {
-        title: 'Kanban Board',
-        href: '/kanban-board',
-        icon: ListAltIcon
+        title: 'PAYMENT',
+        href: '/payment/invoices',
+        icon: PaymentIcon,
       },
       {
         title: 'Ticket',

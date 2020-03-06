@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { useHistory } from 'react-router';
-import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
 import {
   Card,
@@ -9,16 +8,16 @@ import {
   Typography,
   Divider,
   Link,
+  TextField,
+  Button,
+  Snackbar
 } from '@material-ui/core';
-import PersonAddIcon from '@material-ui/icons/PersonAddOutlined';
-import Snackbar from '@material-ui/core/Snackbar';
+import LockIcon from '@material-ui/icons/Lock';
 
 import Alert from 'src/components/Alert';
-import gradients from 'src/utils/gradients';
 import Page from 'src/components/Page';
-import AuthBackground from 'src/components/AuthBackground';
-
-import RegisterForm from './RegisterForm';
+import gradients from 'src/utils/gradients';
+import { forgotPassword } from 'src/actions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(6, 2)
   },
   card: {
-    width: theme.breakpoints.values.md,
+    width: theme.breakpoints.values.sm,
     maxWidth: '100%',
     overflow: 'visible',
     display: 'flex',
@@ -43,8 +42,9 @@ const useStyles = makeStyles((theme) => ({
   content: {
     padding: theme.spacing(8, 4, 3, 4)
   },
+  
   icon: {
-    backgroundImage: gradients.orange,
+    backgroundImage: gradients.green,
     color: theme.palette.common.white,
     borderRadius: theme.shape.borderRadius,
     padding: theme.spacing(1),
@@ -55,8 +55,9 @@ const useStyles = makeStyles((theme) => ({
     width: 64,
     fontSize: 32
   },
-  registerForm: {
-    marginTop: theme.spacing(3)
+  resendButton: {
+    marginTop: theme.spacing(4),
+    width: '100%'
   },
   divider: {
     margin: theme.spacing(2, 0)
@@ -64,37 +65,33 @@ const useStyles = makeStyles((theme) => ({
   person: {
     marginTop: theme.spacing(2),
     display: 'flex'
+  },
+  linkWrapper: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'space-between'
   }
 }));
 
-function Register() {
+function ForgotPassword() {
   const classes = useStyles();
-  const session = useSelector(state => state.session);
-  const history = useHistory();
-  const [loading, setLoading] = useState(session.loading);
-  const [message, setMessage] = useState('');
+  const dispatch = useDispatch();
+  const [email, setEmail] = React.useState(localStorage.getItem('email'));
   const [open, setOpen] = React.useState(false);
-  useEffect(() => {
-    if (loading && !session.loading && session.message) {
-      setMessage(session.message);
-      setOpen(true);
-    } else if (loading && !session.loading && session.error) {
-      setMessage(session.error);
-      setOpen(true);
-    }
-    setLoading(session.loading);
-  }, [message, session, loading]);
-
-  const handleClose = () => {
-    setOpen(false);
-    setMessage('');
-    if (session.message) history.push('/');
+  
+  const sendRequest = () => {
+    dispatch(forgotPassword(email));
+    setOpen(true);
   }
 
+  const handleChange = (event) => {
+    event.persist();
+    setEmail(event.target.value);
+  }
   return (
     <Page
       className={classes.root}
-      title="Register"
+      title="Login"
     >
       <Snackbar
         anchorOrigin={{
@@ -103,24 +100,46 @@ function Register() {
         }}
         open={open}
         autoHideDuration={3000}
-        onClose={handleClose}
+        onClose={() => setOpen(false)}
       >
-        <Alert variant={session.message ? 'success' : 'error'} message={message} />
+        <Alert variant="success" message="sent email" />
       </Snackbar>
-      
       <Card className={classes.card}>
         <CardContent className={classes.content}>
-          <PersonAddIcon className={classes.icon} />
+          <LockIcon className={classes.icon} />
           <Typography
             gutterBottom
             variant="h3"
+            style={{marginBottom: 25}}
           >
-            Sign up
+            Account Recovery
           </Typography>
           <Typography variant="subtitle2">
-            Sign up on the internal platform
+            We will send link to your email for reset password.
           </Typography>
-          <RegisterForm className={classes.registerForm} />
+          <Typography variant="subtitle2">
+            If you didn't receive email, please click send button again.
+          </Typography>
+          <TextField
+            fullWidth
+            style={{marginTop: 25}}
+            label="Email"
+            name="email"
+            type="email"
+            onChange={handleChange}
+            value={email}
+            variant="outlined"
+          />
+          <Button
+            className={classes.resendButton}
+            color="secondary"
+            onClick={sendRequest}
+            size="large"
+            type="button"
+            variant="contained"
+          >
+            Resend
+          </Button>
           <Divider className={classes.divider} />
           <Link
             align="center"
@@ -130,13 +149,12 @@ function Register() {
             underline="always"
             variant="subtitle2"
           >
-            Have an account?
+            Go back
           </Link>
         </CardContent>
-        <AuthBackground type="register" />
       </Card>
     </Page>
   );
 }
 
-export default Register;
+export default ForgotPassword;

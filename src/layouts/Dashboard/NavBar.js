@@ -216,7 +216,7 @@ function NavBar({
             color="textPrimary"
             underline="none"
           >
-            {`${session.user.first_name} ${session.user.last_name}`}
+            {`${session.user.username}`}
           </Link>
           <Typography variant="body2">{session.user.bio}</Typography>
         </div>

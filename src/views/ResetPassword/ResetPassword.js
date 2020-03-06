@@ -8,14 +8,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
 import { Button, TextField } from '@material-ui/core';
 import Snackbar from '@material-ui/core/Snackbar';
+
 import Alert from 'src/components/Alert';
-import { login } from 'src/actions';
+import { resetPassword } from 'src/actions';
 
 const schema = {
-  email: {
+  password: {
     presence: { allowEmpty: false, message: 'is required' }
   },
-  password: {
+  confirmPassword: {
     presence: { allowEmpty: false, message: 'is required' }
   }
 };
@@ -37,8 +38,8 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function LoginForm(props) {
-  const { className, onChange, ...rest } = props;
+function ResetForm(props) {
+  const { token, className, ...rest } = props;
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -51,14 +52,11 @@ function LoginForm(props) {
 
   const session = useSelector(state => state.session);
   const [loading, setLoading] = useState(session.loading);
-  const [loggedIn, setLoggedIn] = useState(session.loggedIn);
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = React.useState(false);
 
   const handleChange = (event) => {
     event.persist();
-    if (event.target.name === 'email') {
-      onChange(event.target.value);
-    }
+
     setFormState((prevFormState) => ({
       ...prevFormState,
       values: {
@@ -78,12 +76,14 @@ function LoginForm(props) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     event.persist();
-    dispatch(login(
-      {
-        email: event.target.email.value,
-        password: event.target.password.value
-      }
-    ));
+    if (event.target.password.value !== event.target.confirmPassword.value) {
+      setFormState((prevFormState) => ({
+        ...prevFormState,
+        errors: {confirmPassword: ['Confirm password is not matched with password.']},
+      }));
+      return;
+    } 
+    dispatch(resetPassword(event.target.password.value, token, history));
   };
 
   const hasError = (field) => (!!(formState.touched[field] && formState.errors[field]));
@@ -101,26 +101,13 @@ function LoginForm(props) {
     if (session.loading) {
       setFormState((prevFormState) => ({
         ...prevFormState,
-        values: {
-          ...prevFormState.values,
-          email: localStorage.getItem('email') ? localStorage.getItem('email') : formState.values.email
-        },
         isValid: false
       }));
-    }
-    else if (session.loggedIn) {
-      history.push('/dashboards/analytics');
-    }
-    else if (loading && (!session.loggedIn || session.error)) {
-      setOpen(true);
-      setFormState((prevFormState) => ({
-        ...prevFormState,
-        errors: {password: [session.error ? session.error : 'Oops! password is incorrect.']},
-      }));
+    } else if (loading && !session.loading && session.error) {
+      setOpen(true);      
     }
     setLoading(session.loading);
-    setLoggedIn(session.loggedIn);
-  }, [loading, loggedIn, session, formState.values.email, history]);
+  }, [loading, session, history]);
 
   return (
     <form
@@ -128,59 +115,59 @@ function LoginForm(props) {
       className={clsx(classes.root, className)}
       onSubmit={handleSubmit}
     >
-      <Snackbar
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-        open={open}
-        autoHideDuration={3000}
-        onClose={() => setOpen(false)}
-      >
-        <Alert variant="error" message={session.error} />
-      </Snackbar>
+    <Snackbar
+      anchorOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      open={open}
+      autoHideDuration={3000}
+      onClose={() => setOpen(false)}
+    >
+      <Alert variant='error' message='Something went wrong!' />
+    </Snackbar>
       <div className={classes.fields}>
-        <TextField
-          error={hasError('email')}
-          fullWidth
-          helperText={hasError('email') ? formState.errors.email[0] : null}
-          label="Email"
-          name="email"
-          type="email"
-          onChange={handleChange}
-          value={formState.values.email || ''}
-          variant="outlined"
-        />
         <TextField
           error={hasError('password')}
           fullWidth
-          helperText={
-            hasError('password') ? formState.errors.password[0] : null
-          }
-          label="password"
-          name="password"
+          helperText={hasError('password') ? formState.errors.password[0] : null}
+          label='Password'
+          name='password'
+          type='password'
           onChange={handleChange}
-          type="password"
           value={formState.values.password || ''}
-          variant="outlined"
+          variant='outlined'
+        />
+        <TextField
+          error={hasError('confirmPassword')}
+          fullWidth
+          helperText={
+            hasError('confirmPassword') ? formState.errors.confirmPassword[0] : null
+          }
+          label='Confirm Password'
+          name='confirmPassword'
+          onChange={handleChange}
+          type='password'
+          value={formState.values.confirmPassword || ''}
+          variant='outlined'
         />
       </div>
       <Button
         className={classes.submitButton}
-        color="secondary"
+        color='secondary'
         disabled={!formState.isValid}
-        size="large"
-        type="submit"
-        variant="contained"
+        size='large'
+        type='submit'
+        variant='contained'
       >
-        Sign in
+        Set Password
       </Button>
     </form>
   );
 }
 
-LoginForm.propTypes = {
+ResetForm.propTypes = {
   className: PropTypes.string
 };
 
-export default LoginForm;
+export default ResetForm;

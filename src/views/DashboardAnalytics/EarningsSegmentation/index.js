@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
@@ -7,10 +7,9 @@ import {
   CardHeader,
   CardContent,
   Divider,
-  Typography
+  Typography,
+  colors
 } from '@material-ui/core';
-import axios from 'src/utils/axios';
-import GenericMoreButton  from 'src/components/GenericMoreButton';
 import Chart from './Chart';
 
 const useStyles = makeStyles(theme => ({
@@ -25,7 +24,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(3)
   },
   chart: {
-    height: 281
+    height: 381
   },
   statsContainer: {
     display: 'flex'
@@ -42,27 +41,24 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function EarningsSegmentation({ className, ...rest }) {
+function EarningsSegmentation({ className, data, ...rest }) {
   const classes = useStyles();
-  const [earnings, setEarnings] = useState([]);
-
-  useEffect(() => {
-    let mounted = true;
-
-    const fetchEarnings = () => {
-      axios.get('/api/dashboard/earnings').then(response => {
-        if (mounted) {
-          setEarnings(response.data.earnings);
-        }
-      });
+  const { profits } = data;
+  let pendingBets = 0;
+  let wonBets = 0;
+  let lostBets = 0;
+  if (profits) {
+    for(const profit of profits) {
+      pendingBets += profit.pendingBets;
+      wonBets += profit.wonBets;
+      lostBets += profit.lostBets;
     }
-
-    fetchEarnings();
-
-    return () => {
-      mounted = false;
-    };
-  }, []);
+  }
+  const earnings = [
+    {id: "2", label: "Won Bets", value: wonBets, color: colors.indigo[500]},
+    {id: "1", label: "Pending Bets", value: pendingBets, color: colors.indigo[300]},
+    {id: "3", label: "Lost Bets", value: lostBets, color: colors.indigo[100]}
+  ]  
 
   return (
     <Card
@@ -70,8 +66,7 @@ function EarningsSegmentation({ className, ...rest }) {
       className={clsx(classes.root, className)}
     >
       <CardHeader
-        action={<GenericMoreButton />}
-        title="Earnings Segmentation"
+        title="Bettings Segmentation"
       />
       <Divider />
       <CardContent className={classes.content}>
@@ -100,7 +95,7 @@ function EarningsSegmentation({ className, ...rest }) {
                 align="center"
                 variant="h4"
               >
-                {earning.value}%
+                {earning.value}
               </Typography>
             </div>
           ))}

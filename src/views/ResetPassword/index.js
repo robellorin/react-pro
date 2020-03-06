@@ -12,7 +12,7 @@ import LockIcon from '@material-ui/icons/Lock';
 import Page from 'src/components/Page';
 import AuthBackground from 'src/components/AuthBackground';
 import gradients from 'src/utils/gradients';
-import LoginForm from './LoginForm';
+import ResetForm from './ResetPassword';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
     width: 64,
     fontSize: 32
   },
-  loginForm: {
+  resetForm: {
     marginTop: theme.spacing(3)
   },
   divider: {
@@ -67,17 +67,9 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function Login() {
+function ResetPassword({ match, history }) {
+  const { token } = match.params;
   const classes = useStyles();
-  const [email, setEmail] = React.useState('');
-  
-  const handleChange = (value) => {
-    setEmail(value);
-  }
-
-  const sendRequest = () => {
-    localStorage.setItem('email', email);
-  }
 
   return (
     <Page
@@ -91,36 +83,23 @@ function Login() {
             gutterBottom
             variant="h3"
           >
-            Sign in
+            Reset password
           </Typography>
           <Typography variant="subtitle2">
-            Sign in on the internal platform
+            Please input new password.
           </Typography>
-          <LoginForm className={classes.loginForm} onChange={handleChange} />
+          <ResetForm className={classes.resetForm} token={token} />
           <Divider className={classes.divider} />
-          <div className={classes.linkWrapper}>
-            <Link
-              align="center"
-              color="secondary"
-              component={RouterLink}
-              to="/auth/register"
-              underline="always"
-              variant="subtitle2"
-            >
-              Don&apos;t have an account?
-            </Link>
-            <Link
-              align="center"
-              color="secondary"
-              component={RouterLink}
-              to="/auth/forgot-password"
-              underline="always"
-              variant="subtitle2"
-              onClick={sendRequest}
-            >
-              Forgot password?
-            </Link>
-          </div>
+          <Link
+            align="center"
+            color="secondary"
+            component={RouterLink}
+            to="/auth/login"
+            underline="always"
+            variant="subtitle2"
+          >
+            Go to login
+          </Link>
         </CardContent>
         <AuthBackground type="login" />
       </Card>
@@ -128,4 +107,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default ResetPassword;

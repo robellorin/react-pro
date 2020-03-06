@@ -90,7 +90,7 @@ function ConversationToolbar({ conversation, className, ...rest }) {
           className={classes.backButton}
           component={RouterLink}
           edge="start"
-          to="/chat"
+          to="/ticket"
         >
           <KeyboardBackspaceIcon />
         </IconButton>

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router';
 import { Link as RouterLink } from 'react-router-dom';
 import validate from 'validate.js';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
 import {
   Button,
@@ -13,9 +13,10 @@ import {
   Typography,
   Link
 } from '@material-ui/core';
+import { register } from 'src/actions';
 
 const schema = {
-  firstName: {
+  userName: {
     presence: { allowEmpty: false, message: 'is required' },
     length: {
       maximum: 32
@@ -34,7 +35,19 @@ const schema = {
       maximum: 64
     }
   },
+  referredBy: {
+    presence: { allowEmpty: false, message: 'is required' },
+    length: {
+      maximum: 64
+    }
+  },
   password: {
+    presence: { allowEmpty: false, message: 'is required' },
+    length: {
+      maximum: 128
+    }
+  },
+  confirmPassword: {
     presence: { allowEmpty: false, message: 'is required' },
     length: {
       maximum: 128
@@ -72,7 +85,7 @@ const useStyles = makeStyles((theme) => ({
 
 function RegisterForm({ className, ...rest }) {
   const classes = useStyles();
-  const history = useHistory();
+  const dispatch = useDispatch();
   const [formState, setFormState] = useState({
     isValid: false,
     values: {},
@@ -101,7 +114,23 @@ function RegisterForm({ className, ...rest }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    history.push('/');
+    event.persist();
+    if (event.target.password.value !== event.target.confirmPassword.value) {
+      setFormState((prevFormState) => ({
+        ...prevFormState,
+        errors: {confirmPassword: ['Confirm password is not matched with password.']},
+      }));
+      return;
+    } 
+    dispatch(register(
+      {
+        username: event.target.userName.value,
+        surname: event.target.lastName.value,
+        email: event.target.email.value,
+        referredBy: event.target.referredBy.value,
+        password: event.target.password.value
+      }
+    ));
   };
 
   const hasError = (field) => !!(formState.touched[field] && formState.errors[field]);
@@ -115,7 +144,7 @@ function RegisterForm({ className, ...rest }) {
       errors: errors || {}
     }));
   }, [formState.values]);
-
+  
   return (
     <form
       {...rest}
@@ -124,14 +153,14 @@ function RegisterForm({ className, ...rest }) {
     >
       <div className={classes.fields}>
         <TextField
-          error={hasError('firstName')}
+          error={hasError('userName')}
           helperText={
-            hasError('firstName') ? formState.errors.firstName[0] : null
+            hasError('userName') ? formState.errors.userName[0] : null
           }
-          label="First name"
-          name="firstName"
+          label="User name"
+          name="userName"
           onChange={handleChange}
-          value={formState.values.firstName || ''}
+          value={formState.values.userName || ''}
           variant="outlined"
         />
         <TextField
@@ -139,7 +168,7 @@ function RegisterForm({ className, ...rest }) {
           helperText={
             hasError('lastName') ? formState.errors.lastName[0] : null
           }
-          label="Last name"
+          label="Surname"
           name="lastName"
           onChange={handleChange}
           value={formState.values.lastName || ''}
@@ -156,6 +185,16 @@ function RegisterForm({ className, ...rest }) {
           variant="outlined"
         />
         <TextField
+          error={hasError('referredBy')}
+          fullWidth
+          helperText={hasError('referredBy') ? formState.errors.referredBy[0] : null}
+          label="ReferredBy"
+          name="referredBy"
+          onChange={handleChange}
+          value={formState.values.referredBy || ''}
+          variant="outlined"
+        />
+        <TextField
           error={hasError('password')}
           fullWidth
           helperText={
@@ -166,6 +205,19 @@ function RegisterForm({ className, ...rest }) {
           onChange={handleChange}
           type="password"
           value={formState.values.password || ''}
+          variant="outlined"
+        />
+        <TextField
+          error={hasError('confirmPassword')}
+          fullWidth
+          helperText={
+            hasError('confirmPassword') ? formState.errors.confirmPassword[0] : null
+          }
+          label="Confirm Password"
+          name="confirmPassword"
+          onChange={handleChange}
+          type="password"
+          value={formState.values.confirmPassword || ''}
           variant="outlined"
         />
         <div>

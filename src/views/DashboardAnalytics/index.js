@@ -1,31 +1,57 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
 import { Container, Grid } from '@material-ui/core';
 import Page from 'src/components/Page';
 import Header from './Header';
 import Overview from './Overview';
 import FinancialStats from './FinancialStats';
+import { getProfit } from 'src/actions';
 import EarningsSegmentation from './EarningsSegmentation';
-import TopReferrals from './TopReferrals';
-import MostProfitableProducts from './MostProfitableProducts';
-import CustomerActivity from './CustomerActivity';
-import LatestOrders from './LatestOrders';
+import mokData from './mokup';
+import LoadingComponent from 'src/components/Loading';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
     paddingTop: theme.spacing(3),
-    paddingBottom: theme.spacing(3)
+    paddingBottom: theme.spacing(3),
+    height: '100%'
+  },
+  loadingWrapper: {
+    width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'
   }
 }));
 
 function DashboardAnalytics() {
+  const mokup = mokData;
+  const dispatch = useDispatch();
+  const dashboardData = useSelector(state => state.dashboard);
+  const [loading, setLoading] = useState(dashboardData.loading);
+  const [data, setData] = useState(mokup);
   const classes = useStyles();
 
+  useEffect(() => {
+    // dispatch(getProfit());
+  }, [dispatch]);
+  useEffect(() => {
+    if (loading && !dashboardData.loading) {
+      setData(dashboardData.data);
+    }
+    setLoading(dashboardData.loading);
+  }, [loading, dashboardData]);
+  
   return (
     <Page
       className={classes.root}
       title="Analytics Dashboard"
     >
+    {
+      loading &&
+      <LoadingComponent />
+    }
+    {
+      !loading &&
       <Container maxWidth={false}>
         <Header />
         <Grid
@@ -36,7 +62,7 @@ function DashboardAnalytics() {
             item
             xs={12}
           >
-            <Overview />
+            <Overview data={data} />
           </Grid>
           <Grid
             item
@@ -44,7 +70,7 @@ function DashboardAnalytics() {
             xl={9}
             xs={12}
           >
-            <FinancialStats />
+            <FinancialStats betData={data} />
           </Grid>
           <Grid
             item
@@ -52,38 +78,11 @@ function DashboardAnalytics() {
             xl={3}
             xs={12}
           >
-            <EarningsSegmentation />
-          </Grid>
-          <Grid
-            item
-            lg={8}
-            xs={12}
-          >
-            <LatestOrders />
-          </Grid>
-          <Grid
-            item
-            lg={4}
-            xs={12}
-          >
-            <CustomerActivity />
-          </Grid>
-          <Grid
-            item
-            lg={8}
-            xs={12}
-          >
-            <MostProfitableProducts />
-          </Grid>
-          <Grid
-            item
-            lg={4}
-            xs={12}
-          >
-            <TopReferrals />
+            <EarningsSegmentation data={data} />
           </Grid>
         </Grid>
       </Container>
+    }
     </Page>
   );
 }

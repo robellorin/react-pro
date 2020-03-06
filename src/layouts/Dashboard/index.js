@@ -1,10 +1,13 @@
-import React, { Suspense, useState } from 'react';
+import React, { Suspense, useState, useEffect } from 'react';
 import { renderRoutes } from 'react-router-config';
+import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { LinearProgress } from '@material-ui/core';
+import { useDispatch, useSelector } from 'react-redux';
 import NavBar from './NavBar';
 import TopBar from './TopBar';
+import * as constant from 'src/constant';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -30,23 +33,37 @@ const useStyles = makeStyles((theme) => ({
 
 function Dashboard({ route }) {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const session = useSelector(state => state.session);
+  const userData = localStorage.getItem('user');
+  useEffect(() => {
+    if (userData && !session.user.username) {
+      dispatch({
+        type: constant.SET_USER_DATA,
+        data: JSON.parse(userData)
+      })
+    }
+  }, [session, dispatch, userData]);
+  
   const [openNavBarMobile, setOpenNavBarMobile] = useState(false);
 
   return (
-    <>
-      <TopBar onOpenNavBarMobile={() => setOpenNavBarMobile(true)} />
-      <NavBar
-        onMobileClose={() => setOpenNavBarMobile(false)}
-        openMobile={openNavBarMobile}
-      />
-      <div className={classes.container}>
-        <div className={classes.content}>
-          <Suspense fallback={<LinearProgress />}>
-            {renderRoutes(route.routes)}
-          </Suspense>
+    userData
+    ? <>
+        <TopBar onOpenNavBarMobile={() => setOpenNavBarMobile(true)} />
+        <NavBar
+          onMobileClose={() => setOpenNavBarMobile(false)}
+          openMobile={openNavBarMobile}
+        />
+        <div className={classes.container}>
+          <div className={classes.content}>
+            <Suspense fallback={<LinearProgress />}>
+              {renderRoutes(route.routes)}
+            </Suspense>
+          </div>
         </div>
-      </div>
-    </>
+      </>
+    : <Redirect to="/auth/login" />
   );
 }
 

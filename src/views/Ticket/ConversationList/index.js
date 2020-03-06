@@ -12,8 +12,10 @@ import {
   List
 } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
+// import Chat from 'twilio-chat';
 import ConversationListItem from './ConversationListItem';
 
+// const Chat = require('twilio-chat');
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.common.white
@@ -26,7 +28,32 @@ const useStyles = makeStyles((theme) => ({
 function ConversationList({ conversations, className, ...rest }) {
   const classes = useStyles();
   const params = useParams();
-  const selectedConversation = params.id;
+  const selectedTicketId = params.id;
+  // Chat.Client.create('6c5b0230-9cd8-4934-bb86-161ec66b52f6')
+  //   .then(client => {
+  //     this.client = client;
+  //     this.client
+  //       .getChannelByUniqueName('general')
+  //       .then(channel => channel)
+  //       .catch(error => {
+  //         if (error.body.code === 50300) {
+  //           return this.client.createChannel({ uniqueName: 'general' });
+  //         } else {
+  //           this.handleError(error);
+  //       }
+  //     })
+  //       .then(channel => {
+  //       this.channel = channel;
+  //       return this.channel.join().catch(() => {});
+  //       })
+  //       .then(() => {
+  //         // Success!
+  //       })
+  //       .catch(this.handleError);
+  //   })
+  //   .catch(error => {
+
+  //   });
 
   return (
     <div
@@ -49,7 +76,7 @@ function ConversationList({ conversations, className, ...rest }) {
       <List disablePadding>
         {conversations.map((conversation, i) => (
           <ConversationListItem
-            active={conversation.id === selectedConversation}
+            active={conversation.id === selectedTicketId}
             conversation={conversation}
             divider={i < conversations.length - 1}
             key={conversation.id}

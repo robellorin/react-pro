@@ -2,15 +2,13 @@ import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import {
-  Card, Typography, Avatar, colors
-} from '@material-ui/core';
-import FolderOpenIcon from '@material-ui/icons/FolderOpenOutlined';
-import Label from 'src/components/Label';
-import gradients from 'src/utils/gradients';
+import { Card, Typography, Avatar } from '@material-ui/core';
+import GolfCourseIcon from '@material-ui/icons/GolfCourse';
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    color: theme.palette.common.white,
+    backgroundColor: theme.palette.primary.main,
     padding: theme.spacing(3),
     display: 'flex',
     alignItems: 'center',
@@ -21,22 +19,16 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     flexWrap: 'wrap'
   },
-  label: {
-    marginLeft: theme.spacing(1)
-  },
   avatar: {
-    backgroundImage: gradients.blue,
+    backgroundColor: theme.palette.common.white,
+    color: theme.palette.primary.main,
     height: 48,
     width: 48
   }
 }));
 
-function NewProjects({ className, ...rest }) {
+function RoiPerBetting({ className, roi, ...rest }) {
   const classes = useStyles();
-  const data = {
-    value: '12',
-    difference: '-10%'
-  };
 
   return (
     <Card
@@ -45,32 +37,34 @@ function NewProjects({ className, ...rest }) {
     >
       <div>
         <Typography
+          color="inherit"
           component="h3"
           gutterBottom
           variant="overline"
         >
-          New projects
+          Roi
         </Typography>
         <div className={classes.details}>
-          <Typography variant="h3">{data.value}</Typography>
-          <Label
-            className={classes.label}
-            color={colors.red[600]}
-            variant="outlined"
+          <Typography
+            color="inherit"
+            variant="h3"
           >
-            {data.difference}
-          </Label>
+            {`${roi} %`}
+          </Typography>
         </div>
       </div>
-      <Avatar className={classes.avatar}>
-        <FolderOpenIcon />
+      <Avatar
+        className={classes.avatar}
+        color="inherit"
+      >
+        <GolfCourseIcon />
       </Avatar>
     </Card>
   );
 }
 
-NewProjects.propTypes = {
+RoiPerBetting.propTypes = {
   className: PropTypes.string
 };
 
-export default NewProjects;
+export default RoiPerBetting;

@@ -16,16 +16,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Overview({ data }) {
-  const { profits } = data;
-  let pl = 0;
-  let rollover = 0;
-  if (profits) {
-    for(const profit of profits) {
-      pl += profit.pl;
-      rollover += profit.rollover;
-    }
-  }
-  const roi = rollover === 0 ? 0 : (pl / rollover * 100).toFixed(2);
+  const { userProfit } = data;
+  let pl = userProfit && userProfit.pl ? userProfit.pl : 0;
+  let rollover = userProfit && userProfit.rollover ? userProfit.rollover : 0;
+  const roi = rollover === 0 ? 0 : Math.round(pl / rollover * 10000) / 100;
   const stateList = [
     {
       title: 'PROFITS/LOSS',

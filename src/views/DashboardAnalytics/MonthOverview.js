@@ -3,8 +3,12 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import {
-  Card, Typography, Grid
+  Card, Typography, Grid, Avatar
 } from '@material-ui/core';
+import TodayIcon from '@material-ui/icons/Today';
+import EuroSymbolIcon from '@material-ui/icons/EuroSymbol';
+import GolfCourseIcon from '@material-ui/icons/GolfCourse';
+import gradients from 'src/utils/gradients';
 
 const months = [
   'January',
@@ -20,6 +24,7 @@ const months = [
   'November',
   'December'
 ];
+
 const useStyles = makeStyles((theme) => ({
   root: {},
   content: {
@@ -28,6 +33,9 @@ const useStyles = makeStyles((theme) => ({
   item: {
     padding: theme.spacing(3),
     textAlign: 'center',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-around',
     [theme.breakpoints.up('md')]: {
       '&:not(:last-of-type)': {
         borderRight: `1px solid ${theme.palette.divider}`
@@ -46,6 +54,10 @@ const useStyles = makeStyles((theme) => ({
   },
   label: {
     marginLeft: theme.spacing(1)
+  },
+  avatar: {
+    height: 48,
+    width: 48
   }
 }));
 
@@ -75,16 +87,21 @@ function Overview({ className, monthData, month, ...rest }) {
           sm={6}
           xs={12}
         >
-          <Typography
-            component="h2"
-            gutterBottom
-            variant="overline"
-          >
-            Current Month
-          </Typography>
-          <Typography variant="h3">
-            {months[month]}
-          </Typography>
+          <div>
+            <Typography
+              component="h2"
+              gutterBottom
+              variant="overline"
+            >
+              Current Month
+            </Typography>
+            <Typography variant="h3">
+              {months[month]}
+            </Typography>
+          </div>
+          <Avatar variant="rounded" className={classes.avatar} style={{ backgroundImage: gradients.orange }}>
+            <TodayIcon />
+          </Avatar>
         </Grid>
         <Grid
           className={classes.item}
@@ -93,16 +110,21 @@ function Overview({ className, monthData, month, ...rest }) {
           sm={6}
           xs={12}
         >
-          <Typography
-            component="h2"
-            gutterBottom
-            variant="overline"
-          >
-            Profit/Loss
-          </Typography>
-          <Typography variant="h3">
-            {`${data.pl} €`}
-          </Typography>
+          <div>
+            <Typography
+              component="h2"
+              gutterBottom
+              variant="overline"
+            >
+              Profit/Loss
+            </Typography>
+            <Typography variant="h3">
+              {`${data.pl} €`}
+            </Typography>
+          </div>
+          <Avatar variant="rounded" className={classes.avatar} style={{ backgroundImage: gradients.green }}>
+            <EuroSymbolIcon />
+          </Avatar>
         </Grid>
         <Grid
           className={classes.item}
@@ -111,14 +133,19 @@ function Overview({ className, monthData, month, ...rest }) {
           sm={6}
           xs={12}
         >
-          <Typography
-            component="h2"
-            gutterBottom
-            variant="overline"
-          >
-            Rollover
-          </Typography>
-          <Typography variant="h3">{`${data.rollover} €`}</Typography>
+          <div>
+            <Typography
+              component="h2"
+              gutterBottom
+              variant="overline"
+            >
+              Rollover
+            </Typography>
+            <Typography variant="h3">{`${data.rollover} €`}</Typography>
+          </div>
+          <Avatar variant="rounded" className={classes.avatar} style={{ backgroundImage: gradients.red }}>
+            <EuroSymbolIcon />
+          </Avatar>
         </Grid>
         <Grid
           className={classes.item}
@@ -127,14 +154,19 @@ function Overview({ className, monthData, month, ...rest }) {
           sm={6}
           xs={12}
         >
-          <Typography
-            component="h2"
-            gutterBottom
-            variant="overline"
-          >
-            ROI
-          </Typography>
-          <Typography variant="h3">{data.roi}%</Typography>
+          <div>
+            <Typography
+              component="h2"
+              gutterBottom
+              variant="overline"
+            >
+              ROI
+            </Typography>
+            <Typography variant="h3">{data.roi}%</Typography>
+          </div>
+          <Avatar variant="rounded" className={classes.avatar} style={{ backgroundImage: gradients.indigo }}>
+            <GolfCourseIcon />
+          </Avatar>
         </Grid>
       </Grid>
     </Card>

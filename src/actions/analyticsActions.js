@@ -6,7 +6,11 @@ export const getProfit = (from, to) => async (dispatch) => {
   dispatch({
     type: constant.BETTING_HISTORY_REQUEST
   });
-  await axios.get(`${constant.API_URL}/betting-history`, {
+  const data = {
+    from: from,
+    to: to
+  }
+  await axios.post(`${constant.API_URL}/bet`, data, {
     headers: {
       'Authorization': `Bearer ${userData.token}`
     }

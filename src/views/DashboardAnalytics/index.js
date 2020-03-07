@@ -92,11 +92,10 @@ function DashboardAnalytics() {
   }, [loading, dashboardData]);
 
   const clickHandle = (event, data) => {
-    let curMonth = -1;
     if (data.length > 0) {
-      curMonth = data[0]._index;
+      const curMonth = data[0]._index;
+      setSelectMonth(curMonth);
     }
-    setSelectMonth(curMonth);
   }
   
   return (

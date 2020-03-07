@@ -2,7 +2,7 @@ import axios from 'axios';
 import * as constant from 'src/constant';
 
 const userData = JSON.parse(localStorage.getItem('user'));
-export const getProfit = () => async (dispatch) => {
+export const getProfit = (from, to) => async (dispatch) => {
   dispatch({
     type: constant.BETTING_HISTORY_REQUEST
   });

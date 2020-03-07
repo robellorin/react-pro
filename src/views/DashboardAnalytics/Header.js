@@ -6,21 +6,12 @@ import { Typography, Grid } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   root: {},
-  calendar: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end'
-  },
-  calendarButton: {
-    backgroundColor: theme.palette.common.white
-  },
-  calendarTodayIcon: {
-    marginRight: theme.spacing(1)
-  }
+
 }));
 
 function Header({ className, ...rest }) {
   const classes = useStyles();
+
   return (
     <div
       {...rest}

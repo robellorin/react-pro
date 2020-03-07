@@ -2,9 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import {
-  Container,
-  Divider,
-  colors
+  Container
 } from '@material-ui/core';
 import Page from 'src/components/Page';
 import Header from './Header';

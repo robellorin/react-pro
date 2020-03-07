@@ -6,7 +6,6 @@ import { colors } from '@material-ui/core';
 import ChatIcon from '@material-ui/icons/ChatOutlined';
 import DashboardIcon from '@material-ui/icons/DashboardOutlined';
 import PaymentIcon from '@material-ui/icons/Payment';
-import SettingsIcon from '@material-ui/icons/SettingsOutlined';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import Label from 'src/components/Label';
 
@@ -20,17 +19,17 @@ export default [
         icon: DashboardIcon
       },
       {
-        title: 'CREDENTIALS',
+        title: 'BOOKMAKER ACCOUNTS',
         href: '/credentials',
         icon: LockOpenIcon,
       },
       {
-        title: 'PAYMENT',
+        title: 'PAYMENTS',
         href: '/payment/invoices',
         icon: PaymentIcon,
       },
       {
-        title: 'Ticket',
+        title: 'TICKETS',
         href: '/ticket',
         icon: ChatIcon,
         label: () => (
@@ -41,29 +40,6 @@ export default [
             4
           </Label>
         )
-      },
-      {
-        title: 'Settings',
-        href: '/settings',
-        icon: SettingsIcon,
-        items: [
-          {
-            title: 'General',
-            href: '/settings/general'
-          },
-          {
-            title: 'Subscription',
-            href: '/settings/subscription'
-          },
-          {
-            title: 'Notifications',
-            href: '/settings/notifications'
-          },
-          {
-            title: 'Security',
-            href: '/settings/security'
-          }
-        ]
       }
     ]
   }

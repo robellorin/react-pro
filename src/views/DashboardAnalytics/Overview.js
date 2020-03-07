@@ -11,7 +11,7 @@ import gradients from 'src/utils/gradients';
 const useStyles = makeStyles((theme) => ({
   root: {},
   grid: {
-    marginTop: theme.spacing(2)
+    // marginTop: theme.spacing(2)
   }
 }));
 

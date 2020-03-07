@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import {
   Card,
   CardHeader,
   CardContent,
-  Divider,
-  Typography,
-  colors
+  Divider
 } from '@material-ui/core';
 import MaterialTable from "material-table";
 

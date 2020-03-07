@@ -11,7 +11,7 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-function Chart({ data: dataProp, labels, className, ...rest }) {
+function Chart({ data: dataProp, labels, clickHandle, className, ...rest }) {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -59,6 +59,7 @@ function Chart({ data: dataProp, labels, className, ...rest }) {
     layout: {
       padding: 0
     },
+    onClick: (event, data) => clickHandle(event, data),
     scales: {
       xAxes: [
         {

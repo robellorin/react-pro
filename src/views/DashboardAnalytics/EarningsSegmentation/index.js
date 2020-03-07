@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(3)
   },
   chart: {
-    height: 381
+    height: 281
   },
   statsContainer: {
     display: 'flex'

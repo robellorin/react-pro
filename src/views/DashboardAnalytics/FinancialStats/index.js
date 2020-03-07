@@ -18,48 +18,12 @@ const useStyles = makeStyles(theme => ({
   },
   chart: {
     padding: theme.spacing(4, 2, 0, 2),
-    height: 500
+    height: 400
   }
 }));
 
-function FinancialStats({ className, betData, ...rest }) {
+function FinancialStats({ className, data, clickHandle, ...rest }) {
   const classes = useStyles();
-  const { bets } = betData;
-  let data = {
-    pl: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    rollover: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    roi: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-  };
-  if (bets) {
-    for (const bet of bets) {
-      const date = new Date(bet.betTime);
-      const month = date.getMonth();
-      if (!bet.checked) continue;
-      if (!bet.placedOdds || !bet.placedStake) continue;
-      let profit = 0;
-      const { won, totalReturns, placedStake } = bet;
-      if (won === 0 || totalReturns === null) continue;
-      else if (won === 1) {
-        profit =  Math.round((totalReturns - placedStake) * 100) / 100;
-      } else if (won === -1) {
-        profit =  Math.round(-placedStake * 100) / 100;
-      } else if (won === 2) {
-        profit =  Math.round((totalReturns - 2 * placedStake) * 100) / 100;
-      } else if (won === -2) {
-        profit =  Math.round(-placedStake * 2 * 100) / 100;
-      } else if (won === 3) {
-        profit =  Math.round((totalReturns - 2 * placedStake) * 100) / 100;
-      }
-      data.pl[month] += profit;
-      data.rollover[month] += placedStake;
-    }
-  }
-  data.pl = data.pl.map(item => Math.round(item * 100) / 100);
-  data.roi = data.pl.map((item, index) => {
-    const rollover = data.rollover[index];
-    if (rollover !== 0) return (item / rollover * 100).toFixed(2);
-    else return 0;
-  })
   const labels = [
     'Jan',
     'Feb',
@@ -91,6 +55,7 @@ function FinancialStats({ className, betData, ...rest }) {
               className={classes.chart}
               data={data}
               labels={labels}
+              clickHandle={clickHandle}
             />
           </div>
         </PerfectScrollbar>

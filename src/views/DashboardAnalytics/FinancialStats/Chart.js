@@ -19,7 +19,7 @@ function Chart({ data: dataProp, labels, clickHandle, className, ...rest }) {
     datasets: [
       {
         label: 'Profit/Loss',
-        backgroundColor: theme.palette.primary.main,
+        backgroundColor: colors.green[600],
         data: dataProp.pl,
         barThickness: 12,
         maxBarThickness: 10,
@@ -28,7 +28,7 @@ function Chart({ data: dataProp, labels, clickHandle, className, ...rest }) {
       },
       {
         label: 'Rollover',
-        backgroundColor: colors.indigo[300],
+        backgroundColor: colors.red[600],
         data: dataProp.rollover,
         barThickness: 12,
         maxBarThickness: 10,
@@ -37,7 +37,7 @@ function Chart({ data: dataProp, labels, clickHandle, className, ...rest }) {
       },
       {
         label: 'ROI',
-        backgroundColor: colors.indigo[100],
+        backgroundColor: colors.indigo[600],
         data: dataProp.roi,
         barThickness: 12,
         maxBarThickness: 10,
@@ -97,7 +97,7 @@ function Chart({ data: dataProp, labels, clickHandle, className, ...rest }) {
       ]
     },
     tooltips: {
-      enabled: true,
+      enabled: false,
       mode: 'index',
       intersect: false,
       caretSize: 10,

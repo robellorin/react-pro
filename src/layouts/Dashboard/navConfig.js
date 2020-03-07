@@ -11,7 +11,7 @@ import Label from 'src/components/Label';
 
 export default [
   {
-    subheader: 'Pages',
+    subheader: '',
     items: [
       {
         title: 'ANALYTICS OVERVIEW',

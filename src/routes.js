@@ -5,7 +5,6 @@ import { Redirect } from 'react-router-dom';
 import AuthLayout from './layouts/Auth';
 import ErrorLayout from './layouts/Error';
 import DashboardLayout from './layouts/Dashboard';
-import DashboardAnalyticsView from './views/DashboardAnalytics';
 
 export default [
   {
@@ -88,28 +87,13 @@ export default [
       {
         path: '/dashboards/analytics',
         exact: true,
-        component: DashboardAnalyticsView
+        component: lazy(() => import('src/views/DashboardAnalytics'))
       },
       {
         path: '/credentials',
         exact: true,
         component: lazy(() => import('src/views/Credentials'))
       },
-      {
-        path: '/settings',
-        exact: true,
-        component: lazy(() => import('src/views/Settings'))
-      },
-      {
-        path: '/settings/:tab',
-        exact: true,
-        component: lazy(() => import('src/views/Settings'))
-      },
-      // {
-      //   path: '/payment',
-      //   exact: true,
-      //   component: lazy(() => import('src/views/Payment'))
-      // },
       {
         path: '/payment/invoices',
         exact: true,

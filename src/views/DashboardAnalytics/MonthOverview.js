@@ -5,26 +5,24 @@ import { makeStyles } from '@material-ui/styles';
 import {
   Card, Typography, Grid, Avatar
 } from '@material-ui/core';
-import TodayIcon from '@material-ui/icons/Today';
 import EuroSymbolIcon from '@material-ui/icons/EuroSymbol';
-import GolfCourseIcon from '@material-ui/icons/GolfCourse';
 import gradients from 'src/utils/gradients';
+import RoiPerBetting from './RoiPerBetting';
 
 const months = [
-  'January',
-  'February',
-  'March',
-  'April',
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
   'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December'
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec'
 ];
-
 const useStyles = makeStyles((theme) => ({
   root: {},
   content: {
@@ -35,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     [theme.breakpoints.up('md')]: {
       '&:not(:last-of-type)': {
         borderRight: `1px solid ${theme.palette.divider}`
@@ -78,10 +76,10 @@ function Overview({ className, monthData, month, ...rest }) {
       <Grid
         alignItems="center"
         container
-        justify="space-between"
       >
         <Grid
           className={classes.item}
+          style={{ justifyContent: "space-around" }}
           item
           md={3}
           sm={6}
@@ -93,15 +91,12 @@ function Overview({ className, monthData, month, ...rest }) {
               gutterBottom
               variant="overline"
             >
-              Current Month
+              Period
             </Typography>
             <Typography variant="h3">
-              {months[month]}
+              {`Month / ${months[month]}`}
             </Typography>
           </div>
-          <Avatar variant="rounded" className={classes.avatar} style={{ backgroundImage: gradients.orange }}>
-            <TodayIcon />
-          </Avatar>
         </Grid>
         <Grid
           className={classes.item}
@@ -153,20 +148,9 @@ function Overview({ className, monthData, month, ...rest }) {
           md={3}
           sm={6}
           xs={12}
+          style={{padding: 0}}
         >
-          <div>
-            <Typography
-              component="h2"
-              gutterBottom
-              variant="overline"
-            >
-              ROI
-            </Typography>
-            <Typography variant="h3">{data.roi}%</Typography>
-          </div>
-          <Avatar variant="rounded" className={classes.avatar} style={{ backgroundImage: gradients.indigo }}>
-            <GolfCourseIcon />
-          </Avatar>
+          <RoiPerBetting roi={data.roi} />
         </Grid>
       </Grid>
     </Card>

@@ -121,17 +121,17 @@ function DashboardAnalytics() {
           </Grid>
           <Grid
             item
+            xs={12}
+          >
+            <MonthOverview monthData={monthData} month={selectedMonth} />
+          </Grid>
+          <Grid
+            item
             lg={12}
             xl={12}
             xs={12}
           >
             <FinancialStats data={monthData} clickHandle={clickHandle} />
-          </Grid>
-          <Grid
-            item
-            xs={12}
-          >
-            <MonthOverview monthData={monthData} month={selectedMonth} />
           </Grid>
         </Grid>
       </Container>

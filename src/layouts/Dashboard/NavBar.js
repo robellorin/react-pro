@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
+    paddingTop: 10
   },
   mobileDrawer: {
     width: 256,

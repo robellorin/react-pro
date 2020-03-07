@@ -1,7 +1,7 @@
 import * as constant from 'src/constant';
 
 const initialState = {
-  loading: false,
+  loading: true,
   data: {},
   error: ''
 };

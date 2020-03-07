@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import {
-  Card, Typography, Avatar
+  Grid, Typography, Avatar
 } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
@@ -33,7 +33,8 @@ function StateItem({ className, data, ...rest }) {
     backgroundImage: data.color
   }  
   return (
-    <Card
+    <Grid
+      container
       {...rest}
       className={clsx(classes.root, className)}
     >
@@ -51,10 +52,10 @@ function StateItem({ className, data, ...rest }) {
           </Typography>
         </div>
       </div>
-      <Avatar className={classes.avatar} style={style}>
+      <Avatar variant="rounded" className={classes.avatar} style={style}>
         { <data.icon /> }
       </Avatar>
-    </Card>
+    </Grid>
   );
 }
 

@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import { Grid } from '@material-ui/core';
-
+import { Grid, Card, Typography } from '@material-ui/core';
 import EuroSymbolIcon from '@material-ui/icons/EuroSymbol';
 import StateItem from './StateItem';
 import RoiPerBetting from './RoiPerBetting';
@@ -12,6 +11,22 @@ const useStyles = makeStyles((theme) => ({
   root: {},
   grid: {
     // marginTop: theme.spacing(2)
+  },
+  item: {
+    textAlign: 'center',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    [theme.breakpoints.up('md')]: {
+      '&:not(:last-of-type)': {
+        borderRight: `1px solid ${theme.palette.divider}`
+      }
+    },
+    [theme.breakpoints.down('sm')]: {
+      '&:not(:last-of-type)': {
+        borderBottom: `1px solid ${theme.palette.divider}`
+      }
+    }
   }
 }));
 
@@ -38,19 +53,40 @@ function Overview({ data }) {
   const classes = useStyles();
 
   return (
-    <div>
+    <Card>
       <Grid
-          container
-          spacing={3}
-          className={classes.grid}
+        container
+        // spacing={3}
+        className={classes.grid}
+      >
+        <Grid
+          item
+          className={classes.item}
+          md={3}
+          sm={3}
+          xs={12}
         >
+          <div>
+            <Typography
+            component="h2"
+            gutterBottom
+            variant="overline"
+            >
+              Period
+            </Typography>
+            <Typography variant="h3">
+              {`Year / ${new Date().getFullYear()}`}
+            </Typography>
+          </div>
+        </Grid>
         {
           stateList.map((item, index) => (
             <Grid
+              className={classes.item}
               key={index}
               item
-              md={4}
-              sm={4}
+              md={3}
+              sm={3}
               xs={12}
             >
               <StateItem data={item} />
@@ -59,14 +95,14 @@ function Overview({ data }) {
         }
         <Grid
           item
-          md={4}
-          sm={4}
+          md={3}
+          sm={3}
           xs={12}
         >
           <RoiPerBetting roi={roi} />
         </Grid>
       </Grid>
-    </div>
+    </Card>
   );
 }
 

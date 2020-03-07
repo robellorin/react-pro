@@ -2,13 +2,12 @@ import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import { Card, Typography, Avatar } from '@material-ui/core';
+import { Grid, Typography, Avatar } from '@material-ui/core';
 import GolfCourseIcon from '@material-ui/icons/GolfCourse';
+import gradients from 'src/utils/gradients';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    color: theme.palette.common.white,
-    backgroundColor: theme.palette.primary.main,
     padding: theme.spacing(3),
     display: 'flex',
     alignItems: 'center',
@@ -20,8 +19,7 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: 'wrap'
   },
   avatar: {
-    backgroundColor: theme.palette.common.white,
-    color: theme.palette.primary.main,
+    backgroundImage: gradients.indigo,
     height: 48,
     width: 48
   }
@@ -31,7 +29,8 @@ function RoiPerBetting({ className, roi, ...rest }) {
   const classes = useStyles();
 
   return (
-    <Card
+    <Grid
+      container
       {...rest}
       className={clsx(classes.root, className)}
     >
@@ -54,12 +53,13 @@ function RoiPerBetting({ className, roi, ...rest }) {
         </div>
       </div>
       <Avatar
+        variant="rounded"
         className={classes.avatar}
         color="inherit"
       >
         <GolfCourseIcon />
       </Avatar>
-    </Card>
+    </Grid>
   );
 }
 

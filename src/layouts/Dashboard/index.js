@@ -50,11 +50,11 @@ function Dashboard({ route }) {
   return (
     userData
     ? <>
-        <TopBar onOpenNavBarMobile={() => setOpenNavBarMobile(true)} />
         <NavBar
           onMobileClose={() => setOpenNavBarMobile(false)}
           openMobile={openNavBarMobile}
         />
+        <TopBar onOpenNavBarMobile={() => setOpenNavBarMobile(true)} />
         <div className={classes.container}>
           <div className={classes.content}>
             <Suspense fallback={<LinearProgress />}>

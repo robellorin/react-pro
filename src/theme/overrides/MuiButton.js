@@ -7,5 +7,5 @@ export default {
     '&:hover': {
       backgroundColor: colors.grey[300]
     }
-  }
+  },
 };

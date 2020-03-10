@@ -1,18 +1,15 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import {
   Avatar,
-  Divider,
   IconButton,
   Input,
   Paper,
   Tooltip
 } from '@material-ui/core';
 import SendIcon from '@material-ui/icons/Send';
-import AddPhotoIcon from '@material-ui/icons/AddPhotoAlternate';
-import AttachFileIcon from '@material-ui/icons/AttachFile';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -40,7 +37,6 @@ const useStyles = makeStyles(theme => ({
 
 function ConversationForm({ className, ...rest }) {
   const classes = useStyles();
-  const fileInputRef = useRef(null);
   const [value, setValue] = useState('');
   const sender = {
     avatar: '/images/avatars/avatar_11.png'
@@ -49,10 +45,6 @@ function ConversationForm({ className, ...rest }) {
   const handleChange = (event) => {
     event.persist();
     setValue(event.target.value);
-  }
-
-  const handleAttach = () => {
-    fileInputRef.current.click();
   }
 
   return (
@@ -80,28 +72,6 @@ function ConversationForm({ className, ...rest }) {
           <SendIcon />
         </IconButton>
       </Tooltip>
-      <Divider className={classes.divider} />
-      <Tooltip title="Attach photo">
-        <IconButton
-          edge="end"
-          onClick={handleAttach}
-        >
-          <AddPhotoIcon />
-        </IconButton>
-      </Tooltip>
-      <Tooltip title="Attach file">
-        <IconButton
-          edge="end"
-          onClick={handleAttach}
-        >
-          <AttachFileIcon />
-        </IconButton>
-      </Tooltip>
-      <input
-        className={classes.fileInput}
-        ref={fileInputRef}
-        type="file"
-      />
     </div>
   );
 }

@@ -1,6 +1,5 @@
 import axios from 'axios';
 import * as constant from 'src/constant';
-import fakeAxios from 'src/utils/axios';
 
 const userData = JSON.parse(localStorage.getItem('user'));
 export const createPayment = () => async (dispatch) => {
@@ -72,18 +71,17 @@ export const fetchInvoices = () => async (dispatch) => {
   dispatch({
     type: constant.PAYMENT_REQUEST
   });
-  // await axios.post(`${constant.API_URL}/fetch-invoices`, null, {
-  //   headers: {
-  //     'Authorization': `Bearer ${userData.token}`,
-  //     'Content-Type': 'application/json'
-  //   }
-  // })
-  fakeAxios.get('/api/orders')
+  await axios.get(`${constant.API_URL}/invoice`, {
+    headers: {
+      'Authorization': `Bearer ${userData.token}`,
+      'Content-Type': 'application/json'
+    }
+  })
   .then(res => {
-    if (res.data.orders) {
+    if (res.data) {
       dispatch({
         type: constant.PAYMENT_INVOICE_SUCCESS,
-        data: res.data.orders
+        data: res.data
       });
     } else {
       dispatch({
@@ -93,9 +91,11 @@ export const fetchInvoices = () => async (dispatch) => {
     }
   })
   .catch(error => {
+    // console.log(error)
+    // alert(JSON.stringify(error))
     dispatch({
       type: constant.PAYMENT_INVOICE_FAILED,
-      error: error.response.status
+      // error: error.response.status
     });
   });
 }

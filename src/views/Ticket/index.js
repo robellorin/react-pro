@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router';
+import { useParams, useHistory } from 'react-router';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import axios from 'src/utils/axios';
@@ -50,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
 function Ticket() {
   const classes = useStyles();
   const params = useParams();
+  const history = useHistory();
   const [conversations, setConversations] = useState([]);
 
   useEffect(() => {
@@ -73,9 +74,27 @@ function Ticket() {
   let selectedConversation;
 
   if (params.id) {
-    selectedConversation = conversations.find(
-      (c) => c.id === params.id
-    );
+    if (params.id === 'new-create') {
+      selectedConversation = {
+        id: params.id,
+        otherUser: {
+          name: 'Support',
+          avatar: "/images/avatars/avatar_7.png",
+          active: true,
+          lastActivity: new Date()
+        },
+        messages: []
+      }
+    } else {
+      selectedConversation = conversations.find(
+        (c) => c.id === params.id
+      );
+      console.log(selectedConversation)
+    }
+  }
+
+  const createNewTicket = () => {
+    history.push('/ticket/new-create');
   }
 
   return (
@@ -89,6 +108,7 @@ function Ticket() {
       <ConversationList
         className={classes.conversationList}
         conversations={conversations}
+        onCreate={createNewTicket}
       />
       {selectedConversation ? (
         <ConversationDetails

@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
   item: {
     display: 'block',
     paddingTop: 0,
-    paddingBottom: 0
+    paddingBottom: 0,
   },
   itemLeaf: {
     display: 'flex',
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100%'
   },
   buttonLeaf: {
-    padding: '10px 8px',
+    padding: '15px 15px',
     justifyContent: 'flex-start',
     textTransform: 'none',
     letterSpacing: 0,
@@ -55,6 +55,7 @@ const useStyles = makeStyles((theme) => ({
   active: {
     color: theme.palette.primary.main,
     fontWeight: theme.typography.fontWeightMedium,
+    boxShadow: '0px 2px 10px -1px rgba(0,0,0,0.2), 0px 10px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)',
     '& $icon': {
       color: theme.palette.primary.main
     }
@@ -79,7 +80,7 @@ function NavItem({
     setOpen((prevOpen) => !prevOpen);
   };
 
-  let paddingLeft = 8;
+  let paddingLeft = 15;
 
   if (depth > 0) {
     paddingLeft = 32 + 8 * depth;

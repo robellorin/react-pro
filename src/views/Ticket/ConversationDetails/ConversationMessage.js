@@ -1,10 +1,9 @@
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import moment from 'moment';
 import { makeStyles } from '@material-ui/styles';
-import { Typography, Link, Avatar, colors } from '@material-ui/core';
+import { Typography, Avatar, colors } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -64,21 +63,17 @@ function ConversationMessage({ message, className, ...rest }) {
       <div className={classes.inner}>
         <Avatar
           className={classes.avatar}
-          component={RouterLink}
           src={message.sender.avatar}
-          to="/profile/1/timeline"
         />
         <div>
           <div className={classes.body}>
             <div>
-              <Link
+              <Typography
                 color="inherit"
-                component={RouterLink}
-                to="/profile/1/timeline"
                 variant="h6"
               >
                 {message.sender.authUser ? 'Me' : message.sender.name}
-              </Link>
+              </Typography>
             </div>
             <div className={classes.content}>
               {message.contentType === 'image' ? (

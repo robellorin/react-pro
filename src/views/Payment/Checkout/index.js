@@ -94,11 +94,11 @@ const ENV = process.env.NODE_ENV === 'production'
   ? 'production'
   : 'sandbox';
 
-function OrderPayment({ match, history, isModal, onClose }) {
+function OrderPayment({ match, history, isModal, onClose, invoice }) {
   const classes = useStyles();
   const [method, setMethod] = React.useState('paypal');
   const [currency, setCurrency] = React.useState('USD');
-  const [amount, setAmount] = React.useState(0);
+  const [amount, setAmount] = React.useState(invoice.amount ?? 0);
   const paymentData = useSelector(state => state.payment);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);

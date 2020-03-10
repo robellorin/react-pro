@@ -39,12 +39,19 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const paymentStatusColors = {
-  canceled: colors.grey[600],
-  pending: colors.orange[600],
-  completed: colors.green[600],
-  rejected: colors.red[600]
-};
+const paymentStatusColors = [
+  colors.orange[600],
+  colors.green[600],
+  colors.red[600],
+  colors.grey[600]
+];
+
+const paymentStatusText = [
+  'Pending',
+  'Paid',
+  'Refunded',
+  'Idle'
+];
 
 function Results({ className, invoices, onView, onPay, ...rest }) {
   const classes = useStyles();
@@ -60,7 +67,7 @@ function Results({ className, invoices, onView, onPay, ...rest }) {
   };
 
   const handleClick = (invoice) => {
-    if (invoice.payment.status === 'pending') onPay(invoice);
+    if (invoice.status === 0) onPay(invoice);
     else onView(invoice);
   }
 
@@ -111,18 +118,17 @@ function Results({ className, invoices, onView, onPay, ...rest }) {
                       key={invoice.id}
                     >
                       <TableCell>
-                        {invoice.payment.ref}
+                        {invoice.id}
                       </TableCell>
                       <TableCell>
-                        {invoice.payment.currency}
-                        {invoice.payment.total}
+                        {invoice.amount}
                       </TableCell>
                       <TableCell>
                         <Label
-                          color={paymentStatusColors[invoice.payment.status]}
+                          color={paymentStatusColors[invoice.status]}
                           variant="outlined"
                         >
-                          {invoice.payment.status}
+                          {paymentStatusText[invoice.status]}
                         </Label>
                       </TableCell>
                       <TableCell>
@@ -132,12 +138,12 @@ function Results({ className, invoices, onView, onPay, ...rest }) {
                       </TableCell>
                       <TableCell align="right">
                         <Button
-                          style={{color: '#fff', backgroundColor: invoice.payment.status === 'pending' ? '#007bff' : colors.green[600]}}
+                          style={{color: '#fff', backgroundColor: invoice.status === 0 ? '#007bff' : colors.green[600]}}
                           onClick={() => handleClick(invoice)}
                           size="small"
                           variant="contained"
                         >
-                          {invoice.payment.status === 'pending' ? 'Pay' : 'View'}
+                          {invoice.status === 0 ? 'Pay' : 'View'}
                         </Button>
                       </TableCell>
                     </TableRow>

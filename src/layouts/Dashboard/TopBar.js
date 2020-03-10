@@ -27,7 +27,7 @@ import ChatBar from './ChatBar';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    boxShadow: 'none',
+    // boxShadow: 'none',
   },
   flexGrow: {
     flexGrow: 1
@@ -126,12 +126,6 @@ function TopBar({
             <MenuIcon />
           </IconButton>
         </Hidden>
-        <RouterLink to="/">
-          <img
-            alt="Logo"
-            src="/images/logos/logo.png"
-          />
-        </RouterLink>
         <div className={classes.flexGrow} />
         <Hidden mdDown>
           <IconButton

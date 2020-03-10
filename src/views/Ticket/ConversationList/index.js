@@ -5,13 +5,10 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import {
   Toolbar,
-  Input,
-  IconButton,
-  Tooltip,
+  Button,
   Divider,
   List
 } from '@material-ui/core';
-import SearchIcon from '@material-ui/icons/Search';
 // import Chat from 'twilio-chat';
 import ConversationListItem from './ConversationListItem';
 
@@ -25,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function ConversationList({ conversations, className, ...rest }) {
+function ConversationList({ conversations, onCreate, className, ...rest }) {
   const classes = useStyles();
   const params = useParams();
   const selectedTicketId = params.id;
@@ -61,16 +58,7 @@ function ConversationList({ conversations, className, ...rest }) {
       className={clsx(classes.root, className)}
     >
       <Toolbar>
-        <Input
-          className={classes.searchInput}
-          disableUnderline
-          placeholder="Search contacts"
-        />
-        <Tooltip title="Search">
-          <IconButton edge="end">
-            <SearchIcon />
-          </IconButton>
-        </Tooltip>
+        <Button onClick={onCreate}>Create new Ticket</Button>
       </Toolbar>
       <Divider />
       <List disablePadding>

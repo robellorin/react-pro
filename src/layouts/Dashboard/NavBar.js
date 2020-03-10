@@ -27,20 +27,20 @@ const useStyles = makeStyles((theme) => ({
   root: {
     height: '100%',
     display: 'flex',
-    flexDirection: 'column',
-    paddingTop: 10
+    flexDirection: 'column'
   },
   mobileDrawer: {
     width: 256,
   },
   desktopDrawer: {
     width: 256,
-    top: 64,
-    height: 'calc(100% - 64px)'
+    top: 0,
+    height: '100%',
+    borderRight: 'none',
+    boxShadow: '0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0)',
   },
   navigation: {
     overflow: 'auto',
-    padding: theme.spacing(0, 2, 2, 2),
     flexGrow: 1
   },
   profile: {
@@ -174,6 +174,14 @@ function NavBar({
       {...rest}
       className={clsx(classes.root, className)}
     >
+      <RouterLink to="/">
+        <div style={{backgroundColor: colors.indigo[500], padding: '8px 20px'}}>
+          <img
+            alt="Logo"
+            src="/images/logos/logo.png"
+          />
+        </div>
+      </RouterLink>
       <nav className={classes.navigation}>
         {navConfig.map((list) => renderNavItems({
           items: list.items,

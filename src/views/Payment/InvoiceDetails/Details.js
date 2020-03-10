@@ -22,6 +22,12 @@ import {
 } from '@material-ui/core';
 import GetAppIcon from '@material-ui/icons/GetApp';
 
+const paymentStatusText = [
+  'Pending',
+  'Paid',
+  'Refunded',
+  'Idle'
+];
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -85,7 +91,7 @@ function Details({ invoice, className, onClose, ...rest }) {
               component="h3"
               variant="h1"
             >
-              {invoice.payment.status === 'completed' ? 'PAID' : invoice.payment.status}
+              {paymentStatusText[invoice.status]}
             </Typography>
           </Grid>
         </Grid>
@@ -101,7 +107,7 @@ function Details({ invoice, className, onClose, ...rest }) {
           <Grid item>
             <Typography align="right">
               Invoice #
-              {invoice.payment.ref}
+              {invoice.id}
             </Typography>
           </Grid>
         </Grid>
@@ -119,7 +125,7 @@ function Details({ invoice, className, onClose, ...rest }) {
               Date of issue
             </Typography>
             <Typography>
-              {moment(invoice.created_at).format('DD MMM YYYY')}
+              {moment(invoice.betTo).format('DD MMM YYYY')}
             </Typography>
           </Grid>
           <Grid item>
@@ -130,32 +136,9 @@ function Details({ invoice, className, onClose, ...rest }) {
             >
               Reference
             </Typography>
-            <Typography>{invoice.payment.ref}</Typography>
+            <Typography>{invoice.id}</Typography>
           </Grid>
         </Grid>
-        <div className={classes.marginTop}>
-          <Typography
-            component="h4"
-            gutterBottom
-            variant="overline"
-          >
-            Billed to
-          </Typography>
-          <Typography>
-            {invoice.customer.name}
-            {' '}
-            <br />
-            {/*invoice.customer.company}
-            {' '}
-            <br />
-            {invoice.customer.nzbn}
-            {' '}
-            <br />
-            {invoice.customer.address}
-            {' '*/}
-            <br />
-          </Typography>
-        </div>
         <Table className={classes.marginTop}>
           <TableHead>
             <TableRow>
@@ -169,8 +152,7 @@ function Details({ invoice, className, onClose, ...rest }) {
               <TableCell>{`Fee of ${moment(invoice.created_at).format('MMM YYYY')}`}</TableCell>
               <TableCell />
               <TableCell align="right">
-                {invoice.payment.currency}
-                {invoice.payment.total}
+                {invoice.amount}
               </TableCell>
             </TableRow>
           </TableBody>

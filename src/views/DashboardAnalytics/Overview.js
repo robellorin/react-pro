@@ -32,8 +32,9 @@ const useStyles = makeStyles((theme) => ({
 
 function Overview({ data }) {
   const { userProfit } = data;
-  let pl = userProfit && userProfit.pl ? userProfit.pl : 0;
-  let rollover = userProfit && userProfit.rollover ? userProfit.rollover : 0;
+  const profitData = userProfit[0];
+  let pl = profitData && profitData.pl ? profitData.pl : 0;
+  let rollover = profitData && profitData.rollover ? profitData.rollover : 0;
   const roi = rollover === 0 ? 0 : Math.round(pl / rollover * 10000) / 100;
   const stateList = [
     {

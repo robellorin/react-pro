@@ -12,7 +12,6 @@ import {
   Avatar,
   colors
 } from '@material-ui/core';
-import Label from 'src/components/Label';
 
 const useStyles = makeStyles((theme) => ({
   active: {
@@ -84,15 +83,6 @@ function ConversationListItem({
             ? moment(lastMessage.created_at).format('LT')
             : moment(lastMessage.created_at).fromNow()}
         </Typography>
-        {conversation.unread > 0 && (
-          <Label
-            className={classes.unread}
-            color={colors.red[500]}
-            shape="rounded"
-          >
-            {conversation.unread}
-          </Label>
-        )}
       </div>
     </ListItem>
   );

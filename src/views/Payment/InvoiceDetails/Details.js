@@ -139,6 +139,19 @@ function Details({ invoice, className, onClose, ...rest }) {
             <Typography>{invoice.id}</Typography>
           </Grid>
         </Grid>
+        <div className={classes.marginTop}>
+          <Typography
+            component="h4"
+            gutterBottom
+            variant="overline"
+          >
+            Billed to
+          </Typography>
+          <Typography>
+            Udevia    
+            <br />
+          </Typography>
+        </div>
         <Table className={classes.marginTop}>
           <TableHead>
             <TableRow>

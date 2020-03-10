@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Overview({ data }) {
   const { userProfit } = data;
-  const profitData = userProfit[0];
+  const profitData = userProfit ? userProfit[0] : {};
   let pl = profitData && profitData.pl ? profitData.pl : 0;
   let rollover = profitData && profitData.rollover ? profitData.rollover : 0;
   const roi = rollover === 0 ? 0 : Math.round(pl / rollover * 10000) / 100;

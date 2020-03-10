@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import {
@@ -12,6 +13,7 @@ import {
 import MaterialTable from "material-table";
 import AddIcon from '@material-ui/icons/Add';
 import SportsSoccerIcon from '@material-ui/icons/SportsSoccer';
+import { getCredentials, addCredential, deleteCredential, updateCredential } from 'src/actions';
 
 const logUrls = {
   bet365: 'https://www.bet365.com/favicons/main-favicon.ico',
@@ -32,7 +34,7 @@ const columns = [
     width: 50
   },
   { title: 'Bookmaker', field: 'bookmaker' },
-  { title: 'Username', field: 'surname'},
+  { title: 'Username', field: 'bookmakerUsername'},
   { title: 'Password', field: 'password'},
   { title: 'Balance', field: 'balance', editable: 'never'},
 ];
@@ -50,63 +52,40 @@ const useStyles = makeStyles(theme => ({
 
 function CredentialsForm({ className, ...rest }) {
   const classes = useStyles();
-  const [data, setData] = useState([]);
+  const dispatch = useDispatch();
+  const credentials = useSelector(state => state.credentials);
+  const [data, setData] = useState(credentials.credentials);
+  const [loading, setLoading] = useState(credentials.loading);
   const addIcon = React.useRef(null);
 
   useEffect(() => {
     addIcon.current.parentNode.parentNode.classList.remove('MuiIconButton-root');
-  }, []);
+    dispatch(getCredentials());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (loading && !credentials.loading && credentials.status === 'success') {
+      const credentialsData = credentials.credentials.map(item => {
+        item.imageUrl = logUrls[item.bookmaker];
+        return item;
+      });
+      setData(credentialsData);
+    }
+    setLoading(credentials.loading);
+  }, [credentials, loading]);
   const onRowAdd = (row) => {
-    row.imageUrl = logUrls[row.bookmaker];
-    const promise = new Promise((resolve, reject) => {
-      setTimeout(() => {
-        {
-          let clone = [];
-          Object.assign(clone, data);
-          clone.push(row);
-          setData(clone);
-        }
-        resolve()
-      }, 1000)
-    });
-    return promise;
+    return dispatch(addCredential(row.bookmaker, row.bookmakerUsername, row.password));
   }
 
   const onRowUpdate = (newRow, oldRow) => {
-    const promise = new Promise((resolve, reject) => {
-      setTimeout(() => {
-        {
-          let clone = [];
-          Object.assign(clone, data);
-          const index = data.indexOf(oldRow);
-          clone[index] = newRow;
-          setData(clone);
-        }
-        resolve()
-      }, 1000)
-    });
-    return promise;
+    return dispatch(updateCredential(newRow.bookmaker, newRow.bookmakerUsername, newRow.password, oldRow.id));
   }
 
   const onRowDelete = (oldRow) => {
-    const promise = new Promise((resolve, reject) => {
-      setTimeout(() => {
-        {
-          let clone = [];
-          Object.assign(clone, data);
-          const index = data.indexOf(oldRow);
-          clone.splice(index, 1);
-          setData(clone);
-        }
-        resolve()
-      }, 1000)
-    });
-    return promise;
+    return dispatch(deleteCredential(oldRow.id));
   }
 
   const addClickHandle = () => {
-    // const addBtn = document.querySelector('[title="Add"]');
-    // addBtn.click();
     addIcon.current.click();
   }
 

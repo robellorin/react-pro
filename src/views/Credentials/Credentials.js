@@ -16,13 +16,21 @@ import SportsSoccerIcon from '@material-ui/icons/SportsSoccer';
 import { getCredentials, addCredential, deleteCredential, updateCredential } from 'src/actions';
 
 const logUrls = {
-  bet365: 'https://www.bet365.com/favicons/main-favicon.ico',
-  paddypower: 'https://ie2sdspp.cdnppb.net/resources/sdspp/assets/images/favicon_85ed3672424f031a43ad76943b2c8d3c.ico',
-  ladbrokes: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAtFBMVEXwHijwHijwHijwHijwHSfwGyXxKjP1b3X3hozzRU3wHCb2foT//f3+6uvzR0/yOEH82Nr////6sbTwIiv3io//+vr1aG7yPkb93+D81NbxMTr4k5j4kZbzREz95OX+7u/zTFT4mp76ur3wISvwGiT8zdD7wMP0W2L0XWT1Ymn0VFvwHyn4nKH//v7/+fr/+/v5oab95uf+9vf80NLzUVnwGyb0XmX1bXT0VVzyQEjxLTfwGiV2PK1wAAAAA3RSTlNd4P6aaVXKAAAAAWJLR0QR4rU9ugAAAAd0SU1FB+MJCgsnG2Jc1fEAAACXSURBVBjTVc/XEoJADAXQhd0gRkCvvTewYu/l//9LYUEwT8mZTCZXCEPmyhDprIiUFlPPVsEu8rcxhV7gkuN6EUgNXK6gWpM5qKPRpAy41UanqzJQPaDP8gc8GGI0pgzkBJj6QUAJKGsGzBfL1dpPNsINsN3tcQjTG94Rzsk9X64RRK+HN/v+eL5k/Hocjt4BsfqPm8b/AJUuCvzoOx+xAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE5LTA5LTEwVDExOjM5OjI3KzAyOjAwhRLP0QAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxOS0wOS0xMFQxMTozOToyNyswMjowMPRPd20AAABXelRYdFJhdyBwcm9maWxlIHR5cGUgaXB0YwAAeJzj8gwIcVYoKMpPy8xJ5VIAAyMLLmMLEyMTS5MUAxMgRIA0w2QDI7NUIMvY1MjEzMQcxAfLgEigSi4A6hcRdPJCNZUAAAAASUVORK5CYII=',
+  bet365: '/images/logos/bet365.png',
+  paddypower: '/images/logos/paddypower.jpeg',
   skybet: 'https://bet.sbgcdn.com/static/mbet/img/favicon_default.png',
-  betfred: 'https://www.betfred.com/images/web-clip-icon/72.png',
-  betfair: 'https://ie1sbw.cdnppb.net/sbw-resources/favicon_673_.ico',
-  williamhill: 'https://sports.staticcache.org/sportsbook/img/favicon.ico?v=2'
+  betfair: '/images/logos/betfair.png',
+  williamhill: '/images/logos/williamhill.png',
+  betfred: 'https://www.betfred.com/images/web-clip-icon/114.png',
+}
+
+const lookup = {
+  bet365: 'bet365',
+  paddypower: 'paddypower',
+  skybet: 'skybet',
+  betfair: 'betfair',
+  williamhill: 'williamhill',
+  betfred: 'betfred'
 }
 
 const columns = [
@@ -33,10 +41,11 @@ const columns = [
     },
     width: 50
   },
-  { title: 'Bookmaker', field: 'bookmaker' },
+  { title: 'Bookmaker', field: 'bookmaker', lookup: lookup },
   { title: 'Username', field: 'bookmakerUsername'},
   { title: 'Password', field: 'password'},
   { title: 'Balance', field: 'balance', editable: 'never'},
+  { title: 'Notes', field: 'actions', editable: 'never'},
 ];
 
 const useStyles = makeStyles(theme => ({
@@ -110,7 +119,7 @@ function CredentialsForm({ className, ...rest }) {
           }}
           icons={
             {
-              Add: props => <div ref={addIcon} id="sddsf"/>
+              Add: props => <div ref={addIcon}/>
             }
           }
           options={{

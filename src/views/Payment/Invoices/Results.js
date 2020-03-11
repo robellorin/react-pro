@@ -41,17 +41,10 @@ const useStyles = makeStyles((theme) => ({
 
 const paymentStatusColors = {
   created: colors.orange[600],
-  paide: colors.green[600],
+  approved: colors.green[600],
   refunded: colors.red[600],
   idle:colors.grey[600]
 };
-
-// const paymentStatusText = [
-//   'Pending',
-//   'Paid',
-//   'Refunded',
-//   'Idle'
-// ];
 
 function Results({ className, invoices, onView, onPay, ...rest }) {
   const classes = useStyles();

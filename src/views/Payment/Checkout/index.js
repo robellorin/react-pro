@@ -94,7 +94,7 @@ const ENV = process.env.NODE_ENV === 'production'
   ? 'production'
   : 'sandbox';
 
-function OrderPayment({ match, history, isModal, onClose, invoice }) {
+function OrderPayment({ isModal, onClose, invoice }) {
   const classes = useStyles();
   const [method, setMethod] = React.useState('paypal');
   const [currency, setCurrency] = React.useState('USD');
@@ -103,15 +103,13 @@ function OrderPayment({ match, history, isModal, onClose, invoice }) {
   const [loading, setLoading] = useState(paymentData.payLoading);
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
-  const [paymentStatus, setPaymentStatus] = useState("success");
+  const [paymentStatus, setPaymentStatus] = useState("error");
 
   useEffect(() => {
-    console.log(paymentData)
     if (loading && !paymentData.payLoading) {
-      console.log(paymentData)
-        setOpen(true);
-        setPaymentStatus(paymentData.message === 'failed' ? 'error' : 'success');
-        setMessage(paymentData.message);
+      setOpen(true);
+      setPaymentStatus(paymentData.message === 'failed' ? 'error' : 'success');
+      setMessage(paymentData.message);
     }
     setLoading(paymentData.payLoading);
   }, [loading, setLoading, paymentData]);
@@ -138,6 +136,7 @@ function OrderPayment({ match, history, isModal, onClose, invoice }) {
 
   const onSuccess = (payment) =>
     console.log('Successful payment!', payment);
+
   const onError = (error) => {
         setOpen(true);
         setPaymentStatus('error');
@@ -145,6 +144,16 @@ function OrderPayment({ match, history, isModal, onClose, invoice }) {
   }
   const onCancel = (data) =>
     console.log('Cancelled payment!', data);
+
+  const closeHandle = () => {
+   onClose(paymentStatus);
+  }
+
+  const onCloseAlert = () => {
+    setOpen(false);
+    if (paymentStatus === 'success') onClose(paymentStatus);
+  }
+
   return (
     <Page
       className={classes.root}
@@ -157,7 +166,7 @@ function OrderPayment({ match, history, isModal, onClose, invoice }) {
         }}
         open={open}
         autoHideDuration={3000}
-        onClose={() => setOpen(false)}
+        onClose={onCloseAlert}
       >
         <Alert variant={paymentStatus} message={message} />
       </Snackbar>
@@ -166,7 +175,7 @@ function OrderPayment({ match, history, isModal, onClose, invoice }) {
           <div>
             <CardHeader
               action={
-                <IconButton onClick={onClose}>
+                <IconButton onClick={closeHandle}>
                   <CloseIcon />
                 </IconButton>
               }

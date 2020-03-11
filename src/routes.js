@@ -105,8 +105,14 @@ export default [
         component: lazy(() => import('src/views/Payment/Checkout'))
       },
       {
+        path: '/support',
+        exact: true,
+        component: lazy(() => import('src/views/Support'))
+      },
+      {
         component: () => <Redirect to="/errors/error-404" />
-      }
+      },
+      
     ]
   }
 ];

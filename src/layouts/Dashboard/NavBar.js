@@ -106,34 +106,38 @@ function reduceChildRoutes({
       path: item.href,
       exact: false
     });
-
-    acc.push(
-      <NavItem
-        depth={depth}
-        icon={item.icon}
-        key={item.href}
-        label={item.label}
-        open={Boolean(open)}
-        title={item.title}
-      >
-        {renderNavItems({
-          depth: depth + 1,
-          pathname,
-          items: item.items
-        })}
-      </NavItem>
-    );
+    if (item.title) {
+      acc.push(
+        <NavItem
+          depth={depth}
+          icon={item.icon}
+          key={item.href}
+          label={item.label}
+          open={Boolean(open)}
+          title={item.title}
+        >
+          {renderNavItems({
+            depth: depth + 1,
+            pathname,
+            items: item.items
+          })}
+        </NavItem>
+      );
+    }
   } else {
-    acc.push(
-      <NavItem
-        depth={depth}
-        href={item.href}
-        icon={item.icon}
-        key={item.href}
-        label={item.label}
-        title={item.title}
-      />
-    );
+    console.log(item.title)
+    if (item.title) {
+      acc.push(
+        <NavItem
+          depth={depth}
+          href={item.href}
+          icon={item.icon}
+          key={item.href}
+          label={item.label}
+          title={item.title}
+        />
+      );
+    }
   }
 
   return acc;

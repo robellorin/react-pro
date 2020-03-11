@@ -73,7 +73,8 @@ function InvoicesList() {
     setOpenCheckout(true);
   }
 
-  const onCheckoutClose = () => {
+  const onCheckoutClose = (status) => {
+    if (status === 'success') dispatch(fetchInvoices());
     setOpenCheckout(false);  
   }
 

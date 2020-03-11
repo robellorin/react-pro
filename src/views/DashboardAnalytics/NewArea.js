@@ -79,7 +79,6 @@ function NewArea({isChecked, onCheckHandle, data}) {
   const globalNews = data ? data.filter(item => item.userId === 0) : [];
   const personalNews = data ? data.filter(item => item.userId !== 0) : [];
 
-
   return (
     <Paper
       className={classes.root}

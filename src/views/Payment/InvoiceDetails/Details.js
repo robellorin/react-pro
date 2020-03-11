@@ -22,13 +22,6 @@ import {
 } from '@material-ui/core';
 import GetAppIcon from '@material-ui/icons/GetApp';
 
-const paymentStatusText = [
-  'Pending',
-  'Paid',
-  'Refunded',
-  'Idle'
-];
-
 const useStyles = makeStyles((theme) => ({
   root: {},
   content: {
@@ -91,7 +84,7 @@ function Details({ invoice, className, onClose, ...rest }) {
               component="h3"
               variant="h1"
             >
-              {paymentStatusText[invoice.status]}
+              {invoice.state.toUpperCase()}
             </Typography>
           </Grid>
         </Grid>

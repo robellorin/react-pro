@@ -24,6 +24,7 @@ import NotificationsPopover from 'src/components/NotificationsPopover';
 import PricingModal from 'src/components/PricingModal';
 import { logout } from 'src/actions';
 import ChatBar from './ChatBar';
+import * as constant from 'src/constant';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -69,6 +70,7 @@ function TopBar({
 
   const handleLogout = () => {
     history.push('/auth/login');
+    dispatch({type: constant.CHECKING_NEWS, payload: false});
     dispatch(logout());
   };
   

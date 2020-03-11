@@ -2,8 +2,8 @@ import * as constant from 'src/constant';
 
 const initialState = {
   loading: false,
-  isCreated: false,
-  status: '',
+  payLoading: false,
+  message: '',
   invoices: []
 };
 
@@ -11,31 +11,23 @@ const paymentReducer = (state = initialState, action) => {
   switch (action.type) {
     case constant.PAYMENT_REQUEST: {
       return {
-        ...initialState,
+        ...state,
         loading: true,
       };
     }
 
-    case constant.PAYMENT_CREATE_SUCCESS: {
+    case constant.PAYMENT_EXECUTE_REQUEST: {
       return {
-        ...initialState,
-        isCreated: true,
-        loading: false
+        ...state,
+        payLoading: true,
       };
     }
-
-    case constant.PAYMENT_CREATE_FAILED: {
-      return {
-        ...initialState,
-        isCreated: false,
-        loading: false
-      };
-    }
-    
+       
     case constant.PAYMENT_EXECUTE: {
       return {
-        ...initialState,
-        status: action.status
+        ...state,
+        message: action.message,
+        payLoading: false
       };
     }
 

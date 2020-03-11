@@ -98,25 +98,22 @@ function OrderPayment({ match, history, isModal, onClose, invoice }) {
   const classes = useStyles();
   const [method, setMethod] = React.useState('paypal');
   const [currency, setCurrency] = React.useState('USD');
-  const [amount, setAmount] = React.useState(invoice.amount ?? 0);
+  const [amount, setAmount] = React.useState((invoice && invoice.amount) ?? 0);
   const paymentData = useSelector(state => state.payment);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(paymentData.payLoading);
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
+  const [paymentStatus, setPaymentStatus] = useState("success");
 
   useEffect(() => {
-    if (loading && !paymentData.loading) {
-      if (paymentData.isCreated) {
-        if (paymentData.status.length > 0) {
-          setOpen(true);
-          setMessage(paymentData.status === 'success' ? 'Successful payment!' : 'Erroneous payment!');
-        }
-      } else {
+    console.log(paymentData)
+    if (loading && !paymentData.payLoading) {
+      console.log(paymentData)
         setOpen(true);
-        setMessage('Cannot create payment');
-      }
+        setPaymentStatus(paymentData.message === 'failed' ? 'error' : 'success');
+        setMessage(paymentData.message);
     }
-    setLoading(paymentData.loading);
+    setLoading(paymentData.payLoading);
   }, [loading, setLoading, paymentData]);
 
   const handleCurrencyChange = event => {
@@ -141,8 +138,11 @@ function OrderPayment({ match, history, isModal, onClose, invoice }) {
 
   const onSuccess = (payment) =>
     console.log('Successful payment!', payment);
-  const onError = (error) =>
-    console.log('Erroneous payment OR failed to load script!', error);
+  const onError = (error) => {
+        setOpen(true);
+        setPaymentStatus('error');
+        setMessage('Erroneous payment OR failed to load script!');
+  }
   const onCancel = (data) =>
     console.log('Cancelled payment!', data);
   return (
@@ -159,7 +159,7 @@ function OrderPayment({ match, history, isModal, onClose, invoice }) {
         autoHideDuration={3000}
         onClose={() => setOpen(false)}
       >
-        <Alert variant={paymentData.status === 'success' ? 'success' : 'error'} message={message} />
+        <Alert variant={paymentStatus} message={message} />
       </Snackbar>
       <Card className={classes.card}>
         {isModal &&
@@ -247,6 +247,7 @@ function OrderPayment({ match, history, isModal, onClose, invoice }) {
                         onError={onError}
                         onSuccess={onSuccess}
                         onCancel={onCancel}
+                        invoice={invoice}
                       />
                   }
                 </div>

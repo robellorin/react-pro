@@ -7,8 +7,9 @@ import Header from './Header';
 import Overview from './Overview';
 import MonthOverview from './MonthOverview';
 import FinancialStats from './FinancialStats';
-import { getProfit } from 'src/actions';
-
+import NewArea from './NewArea';
+import { getProfit, getNews } from 'src/actions';
+import * as constant from 'src/constant';
 import LoadingComponent from 'src/components/Loading';
 
 
@@ -29,9 +30,11 @@ function DashboardAnalytics() {
   const year = now.getFullYear();
   const month = now.getMonth();
   const dashboardData = useSelector(state => state.dashboard);
+  const newsData = useSelector(state => state.news);
   const [loading, setLoading] = useState(dashboardData.loading);
   const [betData, setBetData] = useState({});
   const [monthData, setMonthData] = useState({});
+  const [news, setNews] = useState(newsData.news);
   const [selectedMonth, setSelectMonth] = useState(month);
   const classes = useStyles();
 
@@ -39,6 +42,7 @@ function DashboardAnalytics() {
     const from = Date.parse(new Date(`${year}-01-01`));
     const to = Date.now();
       dispatch(getProfit(from, to));
+      dispatch(getNews());
   }, [year, dispatch]);
 
   useEffect(() => {
@@ -90,11 +94,21 @@ function DashboardAnalytics() {
     setLoading(dashboardData.loading);
   }, [loading, dashboardData]);
 
+  useEffect(() => {
+    if (!newsData.loading) {
+      setNews(newsData.news);
+    }
+  }, [news, newsData]);
+
   const clickHandle = (event, data) => {
     if (data.length > 0) {
       const curMonth = data[0]._index;
       setSelectMonth(curMonth);
     }
+  }
+
+  const onCheckHandle = () => {
+    dispatch({type: constant.CHECKING_NEWS, payload: true});
   }
   return (
     <Page
@@ -109,6 +123,7 @@ function DashboardAnalytics() {
       !loading &&
       <Container maxWidth={false}>
         <Header />
+        <NewArea data={news} isChecked={dashboardData.checkNews} onCheckHandle={onCheckHandle} />
         <Grid
           container
           spacing={3}

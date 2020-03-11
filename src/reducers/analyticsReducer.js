@@ -3,21 +3,22 @@ import * as constant from 'src/constant';
 const initialState = {
   loading: true,
   data: {},
-  error: ''
+  error: '',
+  checkNews: false
 };
 
 const paymentReducer = (state = initialState, action) => {
   switch (action.type) {
     case constant.BETTING_HISTORY_REQUEST: {
       return {
-        ...initialState,
+        ...state,
         loading: true,
       };
     }
 
     case constant.BETTING_HISTORY_REQUEST_SUCCESS: {
       return {
-        ...initialState,
+        ...state,
         loading: false,
         data: action.data
       };
@@ -25,9 +26,16 @@ const paymentReducer = (state = initialState, action) => {
 
     case constant.BETTING_HISTORY_REQUEST_FAILED: {
       return {
-        ...initialState,
+        ...state,
         loading: false,
         error: action.error
+      };
+    }
+
+    case constant.CHECKING_NEWS: {
+      return {
+        ...state,
+        checkNews: action.payload
       };
     }
     

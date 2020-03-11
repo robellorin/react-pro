@@ -39,19 +39,19 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const paymentStatusColors = [
-  colors.orange[600],
-  colors.green[600],
-  colors.red[600],
-  colors.grey[600]
-];
+const paymentStatusColors = {
+  created: colors.orange[600],
+  paide: colors.green[600],
+  refunded: colors.red[600],
+  idle:colors.grey[600]
+};
 
-const paymentStatusText = [
-  'Pending',
-  'Paid',
-  'Refunded',
-  'Idle'
-];
+// const paymentStatusText = [
+//   'Pending',
+//   'Paid',
+//   'Refunded',
+//   'Idle'
+// ];
 
 function Results({ className, invoices, onView, onPay, ...rest }) {
   const classes = useStyles();
@@ -67,7 +67,7 @@ function Results({ className, invoices, onView, onPay, ...rest }) {
   };
 
   const handleClick = (invoice) => {
-    if (invoice.status === 0) onPay(invoice);
+    if (invoice.state === 'created') onPay(invoice);
     else onView(invoice);
   }
 
@@ -125,10 +125,10 @@ function Results({ className, invoices, onView, onPay, ...rest }) {
                       </TableCell>
                       <TableCell>
                         <Label
-                          color={paymentStatusColors[invoice.status]}
+                          color={paymentStatusColors[invoice.state]}
                           variant="outlined"
                         >
-                          {paymentStatusText[invoice.status]}
+                          {invoice.state}
                         </Label>
                       </TableCell>
                       <TableCell>
@@ -138,12 +138,12 @@ function Results({ className, invoices, onView, onPay, ...rest }) {
                       </TableCell>
                       <TableCell align="right">
                         <Button
-                          style={{color: '#fff', backgroundColor: invoice.status === 0 ? '#007bff' : colors.green[600]}}
+                          style={{color: '#fff', backgroundColor: invoice.state === 'created' ? '#007bff' : colors.green[600]}}
                           onClick={() => handleClick(invoice)}
                           size="small"
                           variant="contained"
                         >
-                          {invoice.status === 0 ? 'Pay' : 'View'}
+                          {invoice.state === 'created' ? 'Pay' : 'View'}
                         </Button>
                       </TableCell>
                     </TableRow>

@@ -31,7 +31,7 @@ export const getProfit = (from, to) => async (dispatch) => {
   .catch(error => {
     dispatch({
       type: constant.BETTING_HISTORY_REQUEST_FAILED,
-      error: error.response.statusText
+      error: "error"
     });
   });
 }

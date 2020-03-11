@@ -2,67 +2,33 @@ import axios from 'axios';
 import * as constant from 'src/constant';
 
 const userData = JSON.parse(localStorage.getItem('user'));
-export const createPayment = () => async (dispatch) => {
-  dispatch({
-    type: constant.PAYMENT_REQUEST
-  });
-  let paymentId = "PAY-1B56960729604235TKQQIYVY";
-  await axios.post(`${constant.API_URL}/payment/create`, {}, {
-    headers: {
-      'Authorization': `Bearer ${userData.token}`,
-      'Content-Type': 'application/json'
-    }
-  })
-  .then(res => {
-    if (res.data) {
-      dispatch({
-        type: constant.PAYMENT_CREATE_SUCCESS,
-        data: res.data
-      });
-      paymentId = res.data.id;
-    } else {
-      dispatch({
-        type: constant.PAYMENT_CREATE_FAILED,
-        error: res.data.message
-      });
-    }
-  })
-  .catch(error => {
-    dispatch({
-      type: constant.PAYMENT_CREATE_FAILED,
-      error: error.response.data.message
-    });
-  });
-  return paymentId;
-}
 
-export const executePayment = (data) => async (dispatch) => {
+export const executePayment = (id, paymentID, payerID) => async (dispatch) => {
   dispatch({
-    type: constant.PAYMENT_REQUEST
+    type: constant.PAYMENT_EXECUTE_REQUEST
   });
-  await axios.post(`${constant.API_URL}/payment/excute`, data, {
+  await axios.get(`${constant.API_URL}/invoice/pay?id=${id}&paymentId=${paymentID}&payerId=${payerID}`, {
     headers: {
-      'Authorization': `Bearer ${userData.token}`,
-      'Content-Type': 'application/json'
+      'Authorization': `Bearer ${userData.token}`
     }
   })
   .then(res => {
     if (res.data) {
       dispatch({
         type: constant.PAYMENT_EXECUTE,
-        status: res.status
+        message: res.data.message
       });
     } else {
       dispatch({
         type: constant.PAYMENT_EXECUTE,
-        status: res.status
+        message: res.data.message
       });
     }
   })
   .catch(error => {
     dispatch({
       type: constant.PAYMENT_EXECUTE,
-      status: error.response.status
+      message: 'failed'
     });
   });
 }

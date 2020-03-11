@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import scriptLoader from 'react-async-script-loader';
 import { useDispatch } from 'react-redux';
 
-import { createPayment, executePayment } from 'src/actions';
+import { executePayment } from 'src/actions';
 
 window.React = React;
 window.ReactDOM = ReactDOM;
@@ -24,27 +24,11 @@ function PaypalButton(props) {
   }, [isScriptLoaded, props]);
 
   let payment = (data) => {
-    return dispatch(createPayment());
-    // eslint-disable-next-line no-undef
-      // return paypal.rest.payment.create(props.env, props.client, {
-      //     transactions: [
-      //         { amount: { total: props.total, currency: props.currency } }
-      //     ]
-      // }, {
-      //     input_fields: {
-      //         // any values other than null, and the address is not returned after payment execution.
-      //         no_shipping: props.shipping
-      //     }
-      // });
+    return props.invoice.paymentId;
   }
 
   const onAuthorize = (data, actions) => {
-    console.log(data, actions);
-    const requestData = {
-      paymentID: data.paymentID,
-      payerID:   data.payerID
-    };
-    return dispatch(executePayment(requestData));
+    return dispatch(executePayment(props.invoice.id, data.paymentID, data.payerID));
   }
 
   let ppbtn = '';
@@ -59,6 +43,7 @@ function PaypalButton(props) {
           commit={true}
           onAuthorize={onAuthorize}
           onCancel={props.onCancel}
+          onError={props.onError}
           // "Error: Unrecognized prop: shipping" was caused by the next line
           // shipping={this.props.shipping}
       />

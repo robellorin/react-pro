@@ -54,6 +54,7 @@ function Ticket() {
   const history = useHistory();
   const dispatch = useDispatch();
   const ticketsData = useSelector(state => state.tickets);
+  const session = useSelector(state => state.session);
   const [conversations, setConversations] = useState(ticketsData.tickets);
   const [ticketsLoading, setTicketsLoading] = useState(false);
   const [messages, setMessages] = useState(ticketsData.messages);
@@ -99,6 +100,7 @@ function Ticket() {
   }
 
   const createNewTicket = () => {
+    dispatch(getMessages('new-create'));
     history.push('/ticket/new-create');
   }
 
@@ -109,6 +111,10 @@ function Ticket() {
 
   const sendMessage = (content) => {
     dispatch(createMessage(params.id, selectedConversation.supportId, content, ticketsData.messages.length));
+  }
+
+  const clickSolveHandle = () => {
+    alert("Sdfsd");
   }
  
   return (
@@ -122,9 +128,11 @@ function Ticket() {
     >
       <ConversationList
         className={classes.conversationList}
+        session={session}
         conversations={conversations}
         onCreate={createNewTicket}
         clickItemHandle={clickItemHandle}
+        clickSolveHandle={clickSolveHandle}
       />
       {selectedConversation ? (
         <ConversationDetails

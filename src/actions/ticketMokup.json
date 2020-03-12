@@ -9,7 +9,7 @@
         {
             "id": 2,
             "title": "second ticket",
-            "status": "open",
+            "status": "solved",
             "supportId": 471
         },
         {

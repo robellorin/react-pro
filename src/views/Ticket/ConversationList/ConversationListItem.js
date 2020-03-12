@@ -3,12 +3,16 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import {
-  Typography,
   ListItem,
   ListItemAvatar,
+  ListItemSecondaryAction,
+  ListItemText,
   Avatar,
+  IconButton,
   colors
 } from '@material-ui/core';
+import DoneOutlineIcon from '@material-ui/icons/DoneOutline';
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 
 const useStyles = makeStyles((theme) => ({
   active: {
@@ -34,9 +38,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function ConversationListItem({
-  active, conversation, className, clickHandle, ...rest
+  active, session, conversation, className, clickHandle, clickSolveHandle, ...rest
 }) {
   const classes = useStyles();
+  
 
   return (
     <ListItem
@@ -48,6 +53,7 @@ function ConversationListItem({
         },
         className
       )}
+      disabled={session.user.role !== 'admin' && session.user.role !== 'support' && conversation.status === 'solved'}
       onClick={() => clickHandle(conversation.id)}
     >
       <ListItemAvatar>
@@ -57,14 +63,32 @@ function ConversationListItem({
           src={''}
         />
       </ListItemAvatar>
-      <div className={classes.details}>
-        <Typography
-          noWrap
-          variant="body2"
-        >
-          {conversation.title}
-        </Typography>
-      </div>
+      <ListItemText
+        primary={conversation.title}
+        primaryTypographyProps={{
+          noWrap: true,
+          variant: 'h6'
+        }}
+        // secondary={conversation.title}
+        // secondaryTypographyProps={{
+        //   noWrap: true,
+        //   variant: 'body1'
+        // }}
+      />
+      {
+        conversation.status === 'solved' &&
+          <ListItemSecondaryAction>
+            <DoneOutlineIcon style={{ color: colors.green[500] }} />
+          </ListItemSecondaryAction>
+      }
+      {
+        (session.user.role === 'admin' || session.user.role === 'support') && conversation.status !== 'solved' &&
+          <ListItemSecondaryAction>
+            <IconButton edge="end" aria-label="toSolve" onClick={clickSolveHandle}>
+              <CheckCircleOutlineIcon />
+            </IconButton>
+          </ListItemSecondaryAction>
+      }
     </ListItem>
   );
 }

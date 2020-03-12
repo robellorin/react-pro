@@ -9,7 +9,7 @@ import {
   Divider,
   List
 } from '@material-ui/core';
-// import Chat from 'twilio-chat';
+import AddIcon from '@material-ui/icons/Add';
 import ConversationListItem from './ConversationListItem';
 
 // const Chat = require('twilio-chat');
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function ConversationList({ conversations, onCreate, className, clickItemHandle, ...rest }) {
+function ConversationList({ conversations, session, onCreate, className, clickItemHandle, clickSolveHandle, ...rest }) {
   const classes = useStyles();
   const params = useParams();
   const selectedTicketId = params.id;
@@ -33,13 +33,21 @@ function ConversationList({ conversations, onCreate, className, clickItemHandle,
       className={clsx(classes.root, className)}
     >
       <Toolbar>
-        <Button onClick={onCreate}>Create new Ticket</Button>
+      {
+        session.user.role !== 'admin' && session.user.role !== 'support' &&
+          <Button onClick={onCreate}>
+            <AddIcon color='primary' />
+            Create new Ticket
+          </Button>
+      }
       </Toolbar>
       <Divider />
       <List disablePadding>
         {conversations.map((conversation, i) => (
           <ConversationListItem
+          session={session}
             clickHandle={clickItemHandle}
+            clickSolveHandle={clickSolveHandle}
             active={conversation.id.toString() === selectedTicketId}
             conversation={conversation}
             divider={i < conversations.length - 1}

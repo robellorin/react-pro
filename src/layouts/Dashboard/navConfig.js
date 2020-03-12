@@ -34,7 +34,17 @@ export default [
         title: 'SUPPORT',
         href: '/support',
         icon: SettingsIcon,
-        // role: 'support'
+        role: 'support',
+        items: [
+          {
+            title: 'GLOBAL NEWS',
+            href: '/support/globalNews'
+          },
+          {
+            title: 'USERS WITH NEWS',
+            href: '/support/usersWithNews'
+          }
+        ]
       }
     ]
   }

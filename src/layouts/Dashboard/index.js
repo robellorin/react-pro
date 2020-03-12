@@ -44,15 +44,15 @@ function Dashboard({ route }) {
       })
     }
   }, [session, dispatch, userData]);
-  
-  const [openNavBarMobile, setOpenNavBarMobile] = useState(false);
 
+  const [openNavBarMobile, setOpenNavBarMobile] = useState(false);
   return (
     userData
     ? <>
         <NavBar
           onMobileClose={() => setOpenNavBarMobile(false)}
           openMobile={openNavBarMobile}
+          role={session.user.role}
         />
         <TopBar onOpenNavBarMobile={() => setOpenNavBarMobile(true)} />
         <div className={classes.container}>

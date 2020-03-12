@@ -110,6 +110,11 @@ export default [
         component: lazy(() => import('src/views/Support'))
       },
       {
+        path: '/support/:tab',
+        exact: true,
+        component: lazy(() => import('src/views/Support'))
+      },
+      {
         component: () => <Redirect to="/errors/error-404" />
       },
       

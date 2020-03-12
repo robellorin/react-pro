@@ -33,21 +33,6 @@ const lookup = {
   betfred: 'betfred'
 }
 
-const columns = [
-  { title: '', field: 'logo', editable: 'never', render: rowData => 
-    {
-      const url = rowData && rowData.imageUrl ? rowData.imageUrl : '';
-      return <Avatar alt="logo" src={url} style={{width: 35, height: 35, borderRadius: '50%'}}><SportsSoccerIcon /></Avatar>
-    },
-    width: 50
-  },
-  { title: 'Bookmaker', field: 'bookmaker', lookup: lookup },
-  { title: 'Username', field: 'bookmakerUsername'},
-  { title: 'Password', field: 'password'},
-  { title: 'Balance', field: 'balance', editable: 'never'},
-  { title: 'Notes', field: 'actions', editable: 'never'},
-];
-
 const useStyles = makeStyles(theme => ({
   root: {},
   content: {
@@ -63,14 +48,30 @@ function CredentialsForm({ className, ...rest }) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const credentials = useSelector(state => state.credentials);
+  const session = useSelector(state => state.session);
   const [data, setData] = useState(credentials.credentials);
   const [loading, setLoading] = useState(credentials.loading);
   const addIcon = React.useRef(null);
 
+  const columns = [
+    { title: '', field: 'logo', editable: 'never', render: rowData => 
+      {
+        const url = rowData && rowData.imageUrl ? rowData.imageUrl : '';
+        return <Avatar alt="logo" src={url} style={{width: 35, height: 35, borderRadius: '50%'}}><SportsSoccerIcon /></Avatar>
+      },
+      width: 50
+    },
+    { title: 'Bookmaker', field: 'bookmaker', lookup: lookup },
+    { title: 'Username', field: 'bookmakerUsername'},
+    { title: 'Password', field: 'password'},
+    { title: 'Balance', field: 'balance', editable: 'never'},
+    { title: 'Notes', field: 'actions', editable: session.user.role === 'admin' || session.user.role === 'support' ? 'always' : 'never'},
+  ];
+
   useEffect(() => {
     addIcon.current.parentNode.parentNode.classList.remove('MuiIconButton-root');
-    dispatch(getCredentials());
-  }, [dispatch]);
+    dispatch(getCredentials(session.user.role));
+  }, [dispatch, session.user]);
 
   useEffect(() => {
     if (loading && !credentials.loading && credentials.status === 'success') {
@@ -87,7 +88,7 @@ function CredentialsForm({ className, ...rest }) {
   }
 
   const onRowUpdate = (newRow, oldRow) => {
-    return dispatch(updateCredential(newRow.bookmaker, newRow.bookmakerUsername, newRow.password, oldRow.id));
+    return dispatch(updateCredential(newRow.bookmaker, newRow.bookmakerUsername, newRow.password, newRow.actions, oldRow.id));
   }
 
   const onRowDelete = (oldRow) => {

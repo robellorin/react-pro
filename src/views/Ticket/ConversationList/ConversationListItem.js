@@ -1,14 +1,11 @@
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import moment from 'moment';
 import { makeStyles } from '@material-ui/styles';
 import {
   Typography,
   ListItem,
   ListItemAvatar,
-  ListItemText,
   Avatar,
   colors
 } from '@material-ui/core';
@@ -37,10 +34,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function ConversationListItem({
-  active, conversation, className, ...rest
+  active, conversation, className, clickHandle, ...rest
 }) {
   const classes = useStyles();
-  const lastMessage = conversation.messages[conversation.messages.length - 1];
 
   return (
     <ListItem
@@ -52,36 +48,21 @@ function ConversationListItem({
         },
         className
       )}
-      component={RouterLink}
-      to={`/ticket/${conversation.id}`}
+      onClick={() => clickHandle(conversation.id)}
     >
       <ListItemAvatar>
         <Avatar
           alt="Person"
           className={classes.avatar}
-          src={conversation.otherUser.avatar}
+          src={''}
         />
       </ListItemAvatar>
-      <ListItemText
-        primary={conversation.otherUser.name}
-        primaryTypographyProps={{
-          noWrap: true,
-          variant: 'h6'
-        }}
-        secondary={`${lastMessage.sender.name}: ${lastMessage.content}`}
-        secondaryTypographyProps={{
-          noWrap: true,
-          variant: 'body1'
-        }}
-      />
       <div className={classes.details}>
         <Typography
           noWrap
           variant="body2"
         >
-          {moment(lastMessage.created_at).isSame(moment(), 'day')
-            ? moment(lastMessage.created_at).format('LT')
-            : moment(lastMessage.created_at).fromNow()}
+          {conversation.title}
         </Typography>
       </div>
     </ListItem>
@@ -91,7 +72,8 @@ function ConversationListItem({
 ConversationListItem.propTypes = {
   active: PropTypes.bool,
   className: PropTypes.string,
-  conversation: PropTypes.object.isRequired
+  conversation: PropTypes.object.isRequired,
+  clickHandle: PropTypes.func
 };
 
 export default ConversationListItem;

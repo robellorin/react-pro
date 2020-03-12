@@ -1,9 +1,8 @@
 import axios from 'axios';
 import * as constant from 'src/constant';
 
-const userData = JSON.parse(localStorage.getItem('user'));
-
 export const executePayment = (id, paymentID, payerID) => async (dispatch) => {
+  const userData = JSON.parse(localStorage.getItem('user'));
   dispatch({
     type: constant.PAYMENT_EXECUTE_REQUEST
   });
@@ -34,6 +33,7 @@ export const executePayment = (id, paymentID, payerID) => async (dispatch) => {
 }
 
 export const fetchInvoices = () => async (dispatch) => {
+  const userData = JSON.parse(localStorage.getItem('user'));
   dispatch({
     type: constant.PAYMENT_REQUEST
   });

@@ -15,26 +15,25 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function ConversationDetails({ conversation, className, ...rest }) {
+function ConversationDetails({ messages, className, ticket, sendMessage, ...rest }) {
   const classes = useStyles();
-
+  
   return (
     <div
       {...rest}
       className={clsx(classes.root, className)}
     >
-      <ConversationToolbar conversation={conversation} />
+      <ConversationToolbar />
       <Divider />
-      <ConversationMessages messages={conversation.messages} />
+      <ConversationMessages messages={messages} ticket={ticket} />
       <Divider />
-      <ConversationForm />
+      <ConversationForm sendMessage={sendMessage}/>
     </div>
   );
 }
 
 ConversationDetails.propTypes = {
-  className: PropTypes.string,
-  conversation: PropTypes.object.isRequired
+  className: PropTypes.string
 };
 
 export default ConversationDetails;

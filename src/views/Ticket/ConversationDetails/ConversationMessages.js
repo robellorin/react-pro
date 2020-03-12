@@ -1,41 +1,49 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import PerfectScrollbar from 'react-perfect-scrollbar';
 import { makeStyles } from '@material-ui/styles';
 import ConversationMessage from './ConversationMessage';
 
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
-    overflow: 'hidden',
-    maxHeight: '100%'
+    overflow: 'scroll',
+    maxHeight: '100%',
+    height: 'calc(100vh - 194px)'
   },
   inner: {
     padding: theme.spacing(2)
   }
 }));
 
-function ConversationMessages({ messages, className, ...rest }) {
+function ConversationMessages({ messages, className, ticket, ...rest }) {
   const classes = useStyles();
+  const messagesEnd = useRef(null);
+  useEffect(() => {
+    if (messagesEnd.current) {
+      messagesEnd.current.scrollIntoView({ behavior: "smooth" });
+    }
+  });
 
   return (
     <div
       {...rest}
       className={clsx(classes.root, className)}
     >
-      <PerfectScrollbar>
+      <div>
         <div className={classes.inner}>
           {messages.map(message => {
             return (
               <ConversationMessage
                 key={message.id}
-                message={message} //
+                message={message}
+                ticket={ticket}
               />
             );
           })}
         </div>
-      </PerfectScrollbar>
+      </div>
+      <div style={{ float:"left", clear: "both" }} ref={messagesEnd} />
     </div>
   );
 }

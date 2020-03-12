@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
-import axios from 'src/utils/axios';
 import Page from 'src/components/Page';
 import ConversationList from './ConversationList';
 import ConversationDetails from './ConversationDetails';
 import ConversationPlaceholder from './ConversationPlaceholder';
+import { getTickets, getMessages, createMessage } from 'src/actions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,25 +52,30 @@ function Ticket() {
   const classes = useStyles();
   const params = useParams();
   const history = useHistory();
-  const [conversations, setConversations] = useState([]);
+  const dispatch = useDispatch();
+  const ticketsData = useSelector(state => state.tickets);
+  const [conversations, setConversations] = useState(ticketsData.tickets);
+  const [ticketsLoading, setTicketsLoading] = useState(false);
+  const [messages, setMessages] = useState(ticketsData.messages);
+  const [messagesLoading, setMessagesLoading] = useState(false);
 
   useEffect(() => {
-    let mounted = true;
+    dispatch(getTickets());
+  }, [dispatch]);
 
-    const fetchConversations = () => {
-      axios.get('/api/chat/conversations').then((response) => {
-        if (mounted) {
-          setConversations(response.data.conversations);
-        }
-      });
-    };
-
-    fetchConversations();
-
-    return () => {
-      mounted = false;
-    };
-  }, []);
+  useEffect(() => {
+    if (ticketsLoading && !ticketsData.ticketsLoading) {
+      setConversations(ticketsData.tickets);
+      if (params.id) dispatch(getMessages(params.id));
+    }
+    setTicketsLoading(ticketsData.ticketsLoading);
+  }, [ticketsData.ticketsLoading, ticketsData.tickets, ticketsLoading, params.id, dispatch]);
+  useEffect(() => {
+    if (messagesLoading && !ticketsData.messagesLoading) {
+      setMessages(ticketsData.messages);
+    }
+    setMessagesLoading(ticketsData.messagesLoading);
+  }, [ticketsData.messagesLoading, ticketsData.messages, messagesLoading]);
 
   let selectedConversation;
 
@@ -87,9 +93,8 @@ function Ticket() {
       }
     } else {
       selectedConversation = conversations.find(
-        (c) => c.id === params.id
+        (c) => c.id.toString() === params.id
       );
-      console.log(selectedConversation)
     }
   }
 
@@ -97,8 +102,18 @@ function Ticket() {
     history.push('/ticket/new-create');
   }
 
+  const clickItemHandle = (selectedId) => {
+    dispatch(getMessages(selectedId));
+    history.push(`/ticket/${selectedId}`);
+  }
+
+  const sendMessage = (content) => {
+    dispatch(createMessage(params.id, selectedConversation.supportId, content, ticketsData.messages.length));
+  }
+ 
   return (
     <Page
+      id="ticketPane"
       className={clsx({
         [classes.root]: true,
         [classes.openConversion]: selectedConversation
@@ -109,11 +124,14 @@ function Ticket() {
         className={classes.conversationList}
         conversations={conversations}
         onCreate={createNewTicket}
+        clickItemHandle={clickItemHandle}
       />
       {selectedConversation ? (
         <ConversationDetails
           className={classes.conversationDetails}
-          conversation={selectedConversation}
+          ticket={selectedConversation}
+          messages={messages}
+          sendMessage={sendMessage}
         />
       ) : (
         <ConversationPlaceholder className={classes.conversationPlaceholder} />

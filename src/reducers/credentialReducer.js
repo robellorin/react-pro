@@ -40,6 +40,7 @@ const credentialReducer = (state = initialState, action) => {
           item.bookmaker = action.credential.bookmaker;
           item.bookmakerUsername = action.credential.bookmakerUsername;
           item.password = action.credential.password;
+          item.actions = action.credential.actions;
         }
         return item;
       })

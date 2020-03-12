@@ -72,10 +72,10 @@ function ConversationToolbar({ conversation, className, ...rest }) {
         </IconButton>
       </Tooltip>
       <div className={classes.user}>
-        <Typography variant="h6">{conversation.otherUser.name}</Typography>
+        <Typography variant="h6">Support</Typography>
         <div className={classes.activity}>
           <Typography variant="body2">
-            {moment(conversation.otherUser.lastActivity).fromNow()}
+            {moment().fromNow()}
           </Typography>
         </div>
       </div>
@@ -84,8 +84,7 @@ function ConversationToolbar({ conversation, className, ...rest }) {
 }
 
 ConversationToolbar.propTypes = {
-  className: PropTypes.string,
-  conversation: PropTypes.object.isRequired
+  className: PropTypes.string
 };
 
 export default ConversationToolbar;

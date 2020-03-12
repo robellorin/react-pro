@@ -6,8 +6,6 @@ import PaymentIcon from '@material-ui/icons/Payment';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import SettingsIcon from '@material-ui/icons/Settings';
 
-const userData = JSON.parse(localStorage.getItem('user'));
-
 export default [
   {
     subheader: '',
@@ -33,9 +31,10 @@ export default [
         icon: ChatIcon,
       },
       {
-        title: userData.role === 'admin' || userData.role === 'support' ? 'SUPPORT' : null,
+        title: 'SUPPORT',
         href: '/support',
         icon: SettingsIcon,
+        // role: 'support'
       }
     ]
   }

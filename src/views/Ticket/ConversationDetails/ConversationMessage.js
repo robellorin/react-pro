@@ -46,8 +46,9 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function ConversationMessage({ message, className, ...rest }) {
+function ConversationMessage({ message, className, ticket, ...rest }) {
   const classes = useStyles();
+  let match = message.content.match(/^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([-.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/gm);
 
   return (
     <div
@@ -55,7 +56,7 @@ function ConversationMessage({ message, className, ...rest }) {
       className={clsx(
         classes.root,
         {
-          [classes.authUser]: message.sender.authUser
+          [classes.authUser]: message.userId !== ticket.supportId
         },
         className
       )}
@@ -63,7 +64,7 @@ function ConversationMessage({ message, className, ...rest }) {
       <div className={classes.inner}>
         <Avatar
           className={classes.avatar}
-          src={message.sender.avatar}
+          src={''}
         />
         <div>
           <div className={classes.body}>
@@ -72,11 +73,11 @@ function ConversationMessage({ message, className, ...rest }) {
                 color="inherit"
                 variant="h6"
               >
-                {message.sender.authUser ? 'Me' : message.sender.name}
+                {message.userId !== ticket.supportId ? 'Me' : 'Support'}
               </Typography>
             </div>
             <div className={classes.content}>
-              {message.contentType === 'image' ? (
+              {match ? (
                 <img
                   alt="Attachment"
                   className={classes.image}

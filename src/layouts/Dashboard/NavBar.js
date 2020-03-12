@@ -83,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
 
 function renderNavItems({
   // eslint-disable-next-line react/prop-types
-  items, subheader, key, ...rest
+  items, subheader, key, role, ...rest
 }) {
   return (
     <List key={key}>
@@ -91,7 +91,7 @@ function renderNavItems({
       {/* eslint-disable-next-line react/prop-types */}
       {items.reduce(
         // eslint-disable-next-line no-use-before-define
-        (acc, item) => reduceChildRoutes({ acc, item, ...rest }),
+        (acc, item) => reduceChildRoutes({ acc, item, role, ...rest }),
         []
       )}
     </List>
@@ -99,14 +99,14 @@ function renderNavItems({
 }
 
 function reduceChildRoutes({
-  acc, pathname, item, depth = 0
+  acc, pathname, item, role, depth = 0
 }) {
   if (item.items) {
     const open = matchPath(pathname, {
       path: item.href,
       exact: false
     });
-    if (item.title) {
+    if (!item.role || item.role === role) {
       acc.push(
         <NavItem
           depth={depth}
@@ -125,8 +125,7 @@ function reduceChildRoutes({
       );
     }
   } else {
-    console.log(item.title)
-    if (item.title) {
+    if (!item.role || item.role === role) {
       acc.push(
         <NavItem
           depth={depth}
@@ -147,6 +146,7 @@ function NavBar({
   openMobile,
   onMobileClose,
   className,
+  role,
   ...rest
 }) {
   const classes = useStyles();
@@ -191,6 +191,7 @@ function NavBar({
           items: list.items,
           subheader: list.subheader,
           pathname: location.pathname,
+          role: role,
           key: list.subheader
         }))}
       </nav>

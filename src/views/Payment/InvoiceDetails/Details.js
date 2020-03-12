@@ -158,7 +158,7 @@ function Details({ invoice, className, onClose, ...rest }) {
               <TableCell>{`Fee of ${moment(invoice.created_at).format('MMM YYYY')}`}</TableCell>
               <TableCell />
               <TableCell align="right">
-                {invoice.amount}
+              €{invoice.amount}
               </TableCell>
             </TableRow>
           </TableBody>

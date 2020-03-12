@@ -89,7 +89,6 @@ function NavItem({
   const style = {
     paddingLeft
   };
-
   if (children) {
     return (
       <ListItem

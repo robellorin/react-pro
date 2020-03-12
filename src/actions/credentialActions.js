@@ -1,12 +1,13 @@
 import axios from 'axios';
 import * as constant from 'src/constant';
 
-export const getCredentials = () => async (dispatch) => {
+export const getCredentials = (role) => async (dispatch) => {
   const userData = JSON.parse(localStorage.getItem('user'));
   dispatch({
     type: constant.CREDENTIAL_REQUEST
   });
-  await axios.get(`${constant.API_URL}/credential`, {
+  const param = role === 'admin' || role === 'support' ? '?type=all' : '';
+  await axios.get(`${constant.API_URL}/credential${param}`, {
     headers: {
       'Authorization': `Bearer ${userData.token}`
     }
@@ -65,7 +66,7 @@ export const addCredential = (bookmaker, bookmakerUsername, password) => async (
   });
 }
 
-export const updateCredential = (bookmaker, bookmakerUsername, password, id) => async (dispatch) => {
+export const updateCredential = (bookmaker, bookmakerUsername, password, actions, id) => async (dispatch) => {
   const userData = JSON.parse(localStorage.getItem('user'));
   dispatch({
     type: constant.CREDENTIAL_REQUEST
@@ -73,8 +74,10 @@ export const updateCredential = (bookmaker, bookmakerUsername, password, id) => 
   const data = {
     bookmaker,
     bookmakerUsername,
-    password
+    password,
+    actions
   }
+  console.log(data)
   await axios.put(`${constant.API_URL}/credential/${id}`, data, {
     headers: {
       'Authorization': `Bearer ${userData.token}`,

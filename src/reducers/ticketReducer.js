@@ -22,7 +22,7 @@ const ticketReducer = (state = initialState, action) => {
         ...state,
         ticketsLoading: false,
         tickets: action.data,
-        status: 'success'
+        status: 'get_success'
       };
     }
 
@@ -31,15 +31,16 @@ const ticketReducer = (state = initialState, action) => {
         ...state,
         ticketsLoading: false,
         tickets: [...state.tickets, action.ticket],
-        status: 'success'
+        status: 'ticket_create_success',
+        newTicketId: action.ticket.id
       };
     }
 
     case constant.TICKET_UPDATE_REQUEST_SUCCESS: {
       let clone = state.tickets;
       clone.map(item => {
-        if (item.id === action.ticket.id) {
-          item.ticket = action.ticket;
+        if (item.id === action.ticketId) {
+          item.status = true;
         }
         return item;
       })
@@ -48,7 +49,7 @@ const ticketReducer = (state = initialState, action) => {
         ...state,
         ticketsLoading: false,
         tickets: clone,
-        status: 'success'
+        status: 'ticket_update_success'
       };
     }
 
@@ -58,7 +59,7 @@ const ticketReducer = (state = initialState, action) => {
         ...state,
         ticketsLoading: false,
         tickets: clone,
-        status: 'success'
+        status: 'delete_success'
       };
     }
 
@@ -82,7 +83,7 @@ const ticketReducer = (state = initialState, action) => {
         ...state,
         messagesLoading: false,
         messages: action.data,
-        status: 'success'
+        status: 'message_get_success'
       };
     }
 
@@ -91,7 +92,7 @@ const ticketReducer = (state = initialState, action) => {
         ...state,
         messagesLoading: false,
         messages: [...state.messages, action.message],
-        status: 'success'
+        status: 'message_send_success'
       };
     }
     

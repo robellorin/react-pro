@@ -42,7 +42,6 @@ function ConversationListItem({
 }) {
   const classes = useStyles();
   
-
   return (
     <ListItem
       {...rest}
@@ -53,7 +52,7 @@ function ConversationListItem({
         },
         className
       )}
-      disabled={session.user.role !== 'admin' && session.user.role !== 'support' && conversation.status === 'solved'}
+      disabled={session.user.role !== 'admin' && session.user.role !== 'support' && conversation.status}
       onClick={() => clickHandle(conversation.id)}
     >
       <ListItemAvatar>
@@ -76,15 +75,15 @@ function ConversationListItem({
         // }}
       />
       {
-        conversation.status === 'solved' &&
+        conversation.status &&
           <ListItemSecondaryAction>
             <DoneOutlineIcon style={{ color: colors.green[500] }} />
           </ListItemSecondaryAction>
       }
       {
-        (session.user.role === 'admin' || session.user.role === 'support') && conversation.status !== 'solved' &&
+        (session.user.role === 'admin' || session.user.role === 'support') && !conversation.status &&
           <ListItemSecondaryAction>
-            <IconButton edge="end" aria-label="toSolve" onClick={clickSolveHandle}>
+            <IconButton edge="end" aria-label="toSolve" onClick={() =>clickSolveHandle(conversation.id)}>
               <CheckCircleOutlineIcon />
             </IconButton>
           </ListItemSecondaryAction>

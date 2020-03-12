@@ -64,9 +64,6 @@ function ConversationForm({ sendMessage, className, ...rest }) {
   const [value, setValue] = useState('');
   const [filePath, setFilePath] = useState('');
   const [showPreview, setShowPreview] = useState(false);
-  const sender = {
-    avatar: '/images/avatars/avatar_11.png'
-  };
 
   const handleChange = (event) => {
     event.persist();
@@ -117,12 +114,13 @@ function ConversationForm({ sendMessage, className, ...rest }) {
       }
       <form
         {...rest}
+        autoComplete="off"
         className={clsx(classes.root, className)}
         onSubmit={handleSubmit}
       >
         <Avatar
           alt="Person"
-          src={sender.avatar}
+          src={''}
         />
         <Paper
           className={classes.paper}

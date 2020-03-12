@@ -46,9 +46,9 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function ConversationMessage({ message, className, ticket, ...rest }) {
+function ConversationMessage({ message, session, className, ticket, ...rest }) {
   const classes = useStyles();
-  let match = message.content.match(/^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([-.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/gm);
+  let match = message.contents.match(/^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([-.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/gm);
 
   return (
     <div
@@ -56,7 +56,7 @@ function ConversationMessage({ message, className, ticket, ...rest }) {
       className={clsx(
         classes.root,
         {
-          [classes.authUser]: message.userId !== ticket.supportId
+          [classes.authUser]: message.username === session.user.username
         },
         className
       )}
@@ -73,7 +73,7 @@ function ConversationMessage({ message, className, ticket, ...rest }) {
                 color="inherit"
                 variant="h6"
               >
-                {message.userId !== ticket.supportId ? 'Me' : 'Support'}
+                {message.username === session.user.username ? 'Me' : message.username}
               </Typography>
             </div>
             <div className={classes.content}>
@@ -81,14 +81,14 @@ function ConversationMessage({ message, className, ticket, ...rest }) {
                 <img
                   alt="Attachment"
                   className={classes.image}
-                  src={message.content}
+                  src={message.contents}
                 />
               ) : (
                 <Typography
                   color="inherit"
                   variant="body1"
                 >
-                  {message.content}
+                  {message.contents}
                 </Typography>
               )}
             </div>
@@ -98,7 +98,7 @@ function ConversationMessage({ message, className, ticket, ...rest }) {
               className={classes.time}
               variant="body2"
             >
-              {moment(message.created_at).fromNow()}
+              {moment(message.createdAt).fromNow()}
             </Typography>
           </div>
         </div>

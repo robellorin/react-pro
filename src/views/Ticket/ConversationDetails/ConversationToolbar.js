@@ -2,7 +2,7 @@ import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import moment from 'moment';
+// import moment from 'moment';
 import { makeStyles } from '@material-ui/styles';
 import {
   IconButton,
@@ -53,8 +53,14 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function ConversationToolbar({ conversation, className, ...rest }) {
+function ConversationToolbar({ conversation, className, session, ticket, ...rest }) {
   const classes = useStyles();
+  let otherUserName = '';
+  if (session.user.role === 'player') {
+    otherUserName = ticket.supportName ?? 'Support';
+  } else if (session.user.role === 'admin' || session.user.role === 'support') {
+    otherUserName = ticket.username;
+  }
 
   return (
     <Toolbar
@@ -72,11 +78,11 @@ function ConversationToolbar({ conversation, className, ...rest }) {
         </IconButton>
       </Tooltip>
       <div className={classes.user}>
-        <Typography variant="h6">Support</Typography>
+        <Typography variant="h6">{otherUserName}</Typography>
         <div className={classes.activity}>
-          <Typography variant="body2">
+          {/*<Typography variant="body2">
             {moment().fromNow()}
-          </Typography>
+  </Typography> */}
         </div>
       </div>
     </Toolbar>

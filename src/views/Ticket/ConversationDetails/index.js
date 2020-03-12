@@ -15,17 +15,17 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function ConversationDetails({ messages, className, ticket, sendMessage, ...rest }) {
+function ConversationDetails({ messages, session, className, ticket, sendMessage, ...rest }) {
   const classes = useStyles();
-  
+
   return (
     <div
       {...rest}
       className={clsx(classes.root, className)}
     >
-      <ConversationToolbar />
+      <ConversationToolbar session={session} ticket={ticket} />
       <Divider />
-      <ConversationMessages messages={messages} ticket={ticket} />
+      <ConversationMessages session={session} messages={messages} ticket={ticket} />
       <Divider />
       <ConversationForm sendMessage={sendMessage}/>
     </div>

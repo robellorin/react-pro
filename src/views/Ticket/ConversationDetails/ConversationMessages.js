@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function ConversationMessages({ messages, className, ticket, ...rest }) {
+function ConversationMessages({ messages, session, className, ticket, ...rest }) {
   const classes = useStyles();
   const messagesEnd = useRef(null);
   useEffect(() => {
@@ -24,7 +24,6 @@ function ConversationMessages({ messages, className, ticket, ...rest }) {
       messagesEnd.current.scrollIntoView({ behavior: "smooth" });
     }
   });
-
   return (
     <div
       {...rest}
@@ -36,6 +35,7 @@ function ConversationMessages({ messages, className, ticket, ...rest }) {
             return (
               <ConversationMessage
                 key={message.id}
+                session={session}
                 message={message}
                 ticket={ticket}
               />

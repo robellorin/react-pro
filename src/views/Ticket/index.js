@@ -7,7 +7,7 @@ import Page from 'src/components/Page';
 import ConversationList from './ConversationList';
 import ConversationDetails from './ConversationDetails';
 import ConversationPlaceholder from './ConversationPlaceholder';
-import { getTickets, getMessages, createMessage } from 'src/actions';
+import { getTickets, createTicket, updateTicket, getMessages, createMessage } from 'src/actions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -66,14 +66,19 @@ function Ticket() {
 
   useEffect(() => {
     if (ticketsLoading && !ticketsData.ticketsLoading) {
-      setConversations(ticketsData.tickets);
-      if (params.id) dispatch(getMessages(params.id));
+      const sortTickets = ticketsData.tickets.sort((a,b) => (a.createdAt < b.createdAt) ? 1 : ((b.createdAt < a.createdAt) ? -1 : 0));
+      setConversations(sortTickets);
+      if (ticketsData.status === 'create_success')
+        history.push(`/ticket/${ticketsData.newTicketId}`);
+      if (params.id && params.id !== 'new-create') dispatch(getMessages(params.id));
+      console.log(ticketsData)
     }
     setTicketsLoading(ticketsData.ticketsLoading);
-  }, [ticketsData.ticketsLoading, ticketsData.tickets, ticketsLoading, params.id, dispatch]);
+  }, [ticketsData, ticketsLoading, params.id, dispatch, history]);
   useEffect(() => {
     if (messagesLoading && !ticketsData.messagesLoading) {
-      setMessages(ticketsData.messages);
+      const sortMessages = ticketsData.messages.sort((a,b) => (a.createdAt > b.createdAt) ? 1 : ((b.createdAt > a.createdAt) ? -1 : 0));
+      setMessages(sortMessages);
     }
     setMessagesLoading(ticketsData.messagesLoading);
   }, [ticketsData.messagesLoading, ticketsData.messages, messagesLoading]);
@@ -100,7 +105,7 @@ function Ticket() {
   }
 
   const createNewTicket = () => {
-    dispatch(getMessages('new-create'));
+    // dispatch(getMessages('new-create'));
     history.push('/ticket/new-create');
   }
 
@@ -110,11 +115,15 @@ function Ticket() {
   }
 
   const sendMessage = (content) => {
-    dispatch(createMessage(params.id, selectedConversation.supportId, content, ticketsData.messages.length));
+    if (params.id === 'new-create') {
+      dispatch(createTicket(content));
+    } else {
+      dispatch(createMessage(params.id, content));
+    };
   }
 
-  const clickSolveHandle = () => {
-    alert("Sdfsd");
+  const clickSolveHandle = (id) => {
+    dispatch(updateTicket(id));
   }
  
   return (
@@ -138,6 +147,7 @@ function Ticket() {
         <ConversationDetails
           className={classes.conversationDetails}
           ticket={selectedConversation}
+          session={session}
           messages={messages}
           sendMessage={sendMessage}
         />

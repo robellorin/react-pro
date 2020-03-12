@@ -68,10 +68,9 @@ function Ticket() {
     if (ticketsLoading && !ticketsData.ticketsLoading) {
       const sortTickets = ticketsData.tickets.sort((a,b) => (a.createdAt < b.createdAt) ? 1 : ((b.createdAt < a.createdAt) ? -1 : 0));
       setConversations(sortTickets);
-      if (ticketsData.status === 'create_success')
+      if (ticketsData.status === 'ticket_create_success')
         history.push(`/ticket/${ticketsData.newTicketId}`);
       if (params.id && params.id !== 'new-create') dispatch(getMessages(params.id));
-      console.log(ticketsData)
     }
     setTicketsLoading(ticketsData.ticketsLoading);
   }, [ticketsData, ticketsLoading, params.id, dispatch, history]);
@@ -105,7 +104,7 @@ function Ticket() {
   }
 
   const createNewTicket = () => {
-    // dispatch(getMessages('new-create'));
+    dispatch(getMessages('new-create'));
     history.push('/ticket/new-create');
   }
 

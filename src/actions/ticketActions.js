@@ -130,6 +130,15 @@ export const getMessages = (ticketId) => async (dispatch) => {
   dispatch({
     type: constant.MESSAGE_REQUEST
   });
+
+  if (ticketId === 'new-create') {
+    setTimeout(() => {
+      dispatch({
+        type: constant.MESSAGE_GET_REQUEST_SUCCESS,
+        data: []
+      });
+    }, 300);
+  }
   
   await axios.get(`${constant.API_URL}/message/${ticketId}`, {
     headers: {

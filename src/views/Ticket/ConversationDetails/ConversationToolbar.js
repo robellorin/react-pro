@@ -59,7 +59,7 @@ function ConversationToolbar({ conversation, className, session, ticket, ...rest
   if (session.user.role === 'player') {
     otherUserName = ticket.supportName ?? 'Support';
   } else if (session.user.role === 'admin' || session.user.role === 'support') {
-    otherUserName = ticket.username;
+    otherUserName = ticket.playerSurname;
   }
 
   return (

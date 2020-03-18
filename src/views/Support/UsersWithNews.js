@@ -5,17 +5,29 @@ import { makeStyles } from '@material-ui/styles';
 import {
   Card,
   CardContent,
-  Button
+  TextField
 } from '@material-ui/core';
 import MaterialTable from "material-table";
-import AddIcon from '@material-ui/icons/Add';
 import { getUsersWithNews, updateUsersWithNews } from 'src/actions';
 
 const columns = [
   { title: 'UserName', field: 'username' },
-  { title: 'Email', field: 'email'},
+  { title: 'Surname', field: 'surname'},
   { title: 'CutOff', field: 'cutOff'},
-  { title: 'News', field: 'news'}
+  { 
+    title: 'News',
+    editComponent: props => <TextField
+      id="filled-multiline-flexible"
+      label="News"
+      style={{ width: 300 }}
+      multiline
+      rowsMax="5"
+      value={props.value}
+      onChange={e => props.onChange(e.target.value)}
+      variant="filled"
+    />,
+    field: 'news'
+  }
 ];
 
 const useStyles = makeStyles(theme => ({
@@ -52,11 +64,7 @@ function UsersWithNews({ className, ...rest }) {
   const onRowUpdate = (newRow, oldRow) => {
     return dispatch(updateUsersWithNews(oldRow.id, newRow.cutOff, oldRow.newsId, newRow.news));
   }
-  
-  const addClickHandle = () => {
-    addIcon.current.click();
-  }
-  
+    
   return (
     <Card
       {...rest}
@@ -79,15 +87,6 @@ function UsersWithNews({ className, ...rest }) {
             actionsColumnIndex: -1
           }}
         />
-        <Button
-          className={classes.addBtn}
-          color="primary"
-          onClick={addClickHandle}
-          variant="contained"
-        >
-          <AddIcon />
-          Add
-        </Button>
       </CardContent>
     </Card>
   );

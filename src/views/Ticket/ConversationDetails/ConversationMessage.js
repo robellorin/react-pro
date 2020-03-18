@@ -49,14 +49,13 @@ const useStyles = makeStyles(theme => ({
 function ConversationMessage({ message, session, className, ticket, ...rest }) {
   const classes = useStyles();
   let match = message.contents.match(/^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([-.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/gm);
-
   return (
     <div
       {...rest}
       className={clsx(
         classes.root,
         {
-          [classes.authUser]: message.username === session.user.username
+          [classes.authUser]: message.role === session.user.role
         },
         className
       )}
@@ -73,7 +72,7 @@ function ConversationMessage({ message, session, className, ticket, ...rest }) {
                 color="inherit"
                 variant="h6"
               >
-                {message.username === session.user.username ? 'Me' : message.username}
+                {message.role === session.user.role ? 'Me' : message.surname}
               </Typography>
             </div>
             <div className={classes.content}>

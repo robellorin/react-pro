@@ -7,7 +7,7 @@ export const getUsersWithNews = () => async (dispatch) => {
     type: constant.SUPPORT_REQUEST
   });
 
-  await axios.get(`${constant.API_URL}/users/withNews`, {
+  await axios.get(`${constant.API_URL}/user/withNews`, {
     headers: {
       'Authorization': `Bearer ${userData.token}`
     }
@@ -47,7 +47,7 @@ export const updateUsersWithNews = (id, cutOff, newsId, news) => async (dispatch
   const data = {
     cutOff
   }
-  await axios.put(`${constant.API_URL}/users/${id}`, data, {
+  await axios.put(`${constant.API_URL}/user/${id}`, data, {
     headers: {
       'Authorization': `Bearer ${userData.token}`,
       'Content-Type': 'application/json'

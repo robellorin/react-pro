@@ -80,7 +80,7 @@ function LoginForm(props) {
     event.persist();
     dispatch(login(
       {
-        email: event.target.email.value,
+        username: event.target.email.value,
         password: event.target.password.value
       }
     ));
@@ -146,7 +146,6 @@ function LoginForm(props) {
           helperText={hasError('email') ? formState.errors.email[0] : null}
           label="Email"
           name="email"
-          type="email"
           onChange={handleChange}
           value={formState.values.email || ''}
           variant="outlined"

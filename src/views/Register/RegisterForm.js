@@ -28,13 +28,6 @@ const schema = {
       maximum: 32
     }
   },
-  email: {
-    presence: { allowEmpty: false, message: 'is required' },
-    email: true,
-    length: {
-      maximum: 64
-    }
-  },
   referredBy: {
     presence: { allowEmpty: false, message: 'is required' },
     length: {
@@ -126,7 +119,6 @@ function RegisterForm({ className, ...rest }) {
       {
         username: event.target.userName.value,
         surname: event.target.lastName.value,
-        email: event.target.email.value,
         referredBy: event.target.referredBy.value,
         password: event.target.password.value
       }
@@ -157,8 +149,9 @@ function RegisterForm({ className, ...rest }) {
           helperText={
             hasError('userName') ? formState.errors.userName[0] : null
           }
-          label="User name"
+          label="Email"
           name="userName"
+          type='email'
           onChange={handleChange}
           value={formState.values.userName || ''}
           variant="outlined"
@@ -172,16 +165,6 @@ function RegisterForm({ className, ...rest }) {
           name="lastName"
           onChange={handleChange}
           value={formState.values.lastName || ''}
-          variant="outlined"
-        />
-        <TextField
-          error={hasError('email')}
-          fullWidth
-          helperText={hasError('email') ? formState.errors.email[0] : null}
-          label="Email address"
-          name="email"
-          onChange={handleChange}
-          value={formState.values.email || ''}
           variant="outlined"
         />
         <TextField

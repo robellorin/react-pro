@@ -60,7 +60,7 @@ export const register = (data) => async (dispatch) => {
   .catch(error => {
     dispatch({
       type: constant.SESSION_REGISTER_FAILED,
-      error: error.response.data.message
+      error: 'Something went wrong'
     });
   });
 }

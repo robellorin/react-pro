@@ -45,7 +45,7 @@ function ConversationList({ conversations, session, onCreate, className, clickIt
       <List disablePadding>
         {conversations.map((conversation, i) => (
           <ConversationListItem
-          session={session}
+            session={session}
             clickHandle={clickItemHandle}
             clickSolveHandle={clickSolveHandle}
             active={conversation.id.toString() === selectedTicketId}

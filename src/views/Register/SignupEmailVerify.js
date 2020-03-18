@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
+import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import {
   Button,
@@ -11,7 +12,7 @@ import {
 
 import Page from 'src/components/Page';
 import AuthBackground from 'src/components/AuthBackground';
-import { sendSignupEmailVerification } from 'src/actions';
+import { sendSignupEmailVerification, resendSignupEmailVerification } from 'src/actions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,6 +51,14 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.common.white,
     backgroundColor: theme.palette.error.main,
     padding: theme.spacing(3)
+  },
+  successWrapper: {
+    color: theme.palette.common.white,
+    backgroundColor: theme.palette.success.main,
+    padding: theme.spacing(3)
+  },
+  button: {
+    margin: 5
   }
 }));
 
@@ -68,10 +77,15 @@ function SignupEmailVerify({ match, history }) {
     setLoading(session.loading);
   }, [loading, session, history]);
 
+  const resendLink = () => {
+    const verifyUser = localStorage.getItem('verifyUser');
+    dispatch(resendSignupEmailVerification(verifyUser));
+  }
+
   return (
     <Page
       className={classes.root}
-      title="Email Verify"
+      title="Email Verification"
     >
       <Card className={classes.card}>
         <CardContent className={classes.content}>
@@ -82,17 +96,30 @@ function SignupEmailVerify({ match, history }) {
           {
             !loading &&
             <div className={classes.wrapper}>
-              <div className={classes.errorWrapper}>
-                Email Verification is failed.
+              <div className={clsx({
+                [classes.errorWrapper]: session.message.indexOf('Success') < 0,
+                [classes.successWrapper]: session.message.indexOf('Success') > -1
+              })}>
+                {session.message}
               </div>
-              <Button
-                color="primary"
-                component={RouterLink}
-                to="/"
-                variant="outlined"
-              >
-                Back to home
-              </Button>
+              <div>
+                <Button
+                  color="primary"
+                  component={RouterLink}
+                  to="/"
+                  variant="outlined"
+                >
+                  Back to home
+                </Button>
+                <Button
+                  className={classes.button}
+                  color="primary"
+                  onClick = {resendLink}
+                  variant="outlined"
+                >
+                  resend link
+                </Button>
+              </div>
             </div>
           }
         </CardContent>

@@ -68,6 +68,14 @@ const sessionReducer = (state = initialState, action) => {
       };
     }
 
+    case constant.SESSION_REQUEST_FINISHED: {
+      return {
+        ...initialState,
+        loading: false,
+        message: action.message ? action.message : 'Something went wrong!'
+      };
+    }
+
     case constant.SESSION_REQUEST_FAILED: {
       return {
         ...initialState,

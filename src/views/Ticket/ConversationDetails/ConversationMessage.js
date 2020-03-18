@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import moment from 'moment';
 import { makeStyles } from '@material-ui/styles';
 import { Typography, Avatar, colors } from '@material-ui/core';
 
@@ -96,9 +95,7 @@ function ConversationMessage({ message, session, className, ticket, ...rest }) {
             <Typography
               className={classes.time}
               variant="body2"
-            >
-              {moment(message.createdAt).fromNow()}
-            </Typography>
+            />
           </div>
         </div>
       </div>

@@ -60,7 +60,7 @@ export const register = (data) => async (dispatch) => {
   .catch(error => {
     dispatch({
       type: constant.SESSION_REGISTER_FAILED,
-      error: 'Something went wrong'
+      error: error.response.data.message
     });
   });
 }
@@ -82,13 +82,41 @@ export const sendSignupEmailVerification = (token, history) => (dispatch) => {
       history.push('/auth/login');
     } else {
       dispatch({
-        type: constant.SESSION_REQUEST_FAILED
+        type: constant.SESSION_REQUEST_FINISHED,
+        message: 'verification token has been expired'
       });
     }
   })
   .catch(error => {
     dispatch({
-      type: constant.SESSION_REQUEST_FAILED
+      type: constant.SESSION_REQUEST_FINISHED,
+      message: 'verification token has been expired'
+    });
+  });
+}
+
+export const resendSignupEmailVerification = (username) => (dispatch) => {
+  const data = {
+    username
+  };
+  axios.post(`${constant.API_URL}/auth/resendVerifyEmail`, data)
+  .then(res => {
+    if (res.status === 200) {
+      dispatch({
+        type: constant.SESSION_REQUEST_FINISHED,
+        message: 'Success to resend'
+      });
+    } else {
+      dispatch({
+        type: constant.SESSION_REQUEST_FINISHED,
+        message: 'Failed to resend'
+      });
+    }
+  })
+  .catch(error => {
+    dispatch({
+      type: constant.SESSION_REQUEST_FINISHED,
+      message: 'Failed to resend'
     });
   });
 }
@@ -127,7 +155,7 @@ export const forgotPassword = (email) => (dispatch) => {
   //   type: constant.SESSION_REQUEST
   // });
   const data = {
-    email
+    username: email
   };
   axios.post(`${constant.API_URL}/auth/forgotPassword`, data, {
     header: {

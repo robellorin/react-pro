@@ -71,6 +71,13 @@ function Ticket() {
       if (ticketsData.status === 'ticket_create_success')
         history.push(`/ticket/${ticketsData.newTicketId}`);
       if (params.id && params.id !== 'new-create') dispatch(getMessages(params.id));
+      if (!params.id && sortTickets && sortTickets.length > 0) {
+        for (const ticket of sortTickets) {
+          if (ticket.status) continue;
+            history.push(`/ticket/${ticket.id}`);
+            break;
+        }
+      }
     }
     setTicketsLoading(ticketsData.ticketsLoading);
   }, [ticketsData, ticketsLoading, params.id, dispatch, history]);

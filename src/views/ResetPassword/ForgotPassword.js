@@ -118,7 +118,7 @@ function ForgotPassword() {
             We will send link to your email for reset password.
           </Typography>
           <Typography variant="subtitle2">
-            If you didn't receive email, please click send button again.
+            If you didn't receive email within 15 minutes, please click send button again.
           </Typography>
           <TextField
             fullWidth

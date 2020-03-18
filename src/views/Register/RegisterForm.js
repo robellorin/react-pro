@@ -114,7 +114,8 @@ function RegisterForm({ className, ...rest }) {
         errors: {confirmPassword: ['Confirm password is not matched with password.']},
       }));
       return;
-    } 
+    };
+    localStorage.setItem('verifyUser', event.target.userName.value);
     dispatch(register(
       {
         username: event.target.userName.value,

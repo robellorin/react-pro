@@ -53,12 +53,12 @@ function Chart({ data: dataProp, labels, clickHandle, className, ...rest }) {
     animation: false,
     cornerRadius: 3,
     legend: {
-      display: true
+      display: false
     },
     layout: {
       padding: 0
     },
-    onClick: (event, data) => clickHandle(event, data),
+    onHover: (event, data) => clickHandle(event, data),
     scales: {
       xAxes: [
         {

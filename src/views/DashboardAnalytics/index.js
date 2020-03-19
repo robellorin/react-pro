@@ -16,7 +16,6 @@ import LoadingComponent from 'src/components/Loading';
 const useStyles = makeStyles((theme) => ({
   root: {
     paddingTop: theme.spacing(3),
-    paddingBottom: theme.spacing(3),
     height: '100%'
   },
   loadingWrapper: {
@@ -101,6 +100,7 @@ function DashboardAnalytics() {
   }, [news, newsData]);
 
   const clickHandle = (event, data) => {
+    console.log(event, data)
     if (data.length > 0) {
       const curMonth = data[0]._index;
       setSelectMonth(curMonth);
@@ -121,12 +121,13 @@ function DashboardAnalytics() {
     }
     {
       !loading &&
-      <Container maxWidth={false}>
+      <Container maxWidth={false} style={{ paddingRight: 0 }}>
         <Header />
         <NewArea data={news} isChecked={dashboardData.checkNews} onCheckHandle={onCheckHandle} />
         <Grid
           container
           spacing={3}
+          style={{width: '100%',}}
         >
           <Grid
             item

@@ -14,21 +14,26 @@ import {
   Toolbar,
   Hidden,
   colors,
+  Avatar,
+  Typography
 
 } from '@material-ui/core';
-import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
+
 import InputIcon from '@material-ui/icons/Input';
 import MenuIcon from '@material-ui/icons/Menu';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import axios from 'src/utils/axios';
 import NotificationsPopover from 'src/components/NotificationsPopover';
-import PricingModal from 'src/components/PricingModal';
 import { logout } from 'src/actions';
-import ChatBar from './ChatBar';
 import * as constant from 'src/constant';
+
+const gravatar = require('gravatar');
 
 const useStyles = makeStyles((theme) => ({
   root: {
     // boxShadow: 'none',
+    backgroundColor: '#ffffff',
+    padding: '10px 0'
   },
   flexGrow: {
     flexGrow: 1
@@ -47,16 +52,19 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: colors.orange[600]
   },
   logoutButton: {
-    marginLeft: theme.spacing(1)
+    textTransform: 'capitalize',
+    marginLeft: theme.spacing(2),
+    color: '#6f889d'
   },
   logoutIcon: {
-    marginRight: theme.spacing(1)
+    marginLeft: theme.spacing(1)
   }
 }));
 
 function TopBar({
   onOpenNavBarMobile,
   className,
+  session,
   ...rest
 }) {
   const classes = useStyles();
@@ -73,18 +81,7 @@ function TopBar({
     dispatch({type: constant.CHECKING_NEWS, payload: false});
     dispatch(logout());
   };
-  
-  const handlePricingModalClose = () => {
-    setPricingModalOpen(false);
-  };
-
-  const handleChatBarOpen = () => {
-    setOpenChatBar(true);
-  };
-
-  const handleChatBarClose = () => {
-    setOpenChatBar(false);
-  };
+ 
 
   const handleNotificationsOpen = () => {
     setOpenNotifications(true);
@@ -116,42 +113,40 @@ function TopBar({
     <AppBar
       {...rest}
       className={clsx(classes.root, className)}
-      color="primary"
     >
       <Toolbar>
-        <Hidden lgUp>
+        <Hidden smUp>
           <IconButton
             className={classes.menuButton}
-            color="inherit"
+            color="primary"
             onClick={onOpenNavBarMobile}
           >
             <MenuIcon />
           </IconButton>
         </Hidden>
+        <RouterLink to="/">
+        <div style={{ padding: '8px 20px' }}>
+          <img
+            alt="Logo"
+            src="/images/logos/logo.png"
+          />
+        </div>
+      </RouterLink>
         <div className={classes.flexGrow} />
         <Hidden mdDown>
-          <IconButton
-            className={classes.notificationsButton}
-            color="inherit"
-            onClick={handleNotificationsOpen}
-            ref={notificationsRef}
-          >
-            <Badge
-              badgeContent={notifications.length}
-              classes={{ badge: classes.notificationsBadge }}
-              variant="dot"
-            >
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
+          <Button onClick={handleNotificationsOpen} ref={notificationsRef}>
+            <Avatar alt='user' src={gravatar.url(session.user.username, {s: '200', r: 'pg', d: 'retro'}, false)} variant="rounded" ></Avatar>
+            <Typography style={{ padding: '0 5px', color: 'darkslategray', textTransform: 'capitalize' }}>{session.user.surname}</Typography>
+            <ArrowDropDownIcon />
+          </Button>
         </Hidden>
         <Button
           className={classes.logoutButton}
           color="inherit"
           onClick={handleLogout}
         >
+          Log out
           <InputIcon className={classes.logoutIcon} />
-          Sign out
         </Button>
       </Toolbar>
       <NotificationsPopover
@@ -159,14 +154,6 @@ function TopBar({
         notifications={notifications}
         onClose={handleNotificationsClose}
         open={openNotifications}
-      />
-      <PricingModal
-        onClose={handlePricingModalClose}
-        open={pricingModalOpen}
-      />
-      <ChatBar
-        onClose={handleChatBarClose}
-        open={openChatBar}
       />
     </AppBar>
   );

@@ -23,13 +23,15 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'flex-start',
     textTransform: 'none',
     letterSpacing: 0,
-    width: '100%'
+    width: '100%',
+    color: '#ffffff'
   },
   buttonLeaf: {
     padding: '15px 15px',
     justifyContent: 'flex-start',
     textTransform: 'none',
     letterSpacing: 0,
+    color: '#ffffff',
     width: '100%',
     fontWeight: theme.typography.fontWeightRegular,
     '&.depth-0': {
@@ -37,10 +39,14 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   icon: {
-    color: theme.palette.icon,
+    color: '#ffffff',
     display: 'flex',
     alignItems: 'center',
-    marginRight: theme.spacing(1)
+    marginRight: 34,
+    marginLeft: 12,
+    fontSize: 35,
+    borderRadius: 5,
+    padding: 7,
   },
   expandIcon: {
     marginLeft: 'auto',
@@ -53,12 +59,11 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 'auto'
   },
   active: {
-    color: theme.palette.primary.main,
+    // color: theme.palette.primary.main,
     fontWeight: theme.typography.fontWeightMedium,
-    boxShadow: '0px 2px 10px -1px rgba(0,0,0,0.2), 0px 10px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)',
     '& $icon': {
-      color: theme.palette.primary.main
-    }
+      backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    },
   }
 }));
 

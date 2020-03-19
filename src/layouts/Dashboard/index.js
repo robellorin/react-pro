@@ -10,24 +10,38 @@ import TopBar from './TopBar';
 import * as constant from 'src/constant';
 
 const useStyles = makeStyles((theme) => ({
-  container: {
-    minHeight: '100vh',
+  root: {
     display: 'flex',
+    backgroundImage: 'url("/images/navbar-bg.png")',
+  },
+  rightWrapper: {
+    zIndex: theme.zIndex.drawer + 1,
+    flexGrow: 1
+  },
+  topBar: {
+    [theme.breakpoints.up('sm')]: {
+      borderTopLeftRadius: 30
+    }
+  },
+  container: {
+    minHeight: 'calc(100vh - 86px)',
+    display: 'flex',
+    backgroundColor: '#ffffff',
+    borderBottomLeftRadius: 30,
+    padding: '0 15px',
     '@media all and (-ms-high-contrast:none)': {
       height: 0 // IE11 fix
     }
   },
   content: {
-    paddingTop: 64,
+    // paddingTop: 64,
     flexGrow: 1,
     maxWidth: '100%',
     overflowX: 'hidden',
-    [theme.breakpoints.up('lg')]: {
-      paddingLeft: 256
-    },
-    [theme.breakpoints.down('xs')]: {
-      paddingTop: 56
-    }
+    // padding: '0 20px'
+    // [theme.breakpoints.down('xs')]: {
+    //   paddingTop: 56
+    // }
   }
 }));
 
@@ -46,23 +60,31 @@ function Dashboard({ route }) {
   }, [session, dispatch, userData]);
 
   const [openNavBarMobile, setOpenNavBarMobile] = useState(false);
+
   return (
     userData
-    ? <>
+    ? <div className={classes.root}>
         <NavBar
           onMobileClose={() => setOpenNavBarMobile(false)}
           openMobile={openNavBarMobile}
           role={session.user.role}
         />
-        <TopBar onOpenNavBarMobile={() => setOpenNavBarMobile(true)} />
-        <div className={classes.container}>
-          <div className={classes.content}>
-            <Suspense fallback={<LinearProgress />}>
-              {renderRoutes(route.routes)}
-            </Suspense>
+        <div className={classes.rightWrapper}>
+          <TopBar
+            position="sticky"
+            session={session}
+            className={classes.topBar}
+            onOpenNavBarMobile={() => setOpenNavBarMobile(true)}
+          />
+          <div className={classes.container}>
+            <div className={classes.content}>
+              <Suspense fallback={<LinearProgress />}>
+                {renderRoutes(route.routes)}
+              </Suspense>
+            </div>
           </div>
         </div>
-      </>
+      </div>
     : <Redirect to="/auth/login" />
   );
 }

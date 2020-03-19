@@ -11,7 +11,7 @@ import { getTickets, createTicket, updateTicket, getMessages, createMessage } fr
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: '100%',
+    height: 'calc(100vh - 86px)',
     cursor: 'pointer',
     display: 'flex',
     overflow: 'hidden',

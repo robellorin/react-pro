@@ -1,13 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import {
-  Card, Typography, Grid, Avatar
+  Grid
 } from '@material-ui/core';
 import EuroSymbolIcon from '@material-ui/icons/EuroSymbol';
-import gradients from 'src/utils/gradients';
-import RoiPerBetting from './RoiPerBetting';
+import TodayIcon from '@material-ui/icons/Today';
+import AutorenewIcon from '@material-ui/icons/Autorenew';
+import CallMadeIcon from '@material-ui/icons/CallMade';
+import CallReceivedIcon from '@material-ui/icons/CallReceived';
+import DisplayItem from './DisplayItem';
 
 const months = [
   'Jan',
@@ -67,93 +69,60 @@ function Overview({ className, monthData, month, ...rest }) {
     rollover: month > -1 ? monthData.rollover[month] : 0,
     roi: month > -1 ? monthData.roi[month] : 0
   };
+  const stateList = [
+    {
+      title: 'Period',
+      value: `Month / ${months[month]}`,
+      icon: TodayIcon,
+      backgroundColor: 'rgba(111, 136, 157, 0.2)',
+      color: '#6f889d'
+    },
+    {
+      title: 'Profit/Loss',
+      value: `${data.pl} €`,
+      icon: EuroSymbolIcon,
+      subIcon: CallMadeIcon,
+      backgroundColor: 'rgba(55, 197, 102, 0.2)',
+      color: '#37c566'
+    },
+    {
+      title: 'Rollover',
+      value: `${data.rollover} €`,
+      icon: AutorenewIcon,
+      subIcon: CallReceivedIcon,
+      subIconColor: '#ff724f',
+      backgroundColor: 'rgba(59, 156, 236, 0.2)',
+      color: '#3b9cec'
+    },
+    {
+      title: 'ROI',
+      value: `${data.roi} %`,
+      symbol: '%',
+      backgroundColor: 'rgba(91, 51, 212, 0.2)',
+      color: '#5b33d4'
+    }
+  ];
 
   return (
-    <Card
-      {...rest}
-      className={clsx(classes.root, className)}
+    <Grid
+      container
+      spacing={3}
+      className={classes.grid}
     >
-      <Grid
-        alignItems="center"
-        container
-      >
-        <Grid
-          className={classes.item}
-          style={{ justifyContent: "space-around" }}
-          item
-          md={3}
-          sm={6}
-          xs={12}
-        >
-          <div>
-            <Typography
-              component="h2"
-              gutterBottom
-              variant="overline"
-            >
-              Period
-            </Typography>
-            <Typography variant="h3">
-              {`Month / ${months[month]}`}
-            </Typography>
-          </div>
-        </Grid>
-        <Grid
-          className={classes.item}
-          item
-          md={3}
-          sm={6}
-          xs={12}
-        >
-          <div>
-            <Typography
-              component="h2"
-              gutterBottom
-              variant="overline"
-            >
-              Profit/Loss
-            </Typography>
-            <Typography variant="h3">
-              {`${data.pl} €`}
-            </Typography>
-          </div>
-          <Avatar variant="rounded" className={classes.avatar} style={{ backgroundImage: gradients.green }}>
-            <EuroSymbolIcon />
-          </Avatar>
-        </Grid>
-        <Grid
-          className={classes.item}
-          item
-          md={3}
-          sm={6}
-          xs={12}
-        >
-          <div>
-            <Typography
-              component="h2"
-              gutterBottom
-              variant="overline"
-            >
-              Rollover
-            </Typography>
-            <Typography variant="h3">{`${data.rollover} €`}</Typography>
-          </div>
-          <Avatar variant="rounded" className={classes.avatar} style={{ backgroundImage: gradients.red }}>
-            <EuroSymbolIcon />
-          </Avatar>
-        </Grid>
-        <Grid
-          className={classes.item}
-          item
-          md={3}
-          sm={6}
-          xs={12}
-          style={{padding: 0}}
-        >
-          <RoiPerBetting roi={data.roi} />
-        </Grid>
-      </Grid>
-    </Card>
+      {
+        stateList.map((item, index) => (
+          <Grid
+            item
+            lg={3}
+            sm={6}
+            xs={12}
+            key={index} 
+          >
+            <DisplayItem data={item} />
+          </Grid>
+        ))
+      }
+    </Grid>
   );
 }
 

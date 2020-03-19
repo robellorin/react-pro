@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { Bar } from 'react-chartjs-2';
-import { colors } from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/styles';
 
 const useStyles = makeStyles(() => ({
@@ -19,7 +18,7 @@ function Chart({ data: dataProp, labels, clickHandle, className, ...rest }) {
     datasets: [
       {
         label: 'Profit/Loss',
-        backgroundColor: colors.green[600],
+        backgroundColor: '#37c566',
         data: dataProp.pl,
         barThickness: 12,
         maxBarThickness: 10,
@@ -28,7 +27,7 @@ function Chart({ data: dataProp, labels, clickHandle, className, ...rest }) {
       },
       {
         label: 'Rollover',
-        backgroundColor: colors.red[600],
+        backgroundColor: '#3b9cec',
         data: dataProp.rollover,
         barThickness: 12,
         maxBarThickness: 10,
@@ -37,7 +36,7 @@ function Chart({ data: dataProp, labels, clickHandle, className, ...rest }) {
       },
       {
         label: 'ROI',
-        backgroundColor: colors.indigo[600],
+        backgroundColor: '#5b33d4',
         data: dataProp.roi,
         barThickness: 12,
         maxBarThickness: 10,
@@ -52,7 +51,7 @@ function Chart({ data: dataProp, labels, clickHandle, className, ...rest }) {
     responsive: true,
     maintainAspectRatio: false,
     animation: false,
-    cornerRadius: 20,
+    cornerRadius: 3,
     legend: {
       display: true
     },

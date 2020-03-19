@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
   },
   chart: {
     padding: theme.spacing(4, 2, 0, 2),
-    height: 400
+    height: 380
   }
 }));
 

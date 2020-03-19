@@ -1,33 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import { Grid, Card, Typography } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import EuroSymbolIcon from '@material-ui/icons/EuroSymbol';
-import StateItem from './StateItem';
-import RoiPerBetting from './RoiPerBetting';
-import gradients from 'src/utils/gradients';
+import TodayIcon from '@material-ui/icons/Today';
+import AutorenewIcon from '@material-ui/icons/Autorenew';
+import CallMadeIcon from '@material-ui/icons/CallMade';
+import CallReceivedIcon from '@material-ui/icons/CallReceived';
+
+import DisplayItem from './DisplayItem';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
   grid: {
     // marginTop: theme.spacing(2)
   },
-  item: {
-    textAlign: 'center',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    [theme.breakpoints.up('md')]: {
-      '&:not(:last-of-type)': {
-        borderRight: `1px solid ${theme.palette.divider}`
-      }
-    },
-    [theme.breakpoints.down('sm')]: {
-      '&:not(:last-of-type)': {
-        borderBottom: `1px solid ${theme.palette.divider}`
-      }
-    }
-  }
 }));
 
 function Overview({ data }) {
@@ -38,72 +25,59 @@ function Overview({ data }) {
   const roi = rollover === 0 ? 0 : Math.round(pl / rollover * 10000) / 100;
   const stateList = [
     {
-      title: 'PROFITS/LOSS',
-      value: pl,
-      icon: EuroSymbolIcon,
-      color: gradients.green
+      title: 'Period',
+      value: `Year / ${new Date().getFullYear()}`,
+      icon: TodayIcon,
+      backgroundColor: 'rgba(111, 136, 157, 0.2)',
+      color: '#6f889d'
     },
     {
-      title: 'ROLLOVER',
-      value: rollover,
-      currency: '€',
+      title: 'Profit/Loss',
+      value: `${pl} €`,
       icon: EuroSymbolIcon,
-      color: gradients.red
+      subIcon: CallMadeIcon,
+      backgroundColor: 'rgba(55, 197, 102, 0.2)',
+      color: '#37c566'
+    },
+    {
+      title: 'Rollover',
+      value: `${rollover} €`,
+      icon: AutorenewIcon,
+      subIcon: CallReceivedIcon,
+      subIconColor: '#ff724f',
+      backgroundColor: 'rgba(59, 156, 236, 0.2)',
+      color: '#3b9cec'
+    },
+    {
+      title: 'ROI',
+      value: `${roi} %`,
+      symbol: '%',
+      backgroundColor: 'rgba(91, 51, 212, 0.2)',
+      color: '#5b33d4'
     }
   ];
   const classes = useStyles();
 
   return (
-    <Card>
       <Grid
         container
-        // spacing={3}
+        spacing={3}
         className={classes.grid}
       >
-        <Grid
-          item
-          className={classes.item}
-          md={3}
-          sm={3}
-          xs={12}
-        >
-          <div>
-            <Typography
-            component="h2"
-            gutterBottom
-            variant="overline"
-            >
-              Period
-            </Typography>
-            <Typography variant="h3">
-              {`Year / ${new Date().getFullYear()}`}
-            </Typography>
-          </div>
-        </Grid>
         {
           stateList.map((item, index) => (
             <Grid
-              className={classes.item}
-              key={index}
               item
-              md={3}
-              sm={3}
+              lg={3}
+              sm={6}
               xs={12}
+              key={index} 
             >
-              <StateItem data={item} />
+              <DisplayItem data={item} />
             </Grid>
           ))
         }
-        <Grid
-          item
-          md={3}
-          sm={3}
-          xs={12}
-        >
-          <RoiPerBetting roi={roi} />
-        </Grid>
       </Grid>
-    </Card>
   );
 }
 

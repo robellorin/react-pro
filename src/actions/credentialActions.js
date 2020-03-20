@@ -26,18 +26,19 @@ export const getCredentials = (role) => async (dispatch) => {
   })
   .catch(error => {
     dispatch({
-      ttype: constant.CREDENTIAL_REQUEST_FAILED
+      type: constant.CREDENTIAL_REQUEST_FAILED
     });
   });
 }
 
-export const addCredential = (bookmaker, bookmakerUsername, password) => async (dispatch) => {
+export const addCredential = (bookmaker, country, bookmakerUsername, password) => async (dispatch) => {
   const userData = JSON.parse(localStorage.getItem('user'));
   dispatch({
     type: constant.CREDENTIAL_REQUEST
   });
   const data = {
     bookmaker,
+    country,
     bookmakerUsername,
     password
   }
@@ -66,18 +67,17 @@ export const addCredential = (bookmaker, bookmakerUsername, password) => async (
   });
 }
 
-export const updateCredential = (bookmaker, bookmakerUsername, password, actions, id) => async (dispatch) => {
+export const updateCredential = (bookmaker, country, bookmakerUsername, password, id) => async (dispatch) => {
   const userData = JSON.parse(localStorage.getItem('user'));
   dispatch({
     type: constant.CREDENTIAL_REQUEST
   });
   const data = {
     bookmaker,
+    country,
     bookmakerUsername,
-    password,
-    actions
+    password
   }
-  console.log(data)
   await axios.put(`${constant.API_URL}/credential/${id}`, data, {
     headers: {
       'Authorization': `Bearer ${userData.token}`,

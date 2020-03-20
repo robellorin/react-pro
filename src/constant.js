@@ -52,3 +52,25 @@ export const MESSAGE_GET_REQUEST_SUCCESS = 'MESSAGE_GET_REQUEST_SUCCESS';
 export const MESSAGE_SEND_REQUEST_SUCCESS = 'MESSAGE_ADD_REQUEST_SUCCESS';
 export const MESSAGE_REQUEST_FAILED = 'MESSAGE_REQUEST_FAILED';
 
+export const countryList = {
+  "AR": "Argentina",
+  "BE": "Belgium",
+  "BR": "Brazil",
+  "BD": "Bangladesh",
+  "CL": "Chile",
+  "DK": "Denmark",
+  "EG": "Egypt",
+  "FR": "France",
+  "GB": "Great Britain",
+  "DE": "Germany",
+  "GR": "Greece",
+  "IN": "India",
+  "IT": "Italy",
+  "MX": "Mexico",
+  "NL": "Netherlands",
+  "PE": "Peru",
+  "RU": "Russia",
+  "ZA": "South Africa",
+  "ES": "Spain",
+  "UA": "Ukraine"
+};

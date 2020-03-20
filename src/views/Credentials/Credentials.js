@@ -14,6 +14,7 @@ import MaterialTable from "material-table";
 import AddIcon from '@material-ui/icons/Add';
 import SportsSoccerIcon from '@material-ui/icons/SportsSoccer';
 import { getCredentials, addCredential, deleteCredential, updateCredential } from 'src/actions';
+import * as constants from 'src/constant';
 
 const logUrls = {
   bet365: '/images/logos/bet365.png',
@@ -62,10 +63,11 @@ function CredentialsForm({ className, ...rest }) {
       width: 50
     },
     { title: 'Bookmaker', field: 'bookmaker', lookup: lookup },
+    { title: 'Country', field: 'country', lookup: constants.countryList },
     { title: 'Username', field: 'bookmakerUsername'},
     { title: 'Password', field: 'password'},
     { title: 'Balance', field: 'balance', editable: 'never'},
-    { title: 'Notes', field: 'actions', editable: session.user.role === 'admin' || session.user.role === 'support' ? 'always' : 'never'},
+    { title: 'Notes', field: 'actions', editable: 'never'},
   ];
 
   useEffect(() => {
@@ -84,11 +86,11 @@ function CredentialsForm({ className, ...rest }) {
     setLoading(credentials.loading);
   }, [credentials, loading]);
   const onRowAdd = (row) => {
-    return dispatch(addCredential(row.bookmaker, row.bookmakerUsername, row.password));
+    return dispatch(addCredential(row.bookmaker, row.country, row.bookmakerUsername, row.password));
   }
 
   const onRowUpdate = (newRow, oldRow) => {
-    return dispatch(updateCredential(newRow.bookmaker, newRow.bookmakerUsername, newRow.password, newRow.actions, oldRow.id));
+    return dispatch(updateCredential(newRow.bookmaker, newRow.country, newRow.bookmakerUsername, newRow.password, oldRow.id));
   }
 
   const onRowDelete = (oldRow) => {

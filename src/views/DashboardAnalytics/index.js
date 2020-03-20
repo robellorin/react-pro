@@ -100,7 +100,6 @@ function DashboardAnalytics() {
   }, [news, newsData]);
 
   const clickHandle = (event, data) => {
-    console.log(event, data)
     if (data.length > 0) {
       const curMonth = data[0]._index;
       setSelectMonth(curMonth);

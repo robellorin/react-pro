@@ -54,6 +54,7 @@ export const MESSAGE_REQUEST_FAILED = 'MESSAGE_REQUEST_FAILED';
 
 export const countryList = {
   "AR": "Argentina",
+  "AU": "Australia",
   "BE": "Belgium",
   "BR": "Brazil",
   "BD": "Bangladesh",

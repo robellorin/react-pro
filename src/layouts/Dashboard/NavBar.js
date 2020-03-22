@@ -202,8 +202,8 @@ export default function NavBar({
           }),
         }}
       >
-        <div className={classes.toolbar} style={{ justifyContent: open ? 'flex-end' : 'center' }}>
-          <IconButton onClick={handleDrawerClose}>
+        <div className={classes.toolbar} style={{ justifyContent: open ? 'flex-end': 'center' }}>
+          <IconButton onClick={handleDrawerClose} style={{ marginRight: open ? 0 : 8 }}>
             {
               open &&
                 <ChevronLeftIcon style={{ color: '#ffffff' }} />

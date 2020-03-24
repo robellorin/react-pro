@@ -135,33 +135,35 @@ export const getMessages = (ticketId) => async (dispatch) => {
     setTimeout(() => {
       dispatch({
         type: constant.MESSAGE_GET_REQUEST_SUCCESS,
-        data: []
+        data: [],
+        ticketId
       });
     }, 300);
-  }
-  
-  await axios.get(`${constant.API_URL}/message/${ticketId}`, {
-    headers: {
-      'Authorization': `Bearer ${userData.token}`
-    }
-  })
-  .then(res => {
-    if (res.status === 200) {
-      dispatch({
-        type: constant.MESSAGE_GET_REQUEST_SUCCESS,
-        data: res.data
-      });
-    } else {
+  } else {
+    await axios.get(`${constant.API_URL}/message/${ticketId}`, {
+      headers: {
+        'Authorization': `Bearer ${userData.token}`
+      }
+    })
+    .then(res => {
+      if (res.status === 200) {
+        dispatch({
+          type: constant.MESSAGE_GET_REQUEST_SUCCESS,
+          data: res.data,
+          ticketId
+        });
+      } else {
+        dispatch({
+          type: constant.MESSAGE_REQUEST_FAILED
+        });
+      }
+    })
+    .catch(error => {
       dispatch({
         type: constant.MESSAGE_REQUEST_FAILED
       });
-    }
-  })
-  .catch(error => {
-    dispatch({
-      type: constant.MESSAGE_REQUEST_FAILED
     });
-  });
+  }
 }
 
 export const createMessage = (ticketId, contents) => async (dispatch) => {

@@ -5,3 +5,4 @@ export * from './credentialActions';
 export * from './newsActions';
 export * from './supportActions';
 export * from './ticketActions';
+export * from './notificationActions';

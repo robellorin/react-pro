@@ -6,6 +6,7 @@ import credentialReducer from './credentialReducer';
 import newsReducer from './newsReducer';
 import supportReducer from './supportReducer';
 import ticketReducer from './ticketReducer';
+import notificationReducer from './notificationReducer';
 
 const rootReducer = combineReducers({
   session: sessionReducer,
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
   credentials: credentialReducer,
   news: newsReducer,
   supportData: supportReducer,
-  tickets: ticketReducer
+  tickets: ticketReducer,
+  notification: notificationReducer
 });
 
 export default rootReducer;

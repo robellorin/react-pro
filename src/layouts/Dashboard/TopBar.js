@@ -1,11 +1,11 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { useHistory } from 'react-router';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { useDispatch } from 'react-redux';
-import { makeStyles } from '@material-ui/styles';
+import { makeStyles, withStyles } from '@material-ui/styles';
 import {
   AppBar,
   Badge,
@@ -13,7 +13,6 @@ import {
   IconButton,
   Toolbar,
   Hidden,
-  colors,
   Avatar,
   Typography
 
@@ -22,10 +21,10 @@ import {
 import InputIcon from '@material-ui/icons/Input';
 import MenuIcon from '@material-ui/icons/Menu';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-import axios from 'src/utils/axios';
 import NotificationsPopover from 'src/components/NotificationsPopover';
 import { logout } from 'src/actions';
 import * as constant from 'src/constant';
+import socket from 'src/components/Socket';
 
 const gravatar = require('gravatar');
 
@@ -48,8 +47,21 @@ const useStyles = makeStyles((theme) => ({
   notificationsButton: {
     marginLeft: theme.spacing(1)
   },
-  notificationsBadge: {
-    backgroundColor: colors.orange[600]
+  badge: {
+    backgroundColor: '#44b700',
+    color: '#44b700',
+    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+    '&::after': {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      borderRadius: '50%',
+      animation: '$ripple 1.2s infinite ease-in-out',
+      border: '1px solid currentColor',
+      content: '""',
+    },
   },
   logoutButton: {
     textTransform: 'capitalize',
@@ -61,23 +73,54 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+const StyledBadge = withStyles(theme => ({
+  badge: {
+    backgroundColor: '#44b700',
+    color: '#44b700',
+    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+    height: 10,
+    width: 10,
+    '&::after': {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      borderRadius: '50%',
+      animation: '$ripple 1.2s infinite ease-in-out',
+      border: '1px solid currentColor',
+      content: '""',
+    },
+  },
+  '@keyframes ripple': {
+    '0%': {
+      transform: 'scale(.8)',
+      opacity: 1,
+    },
+    '100%': {
+      transform: 'scale(2.4)',
+      opacity: 0,
+    },
+  },
+}))(Badge);
+
 function TopBar({
   onOpenNavBarMobile,
   className,
   session,
+  notification,
   ...rest
 }) {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
   const notificationsRef = useRef(null);
-  const [notifications, setNotifications] = useState([]);
   const [openNotifications, setOpenNotifications] = useState(false);
-  const [openChatBar, setOpenChatBar] = useState(false);
-  const [pricingModalOpen, setPricingModalOpen] = useState(false);
-
+    
   const handleLogout = () => {
+    const client = socket(session.user);
     history.push('/auth/login');
+    client.leave(session.user.id);
     dispatch({type: constant.CHECKING_NEWS, payload: false});
     dispatch(logout());
   };
@@ -88,26 +131,11 @@ function TopBar({
   };
 
   const handleNotificationsClose = () => {
+    dispatch({
+      type: constant.SET_NOTIFICATION, value: false
+    });
     setOpenNotifications(false);
   };
-  
-  useEffect(() => {
-    let mounted = true;
-
-    const fetchNotifications = () => {
-      axios.get('/api/account/notifications').then((response) => {
-        if (mounted) {
-          setNotifications(response.data.notifications);
-        }
-      });
-    };
-
-    fetchNotifications();
-
-    return () => {
-      mounted = false;
-    };
-  }, []);
 
   return (
     <AppBar
@@ -135,7 +163,23 @@ function TopBar({
         <div className={classes.flexGrow} />
         <Hidden mdDown>
           <Button onClick={handleNotificationsOpen} ref={notificationsRef}>
-            <Avatar alt='user' src={gravatar.url(session.user.username, {s: '200', r: 'pg', d: 'retro'}, false)} variant="rounded" ></Avatar>
+            { 
+              notification && notification.isNotification &&
+                <StyledBadge
+                  overlap="circle"
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right',
+                  }}
+                  variant="dot"
+                >
+                  <Avatar alt='user' src={gravatar.url(session.user.username, {s: '200', r: 'pg', d: 'retro'}, false)} variant="rounded" />
+                </StyledBadge>
+            }
+            { 
+              (!notification || !notification.isNotification) &&
+              <Avatar alt='user' src={gravatar.url(session.user.username, {s: '200', r: 'pg', d: 'retro'}, false)} variant="rounded" />
+            }              
             <Typography style={{ padding: '0 5px', color: 'darkslategray', textTransform: 'capitalize' }}>{session.user.surname}</Typography>
             <ArrowDropDownIcon />
           </Button>
@@ -151,8 +195,9 @@ function TopBar({
       </Toolbar>
       <NotificationsPopover
         anchorEl={notificationsRef.current}
-        notifications={notifications}
+        notifications={notification.data}
         onClose={handleNotificationsClose}
+        handleNotificationsClose={handleNotificationsClose}
         open={openNotifications}
       />
     </AppBar>

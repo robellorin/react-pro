@@ -8,6 +8,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import NavBar from './NavBar';
 import TopBar from './TopBar';
 import * as constant from 'src/constant';
+import socket from 'src/components/Socket';
+import { setNotification } from 'src/actions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,14 +36,9 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   content: {
-    // paddingTop: 64,
     flexGrow: 1,
     maxWidth: '100%',
     overflowX: 'hidden',
-    // padding: '0 20px'
-    // [theme.breakpoints.down('xs')]: {
-    //   paddingTop: 56
-    // }
   }
 }));
 
@@ -49,7 +46,19 @@ function Dashboard({ route }) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const session = useSelector(state => state.session);
+  const notification = useSelector(state => state.notification);
   const userData = localStorage.getItem('user');
+    
+  useEffect(() => {
+    const receivedMessage = (data) => {
+      dispatch(setNotification(true, data));
+    };
+    
+    if (session.user.id) {
+      window.$client = socket(session.user);
+      window.$client.registerHandler(receivedMessage);
+    }
+  }, [session, dispatch]);
   useEffect(() => {
     if (userData && !session.user.username) {
       dispatch({
@@ -73,6 +82,7 @@ function Dashboard({ route }) {
           <TopBar
             position="sticky"
             session={session}
+            notification={notification}
             className={classes.topBar}
             onOpenNavBarMobile={() => setOpenNavBarMobile(true)}
           />

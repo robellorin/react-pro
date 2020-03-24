@@ -5,13 +5,13 @@ import { makeStyles } from '@material-ui/styles';
 import {
   Popover,
   CardHeader,
-  CardActions,
   Divider,
-  Button,
-  colors
+  colors,
+  List,
+  ListItem,
+  ListItemText
 } from '@material-ui/core';
-import NotificationList from './NotificationList';
-import Placeholder from './Placeholder';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -24,9 +24,10 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-function NotificationsPopover({ notifications, anchorEl, ...rest }) {
+function NotificationsPopover({ notifications, anchorEl, handleNotificationsClose, ...rest }) {
   const classes = useStyles();
-
+  const notification = notifications && notifications.message ? notifications.message : 'You have not notifications';
+  const link = notifications && notifications.ticketId ? `/ticket/${notifications.ticketId}` : '#';
   return (
     <Popover
       {...rest}
@@ -37,23 +38,23 @@ function NotificationsPopover({ notifications, anchorEl, ...rest }) {
       }}
     >
       <div className={classes.root}>
-        <CardHeader title="Notifications" />
+        <CardHeader title="Notification" />
         <Divider />
-        {notifications.length > 0 ? (
-          <NotificationList notifications={notifications} />
-        ) : (
-          <Placeholder />
-        )}
-        <Divider />
-        <CardActions className={classes.actions}>
-          <Button
+        <List>
+          <ListItem
+            className={classes.listItem}
             component={RouterLink}
-            size="small"
-            to="#"
+            to={link}
+            onClick={handleNotificationsClose}
           >
-            See all
-          </Button>
-        </CardActions>
+            <ListItemText
+              primary={notification}
+              primaryTypographyProps={{ variant: 'body1' }}
+            />
+            <ArrowForwardIcon className={classes.arrowForwardIcon} />
+          </ListItem>
+        </List>
+        <Divider />
       </div>
     </Popover>
   );
@@ -62,7 +63,6 @@ function NotificationsPopover({ notifications, anchorEl, ...rest }) {
 NotificationsPopover.propTypes = {
   anchorEl: PropTypes.any,
   className: PropTypes.string,
-  notifications: PropTypes.array.isRequired,
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired
 };

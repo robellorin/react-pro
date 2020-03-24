@@ -52,6 +52,8 @@ export const MESSAGE_GET_REQUEST_SUCCESS = 'MESSAGE_GET_REQUEST_SUCCESS';
 export const MESSAGE_SEND_REQUEST_SUCCESS = 'MESSAGE_ADD_REQUEST_SUCCESS';
 export const MESSAGE_REQUEST_FAILED = 'MESSAGE_REQUEST_FAILED';
 
+export const SET_NOTIFICATION = 'SET_NOTIFICATION';
+
 export const countryList = {
   "AR": "Argentina",
   "AU": "Australia",

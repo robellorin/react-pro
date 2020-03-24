@@ -65,14 +65,9 @@ function ConversationListItem({
       <ListItemText
         primary={conversation.title}
         primaryTypographyProps={{
-          noWrap: true,
+          noWrap: false,
           variant: 'h6'
         }}
-        // secondary={conversation.title}
-        // secondaryTypographyProps={{
-        //   noWrap: true,
-        //   variant: 'body1'
-        // }}
       />
       {
         conversation.status &&

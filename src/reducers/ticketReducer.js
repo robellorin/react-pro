@@ -5,7 +5,8 @@ const initialState = {
   tickets: [],
   messagesLoading: false,
   messages: [],
-  status: 'success'
+  status: 'success',
+  ticketId: null
 };
 
 const ticketReducer = (state = initialState, action) => {
@@ -32,7 +33,7 @@ const ticketReducer = (state = initialState, action) => {
         ticketsLoading: false,
         tickets: [...state.tickets, action.ticket],
         status: 'ticket_create_success',
-        newTicketId: action.ticket.id
+        newTicket: action.ticket
       };
     }
 
@@ -83,7 +84,8 @@ const ticketReducer = (state = initialState, action) => {
         ...state,
         messagesLoading: false,
         messages: action.data,
-        status: 'message_get_success'
+        status: 'message_get_success',
+        ticketId: action.ticketId
       };
     }
 

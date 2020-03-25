@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   container: {
     minHeight: 'calc(100vh - 86px)',
     display: 'flex',
-    backgroundColor: '#ffffff',
+    backgroundColor: '#f4f6f8',
     borderBottomLeftRadius: 30,
     padding: '0 15px',
     '@media all and (-ms-high-contrast:none)': {

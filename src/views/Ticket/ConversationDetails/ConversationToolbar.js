@@ -14,7 +14,8 @@ import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: theme.palette.common.white
+    marginBottom: 15,
+    paddingTop: 10
   },
   backButton: {
     marginRight: theme.spacing(2),
@@ -78,7 +79,7 @@ function ConversationToolbar({ conversation, className, session, ticket, ...rest
         </IconButton>
       </Tooltip>
       <div className={classes.user}>
-        <Typography variant="h6">{otherUserName}</Typography>
+        <Typography variant="h5">{otherUserName}</Typography>
         <div className={classes.activity}>
           {/*<Typography variant="body2">
             {moment().fromNow()}

@@ -9,7 +9,9 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     overflow: 'scroll',
     maxHeight: '100%',
-    height: 'calc(100vh - 194px)'
+    height: 'calc(100vh - 194px)',
+    backgroundColor: theme.palette.common.white,
+    borderRadius: 20
   },
   inner: {
     padding: theme.spacing(2)

@@ -2,29 +2,38 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
-import { Typography, Avatar, colors } from '@material-ui/core';
+import { Typography, Avatar } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    marginBottom: theme.spacing(2)
+    marginBottom: theme.spacing(3)
   },
   authUser: {
     display: 'flex',
     justifyContent: 'flex-end',
-    '& $body': {
-      backgroundColor: theme.palette.primary.main,
-      color: theme.palette.primary.contrastText
+    // '& $body': {
+    //   backgroundColor: theme.palette.primary.main,
+    //   color: theme.palette.primary.contrastText
+    // }
+    '& $inner': {
+      flexDirection: 'row-reverse',
+      '& $avatar': {
+        marginRight: 0,
+        marginLeft: theme.spacing(2)
+      }
     }
   },
   inner: {
     display: 'flex',
+    alignItems: 'flex-end',
     maxWidth: 500
   },
   avatar: {
-    marginRight: theme.spacing(2)
+    marginRight: theme.spacing(2),
+    borderRadius: 10
   },
   body: {
-    backgroundColor: colors.grey[100],
+    backgroundColor: '#e3eef9',
     color: theme.palette.text.primary,
     borderRadius: theme.shape.borderRadius,
     padding: theme.spacing(1, 2)
@@ -38,11 +47,6 @@ const useStyles = makeStyles(theme => ({
     width: 380,
     maxWidth: '100%'
   },
-  footer: {
-    marginTop: theme.spacing(1),
-    display: 'flex',
-    justifyContent: 'flex-end'
-  }
 }));
 
 function ConversationMessage({ message, session, className, ticket, ...rest }) {
@@ -90,12 +94,6 @@ function ConversationMessage({ message, session, className, ticket, ...rest }) {
                 </Typography>
               )}
             </div>
-          </div>
-          <div className={classes.footer}>
-            <Typography
-              className={classes.time}
-              variant="body2"
-            />
           </div>
         </div>
       </div>

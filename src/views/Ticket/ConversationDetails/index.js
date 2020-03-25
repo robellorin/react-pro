@@ -10,8 +10,7 @@ import ConversationForm from './ConversationForm';
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
-    flexDirection: 'column',
-    backgroundColor: theme.palette.common.white
+    flexDirection: 'column'
   }
 }));
 
@@ -24,7 +23,6 @@ function ConversationDetails({ messages, session, className, ticket, sendMessage
       className={clsx(classes.root, className)}
     >
       <ConversationToolbar session={session} ticket={ticket} />
-      <Divider />
       <ConversationMessages session={session} messages={messages} ticket={ticket} />
       <Divider />
       <ConversationForm sendMessage={sendMessage}/>

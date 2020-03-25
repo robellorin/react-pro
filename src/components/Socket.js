@@ -5,15 +5,7 @@ export default function (user) {
     {
       transports: [ 'websocket', 'polling' ],
       query: `userId=${user.id}&role=${user.role}`,
-      path: "/app1socket"
     });
-
-    // const socket = io('localhost:3000',
-    //   {
-    //     transports: [ 'websocket', 'polling' ],
-    //     secure: true,
-    //     query: `userId=${user.id}&role=${user.role}`,
-    //   });
 
   function registerHandler(onMessageReceived) {
     socket.on('receive-message', onMessageReceived);
@@ -40,6 +32,10 @@ export default function (user) {
     console.log(msg);
     socket.emit('add-ticket', msg);
   }
+
+  function closeTicket(msg) {
+    socket.emit('close-ticket', msg);
+  }
   
   
   return {
@@ -47,6 +43,7 @@ export default function (user) {
     unregisterHandler,
     message,
     ticket,
+    closeTicket,
     leave
   }
 }

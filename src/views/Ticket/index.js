@@ -13,6 +13,7 @@ import socket from 'src/components/Socket';
 const useStyles = makeStyles((theme) => ({
   root: {
     height: 'calc(100vh - 86px)',
+    padding: '15px 15px 30px 15px',
     cursor: 'pointer',
     display: 'flex',
     overflow: 'hidden',
@@ -34,12 +35,13 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   conversationList: {
-    width: 300,
-    flexBasis: 300,
+    width: 280,
+    flexBasis: 280,
+    marginRight: 20,
     flexShrink: 0,
-    '@media (min-width: 864px)': {
-      borderRight: `1px solid ${theme.palette.divider}`
-    }
+    // '@media (min-width: 864px)': {
+    //   borderRight: `1px solid ${theme.palette.divider}`
+    // }
   },
   conversationDetails: {
     flexGrow: 1
@@ -67,7 +69,6 @@ function Ticket() {
 
   useEffect(() => {
     if (notification.isNotification && notification.data.ticketId.toString() === params.id) {
-      console.log(notification)
       dispatch(setNotification(false));
     }
   }, [dispatch, notification, params.id]);
@@ -136,6 +137,11 @@ function Ticket() {
 
   const clickSolveHandle = (id) => {
     dispatch(updateTicket(id));
+    const closedConversation = conversations.find(
+      (c) => c.id.toString() === params.id
+    );
+    if(!window.$client) window.$client = socket(session.user);
+    window.$client.closeTicket(closedConversation);
   }
  
   return (

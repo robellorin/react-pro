@@ -15,13 +15,26 @@ import DoneOutlineIcon from '@material-ui/icons/DoneOutline';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    padding: 16,
+  },
   active: {
-    boxShadow: `inset 4px 0px 0px ${theme.palette.primary.main}`,
-    backgroundColor: colors.grey[50]
+    // boxShadow: `inset 4px 0px 0px ${theme.palette.primary.main}`,
+    backgroundColor: '#4404e0e6',
+    '&:hover': {
+      backgroundColor: '#4404e0c4'
+    },
+    '& $listItemText span' : {
+      color: '#ffffff'
+    }
   },
   avatar: {
     height: 40,
-    width: 40
+    width: 40,
+    borderRadius: 10
+  },
+  listItemText: {
+
   },
   details: {
     marginLeft: theme.spacing(2),
@@ -29,12 +42,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'flex-end'
   },
-  unread: {
-    marginTop: 2,
-    padding: 2,
-    height: 18,
-    minWidth: 18
-  }
 }));
 
 function ConversationListItem({
@@ -48,7 +55,8 @@ function ConversationListItem({
       button
       className={clsx(
         {
-          [classes.active]: active
+          [classes.active]: active,
+          [classes.root]: true
         },
         className
       )}
@@ -58,11 +66,13 @@ function ConversationListItem({
       <ListItemAvatar>
         <Avatar
           alt="Person"
+          variant="rounded"
           className={classes.avatar}
           src={''}
         />
       </ListItemAvatar>
       <ListItemText
+        className={classes.listItemText}
         primary={conversation.title}
         primaryTypographyProps={{
           noWrap: false,

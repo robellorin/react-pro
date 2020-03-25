@@ -11,7 +11,6 @@ import { theme, themeWithRtl } from './theme';
 import { configureStore } from './store';
 import routes from './routes';
 import GoogleAnalytics from './components/GoogleAnalytics';
-import CookiesNotification from './components/CookiesNotification';
 import ScrollReset from './components/ScrollReset';
 import StylesProvider from './components/StylesProvider';
 import './mixins/chartjs';
@@ -35,7 +34,6 @@ function App() {
             <Router history={history}>
               <ScrollReset />
               <GoogleAnalytics />
-              <CookiesNotification />
               {renderRoutes(routes)}
             </Router>
           </MuiPickersUtilsProvider>

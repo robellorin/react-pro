@@ -30,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
   openConversion: {
     '@media (max-width: 863px)': {
       '& $conversationList, & $conversationDetails': {
+        marginLeft: -15,
         transform: 'translateX(-100%)'
       }
     }

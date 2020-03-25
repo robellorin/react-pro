@@ -63,6 +63,9 @@ const useStyles = makeStyles((theme) => ({
       content: '""',
     },
   },
+  avatar: {
+    boxShadow: `0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)`,
+  },
   logoutButton: {
     textTransform: 'capitalize',
     marginLeft: theme.spacing(2),
@@ -173,12 +176,12 @@ function TopBar({
                   }}
                   variant="dot"
                 >
-                  <Avatar alt='user' src={gravatar.url(session.user.username, {s: '200', r: 'pg', d: 'retro'}, false)} variant="rounded" />
+                  <Avatar className={classes.avatar} alt='user' src={gravatar.url(session.user.username, {s: '200', r: 'pg', d: 'retro'}, false)} variant="rounded" />
                 </StyledBadge>
             }
             { 
               (!notification || !notification.isNotification) &&
-              <Avatar alt='user' src={gravatar.url(session.user.username, {s: '200', r: 'pg', d: 'retro'}, false)} variant="rounded" />
+              <Avatar className={classes.avatar} alt='user' src={gravatar.url(session.user.username, {s: '200', r: 'pg', d: 'retro'}, false)} variant="rounded" />
             }              
             <Typography style={{ padding: '0 5px', color: 'darkslategray', textTransform: 'capitalize' }}>{session.user.surname}</Typography>
             <ArrowDropDownIcon />

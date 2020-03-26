@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     padding: 0,
-    height: 555
+    height: 554
   },
   headerTitle: {
     textAlign: 'center',

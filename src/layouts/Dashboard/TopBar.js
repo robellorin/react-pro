@@ -86,7 +86,7 @@ const useStyles = makeStyles((theme) => ({
   titleWrapper: {
     color: '#8f9da4',
     paddingLeft: 44,
-    paddingTop: 30,
+    paddingTop: 36,
     paddingBottom: 10,
     display: 'flex',
     alignItems: 'center'

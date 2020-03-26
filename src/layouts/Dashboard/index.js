@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   container: {
-    minHeight: 'calc(100vh - 159px)',
+    minHeight: 'calc(100vh - 165px)',
     display: 'flex',
     backgroundColor: '#f4f6f8',
     borderBottomLeftRadius: 30,

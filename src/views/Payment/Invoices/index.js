@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: 0
   },
   results: {
-    marginTop: theme.spacing(3)
+    marginTop: 20
   },
   modalContainer: {
     position: 'absolute',

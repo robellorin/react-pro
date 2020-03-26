@@ -12,7 +12,7 @@ import socket from 'src/components/Socket';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: 'calc(100vh - 159px)',
+    height: 'calc(100vh - 165px)',
     padding: '35px 25px 30px 25px',
     cursor: 'pointer',
     display: 'flex',

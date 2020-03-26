@@ -16,7 +16,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NavItem from 'src/components/NavItem';
 import navConfig from './navConfig';
 
-const drawerWidth = 256;
+const drawerWidth = 280;
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -57,7 +57,7 @@ const useStyles = makeStyles(theme => ({
     overflowX: 'hidden',
     width: 0,
     [theme.breakpoints.up('sm')]: {
-      width: theme.spacing(12),
+      width: theme.spacing(15),
     },
   },
   toolbar: {
@@ -203,7 +203,7 @@ export default function NavBar({
         }}
       >
         <div className={classes.toolbar} style={{ justifyContent: open ? 'flex-end': 'center' }}>
-          <IconButton onClick={handleDrawerClose} style={{ marginRight: open ? 0 : 8 }}>
+          <IconButton onClick={handleDrawerClose}>
             {
               open &&
                 <ChevronLeftIcon style={{ fontSize: 30, color: '#ffffff' }} />

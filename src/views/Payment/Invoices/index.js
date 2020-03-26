@@ -12,13 +12,13 @@ import { fetchInvoices } from 'src/actions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    paddingTop: theme.spacing(3),
+    paddingTop: theme.spacing(2),
     paddingBottom: theme.spacing(3),
     height: '100%'
   },
   container: {
-    paddingTop: theme.spacing(1),
-    paddingBottom: theme.spacing(3)
+    paddingTop: 0,
+    paddingBottom: 0
   },
   results: {
     marginTop: theme.spacing(3)

@@ -36,7 +36,8 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2)
   },
   content: {
-    padding: 0
+    padding: 0,
+    height: 555
   },
   headerTitle: {
     textAlign: 'center',
@@ -175,7 +176,7 @@ function Results({ className, invoices, onView, onPay, ...rest }) {
           title="Invoices"
         />
         <CardContent className={classes.content}>
-          <List style={{ overflow: 'auto' }}>
+          <List style={{ overflow: 'auto', height: '100%' }}>
             <ListItem className={classes.listItem} style={{ border: 'none', paddingBottom: 0 }}>
               {
                 headers.map((item, index) => (

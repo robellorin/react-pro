@@ -10,7 +10,6 @@ import {
   colors
 } from '@material-ui/core';
 import Page from 'src/components/Page';
-import Header from './Header';
 import Checkout from './Checkout';
 import Invoices from './Invoices';
 
@@ -56,7 +55,6 @@ function Payment({ match, history }) {
       title="Payment"
     >
       <Container maxWidth="lg">
-        <Header />
         <Tabs
           className={classes.tabs}
           onChange={handleTabsChange}

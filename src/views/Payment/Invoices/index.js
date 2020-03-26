@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/styles';
 import { Container, Modal } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import Page from 'src/components/Page';
-import Header from '../Header';
 import Results from './Results';
 import Checkout from '../Checkout';
 import InvoiceModal from '../InvoiceDetails';
@@ -30,7 +29,6 @@ const useStyles = makeStyles((theme) => ({
     left: '50%',
     transform: 'translate(-50%, -50%)',
     outline: 'none',
-    // boxShadow: theme.shadows[20],
     width: 700,
     maxHeight: '100%',
     overflowY: 'auto',
@@ -93,7 +91,6 @@ function InvoicesList() {
           maxWidth={false}
           className={classes.container}
         >
-          <Header />
           <Results
             className={classes.results}
             invoices={invoices}

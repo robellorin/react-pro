@@ -5,7 +5,6 @@ import {
   Container
 } from '@material-ui/core';
 import Page from 'src/components/Page';
-import Header from './Header';
 import CredentialsForm from './Credentials';
 
 const useStyles = makeStyles((theme) => ({
@@ -32,11 +31,8 @@ function Credentials() {
       title="Credentials"
     >
       <Container maxWidth={false} className={classes.container}>
-        <Header />
         <CredentialsForm className={classes.credentials} />
-        
       </Container>
-
     </Page>
   );
 }

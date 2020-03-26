@@ -9,8 +9,6 @@ import {
   CardActions,
   CardContent,
   CardHeader,
-  Divider,
-  Typography,
   Table,
   TableBody,
   TableCell,
@@ -23,12 +21,31 @@ import {
 import Label from 'src/components/Label';
 
 const useStyles = makeStyles((theme) => ({
-  root: {},
+  root: {
+    
+  },
+  card: {
+    border: 'none',
+    borderRadius: 20,
+    boxShadow: 'none',
+    paddingLeft: 30,
+    paddingRight: 30
+  },
   filterButton: {
     marginRight: theme.spacing(2)
   },
   content: {
     padding: 0
+  },
+  headerTitle: {
+    textAlign: 'center',
+    fontSize: 23,
+    color: '#161e33',
+    fontFamily: 'T THoves',
+    fontWeight: 500
+  },
+  inner: {
+    // padding: 10
   },
   actions: {
     padding: theme.spacing(0, 1),
@@ -69,26 +86,11 @@ function Results({ className, invoices, onView, onPay, ...rest }) {
       {...rest}
       className={clsx(classes.root, className)}
     >
-      <Typography
-        color="textSecondary"
-        gutterBottom
-        variant="body2"
-      >
-        {invoices.length}
-        {' '}
-        Records found. Page
-        {' '}
-        {page + 1}
-        {' '}
-        of
-        {' '}
-        {Math.ceil(invoices.length / rowsPerPage)}
-      </Typography>
-      <Card>
+      <Card className={classes.card}>
         <CardHeader
+          classes={{ title: classes.headerTitle }}
           title="Invoices"
         />
-        <Divider />
         <CardContent className={classes.content}>
           <PerfectScrollbar>
             <div className={classes.inner}>

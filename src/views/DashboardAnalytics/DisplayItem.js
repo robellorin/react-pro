@@ -38,14 +38,14 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 20,
     paddingBottom: 10,
     color: '#6f889d',
-    fontFamily: 'T THoves',
+    fontFamily: 'TT Hoves',
     textTransform: 'unset',
     fontWeight: 500
   },
   value: {
     fontSize: 45,
     color: '#232e36',
-    fontFamily: 'T THoves',
+    fontFamily: 'TT Hoves',
     fontWeight: 'bold',
     padding: '10px 0',
     whiteSpace: 'nowrap',

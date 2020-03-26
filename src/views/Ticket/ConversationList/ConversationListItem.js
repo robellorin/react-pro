@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 15,
     '& span': {
       fontSize: 20,
-      fontFamily: 'T THoves',
+      fontFamily: 'TT Hoves',
       fontWeight: 500
     }
   },

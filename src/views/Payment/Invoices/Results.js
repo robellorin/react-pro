@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     fontSize: 23,
     color: '#161e33',
-    fontFamily: 'T THoves',
+    fontFamily: 'TT Hoves',
     fontWeight: 500
   },
   inner: {
@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
   headers: {
     ffontSize: 15,
     color: '#161e33',
-    fontFamily: 'T THoves',
+    fontFamily: 'TT Hoves',
     fontWeight: 500
   },
   listItemText: {
@@ -71,13 +71,13 @@ const useStyles = makeStyles((theme) => ({
   text: {
     fontSize: 20,
     color: '#161e33',
-    fontFamily: 'T THoves',
+    fontFamily: 'TT Hoves',
     fontWeight: 500
   },
   total: {
     fontSize: 20,
     color: '#37c566',
-    fontFamily: 'T THoves',
+    fontFamily: 'TT Hoves',
     fontWeight: 500
   },
   state: {
@@ -101,7 +101,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 15,
     lineHeight: 6,
     color: '#8f9da4',
-    fontFamily: 'T THoves',
+    fontFamily: 'TT Hoves',
     fontWeight: 500,
     paddingTop: 10
   },

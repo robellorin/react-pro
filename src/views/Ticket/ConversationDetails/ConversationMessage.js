@@ -50,7 +50,7 @@ const useStyles = makeStyles(theme => ({
   message: {
     fontSize: 16,
     color: '#6f889d',
-    fontFamily: 'T THoves',
+    fontFamily: 'TT Hoves',
     fontWeight: 500
   },
   image: {

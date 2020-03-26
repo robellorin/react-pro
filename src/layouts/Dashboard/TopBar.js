@@ -94,7 +94,7 @@ const useStyles = makeStyles((theme) => ({
   headerTitle: {
     fontSize: 23,
     color: '#8f9da4',
-    fontFamily: 'T THoves',
+    fontFamily: 'TT Hoves',
     fontWeight: 500,
     paddingLeft: 10
   }

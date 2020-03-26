@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     fontSize: 23,
     color: '#6f889d',
-    fontFamily: 'T THoves',
+    fontFamily: 'TT Hoves',
     fontWeight: 500
   },
   sendButton: {

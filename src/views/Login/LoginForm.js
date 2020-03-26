@@ -1,13 +1,16 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import { useHistory } from 'react-router';
 import validate from 'validate.js';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
-import { Button, TextField } from '@material-ui/core';
+import { Button, TextField, Link, InputAdornment, Hidden } from '@material-ui/core';
 import Snackbar from '@material-ui/core/Snackbar';
+import MailOutlineIcon from '@material-ui/icons/MailOutline';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Alert from 'src/components/Alert';
 import { login } from 'src/actions';
 
@@ -31,14 +34,59 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(1)
     }
   },
+  textField: {
+    backgroundColor: '#f5f9f9',
+    borderRadius: 15,
+    '& fieldset': {
+      border: 'none'
+    }
+  },
+  input: {
+    fontSize: 25,
+    fontFamily: 'TT Hoves',
+    fontWeight: 500,
+    // color: '#bdbdbd',
+    '&::placeholder': {
+      color: '#bdbdbd',
+    },
+    "&:-webkit-autofill": {
+      WebkitBoxShadow: "0 0 0 1000px #f5f9f9 inset"
+    }
+  },
+
+  icon: {
+    color: '#bdbdbd'
+  },
   submitButton: {
-    marginTop: theme.spacing(2),
-    width: '100%'
+    marginTop: 20,
+    width: '100%',
+    borderRadius: 15,
+    padding: '15px',
+    filter: 'drop-shadow(0 0 12.5px rgba(0,0,0,0.03))',
+    backgroundColor: '#37c566',
+    fontSize: 20,
+    fontFamily: 'TT Hoves',
+    textTransform: 'capitalize',
+    fontWeight: 500,
+    '&:hover': {
+      backgroundColor: '#37c566ba'
+    }
+  },
+  linkWrapper: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    padding: '20px 0'
+  },
+  link: {
+    fontSize: 25,
+    color: '#161e33',
+    fontFamily: 'TT Hoves',
+    fontWeight: 500,
   }
 }));
 
 function LoginForm(props) {
-  const { className, onChange, ...rest } = props;
+  const { className, onChange, sendRequest, ...rest } = props;
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -141,28 +189,75 @@ function LoginForm(props) {
       </Snackbar>
       <div className={classes.fields}>
         <TextField
+          classes={{ root: classes.textField}}
           error={hasError('email')}
           fullWidth
           helperText={hasError('email') ? formState.errors.email[0] : null}
-          label="Email"
           name="email"
+          placeholder='Email'
+          InputProps={{
+            classes: {input: classes.input},
+            startAdornment: (
+              <InputAdornment position="start">
+                <MailOutlineIcon className={classes.icon} />
+              </InputAdornment>
+            ),
+          }}
           onChange={handleChange}
           value={formState.values.email || ''}
           variant="outlined"
         />
         <TextField
+          classes={{ root: classes.textField}}
           error={hasError('password')}
+          placeholder='Password'
           fullWidth
           helperText={
             hasError('password') ? formState.errors.password[0] : null
           }
-          label="password"
           name="password"
+          InputProps={{
+            classes: {input: classes.input},
+            startAdornment: (
+              <InputAdornment position="start">
+                <LockOutlinedIcon className={classes.icon}/>
+              </InputAdornment>
+            ),
+          }}
           onChange={handleChange}
           type="password"
           value={formState.values.password || ''}
           variant="outlined"
         />
+      </div>
+      <div className={classes.linkWrapper}>
+        <div>
+          <Hidden lgUp>
+            <Link
+              className={classes.link}
+              align="center"
+              color="secondary"
+              component={RouterLink}
+              to="/auth/register"
+              underline="always"
+              variant="subtitle2"
+            >
+              Don&apos;t have an account?
+            </Link>
+          </Hidden>
+        </div>
+        <Link
+          className={classes.link}
+          align="center"
+          color="secondary"
+          component={RouterLink}
+          to="/auth/forgot-password"
+          underline="always"
+          variant="subtitle2"
+          onClick={sendRequest}
+        >
+          Forgot your password?
+        </Link>
       </div>
       <Button
         className={classes.submitButton}

@@ -165,7 +165,7 @@ function TopBar({
   if (history.location.pathname.indexOf('ticket') >= 0) {
     headerData = {
       icon: SmsIcon,
-      title: 'Ticket' 
+      title: 'Support' 
     }
   }
     

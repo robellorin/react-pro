@@ -1,11 +1,11 @@
 /* eslint-disable react/no-multi-comp */
 /* eslint-disable react/display-name */
-import ChatIcon from '@material-ui/icons/ChatOutlined';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
 import PaymentIcon from '@material-ui/icons/Payment';
-import LockOpenIcon from '@material-ui/icons/LockOpen';
+import LockIcon from '@material-ui/icons/Lock';
 import SettingsIcon from '@material-ui/icons/Settings';
 import ChatBubbleIcon from '@material-ui/icons/ChatBubble';
+import SmsIcon from '@material-ui/icons/Sms';
 import GroupIcon from '@material-ui/icons/Group';
 
 export default [
@@ -20,7 +20,7 @@ export default [
       {
         title: 'Bookmaker Accounts',
         href: '/credentials',
-        icon: LockOpenIcon,
+        icon: LockIcon,
       },
       {
         title: 'Payments',
@@ -30,7 +30,7 @@ export default [
       {
         title: 'Tickets',
         href: '/ticket',
-        icon: ChatIcon,
+        icon: SmsIcon,
       },
       {
         title: 'Support',

@@ -22,17 +22,21 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column'
   },
   toolbar: {
-    padding: '10px 5px 25px 5px',
+    padding: '0 0 25px 0',
     minHeight: 83
   },
   createBtn: {
-    backgroundColor: '#19d285',
+    backgroundColor: '#37c566',
     color: '#ffffff',
-    padding: '12px 8px',
+    padding: '10px 8px',
     borderRadius: 15,
+    fontSize: 23,
+    fontFamily: 'T THoves',
+    fontWeight: 500,
+    textTransform: 'capitalize',
     boxShadow: `0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)`,
     '&:hover': {
-      backgroundColor: '#19d285a3'
+      backgroundColor: '#19d285'
     }
   },
   list: {
@@ -79,7 +83,7 @@ function ConversationList({ conversations, session, onCreate, className, clickIt
       {
         session.user.role !== 'admin' && session.user.role !== 'support' &&
           <Button onClick={onCreate} className={classes.createBtn} fullWidth>
-            new Ticket
+            New Ticket
           </Button>
       }
       </Toolbar>

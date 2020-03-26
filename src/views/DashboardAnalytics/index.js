@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
 import { Container, Grid } from '@material-ui/core';
 import Page from 'src/components/Page';
-import Header from './Header';
 import Overview from './Overview';
 import MonthOverview from './MonthOverview';
 import FinancialStats from './FinancialStats';
@@ -121,7 +120,6 @@ function DashboardAnalytics() {
     {
       !loading &&
       <Container maxWidth={false} style={{ paddingRight: 0 }}>
-        <Header />
         <NewArea data={news} isChecked={dashboardData.checkNews} onCheckHandle={onCheckHandle} />
         <Grid
           container

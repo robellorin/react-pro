@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   container: {
-    minHeight: 'calc(100vh - 86px)',
+    minHeight: 'calc(100vh - 159px)',
     display: 'flex',
     backgroundColor: '#f4f6f8',
     borderBottomLeftRadius: 30,
@@ -69,7 +69,7 @@ function Dashboard({ route }) {
   }, [session, dispatch, userData]);
 
   const [openNavBarMobile, setOpenNavBarMobile] = useState(false);
-
+   
   return (
     userData
     ? <div className={classes.root}>
@@ -80,10 +80,10 @@ function Dashboard({ route }) {
         />
         <div className={classes.rightWrapper}>
           <TopBar
+            className={classes.topBar}
             position="sticky"
             session={session}
             notification={notification}
-            className={classes.topBar}
             onOpenNavBarMobile={() => setOpenNavBarMobile(true)}
           />
           <div className={classes.container}>

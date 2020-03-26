@@ -12,8 +12,8 @@ import socket from 'src/components/Socket';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: 'calc(100vh - 86px)',
-    padding: '15px 15px 30px 15px',
+    height: 'calc(100vh - 159px)',
+    padding: '35px 25px 30px 25px',
     cursor: 'pointer',
     display: 'flex',
     overflow: 'hidden',
@@ -29,8 +29,12 @@ const useStyles = makeStyles((theme) => ({
   },
   openConversion: {
     '@media (max-width: 863px)': {
-      '& $conversationList, & $conversationDetails': {
-        marginLeft: -15,
+      '& $conversationList': {
+        marginLeft: -32,
+        transform: 'translateX(-100%)'
+      },
+      '& $conversationDetails': {
+        marginLeft: 15,
         transform: 'translateX(-100%)'
       }
     }
@@ -63,9 +67,11 @@ function Ticket() {
   const [conversations, setConversations] = useState(ticketsData.tickets);
   const [ticketsLoading, setTicketsLoading] = useState(false);
   const [messages, setMessages] = useState(ticketsData.messages);
-      
+
+  let selectedConversation;
+        
   useEffect(() => {
-      dispatch(getTickets());
+    dispatch(getTickets());
   }, [dispatch, params, session]);
 
   useEffect(() => {
@@ -101,8 +107,6 @@ function Ticket() {
       setMessages(sortMessages);
     // }
   }, [ticketsData.messages]);
-
-  let selectedConversation;
 
   if (params.id) {
     if (params.id === 'new-create') {
@@ -144,7 +148,7 @@ function Ticket() {
     if(!window.$client) window.$client = socket(session.user);
     window.$client.closeTicket(closedConversation);
   }
- 
+  
   return (
     <Page
       id="ticketPane"

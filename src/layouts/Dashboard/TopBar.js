@@ -25,14 +25,17 @@ import NotificationsPopover from 'src/components/NotificationsPopover';
 import { logout } from 'src/actions';
 import * as constant from 'src/constant';
 import socket from 'src/components/Socket';
+import SmsIcon from '@material-ui/icons/Sms';
+import EqualizerIcon from '@material-ui/icons/Equalizer';
+import PaymentIcon from '@material-ui/icons/Payment';
+import LockIcon from '@material-ui/icons/Lock';
 
 const gravatar = require('gravatar');
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    // boxShadow: 'none',
     backgroundColor: '#ffffff',
-    padding: '10px 0'
+    padding: '20px 20px 10px 30px'
   },
   flexGrow: {
     flexGrow: 1
@@ -64,7 +67,13 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   avatar: {
-    boxShadow: `0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)`,
+    height: 48,
+    width: 48,
+    borderRadius: 15,
+    borderColor: '#ffffff',
+    borderWidth: 2,
+    borderStyle: 'solid',
+    boxShadow: `0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)`
   },
   logoutButton: {
     textTransform: 'capitalize',
@@ -73,6 +82,21 @@ const useStyles = makeStyles((theme) => ({
   },
   logoutIcon: {
     marginLeft: theme.spacing(1)
+  },
+  titleWrapper: {
+    color: '#8f9da4',
+    paddingLeft: 44,
+    paddingTop: 30,
+    paddingBottom: 10,
+    display: 'flex',
+    alignItems: 'center'
+  },
+  headerTitle: {
+    fontSize: 23,
+    color: '#8f9da4',
+    fontFamily: 'T THoves',
+    fontWeight: 500,
+    paddingLeft: 10
   }
 }));
 
@@ -119,6 +143,31 @@ function TopBar({
   const dispatch = useDispatch();
   const notificationsRef = useRef(null);
   const [openNotifications, setOpenNotifications] = useState(false);
+  let headerData = {};
+  if (history.location.pathname.indexOf('analytics') >= 0) {
+    headerData = {
+      icon: EqualizerIcon,
+      title: 'Analytics Overview' 
+    }
+  }
+  if (history.location.pathname.indexOf('credentials') >= 0) {
+    headerData = {
+      icon: LockIcon,
+      title: 'Bookmaker Accounts' 
+    }
+  }
+  if (history.location.pathname.indexOf('payment') >= 0) {
+    headerData = {
+      icon: PaymentIcon,
+      title: 'Payments' 
+    }
+  }
+  if (history.location.pathname.indexOf('ticket') >= 0) {
+    headerData = {
+      icon: SmsIcon,
+      title: 'Ticket' 
+    }
+  }
     
   const handleLogout = () => {
     const client = socket(session.user);
@@ -196,6 +245,10 @@ function TopBar({
           <InputIcon className={classes.logoutIcon} />
         </Button>
       </Toolbar>
+      <div className={classes.titleWrapper}>
+        {<headerData.icon />}
+        <Typography className={classes.headerTitle}>{headerData.title}</Typography>
+      </div>
       <NotificationsPopover
         anchorEl={notificationsRef.current}
         notifications={notification.data}

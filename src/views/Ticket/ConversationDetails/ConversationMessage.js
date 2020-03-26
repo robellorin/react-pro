@@ -30,17 +30,28 @@ const useStyles = makeStyles(theme => ({
   },
   avatar: {
     marginRight: theme.spacing(2),
-    borderRadius: 10,
+    height: 48,
+    width: 48,
+    borderRadius: 15,
+    borderColor: '#ffffff',
+    borderWidth: 2,
+    borderStyle: 'solid',
     boxShadow: `0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)`,
   },
   body: {
-    backgroundColor: '#e3eef9',
+    backgroundColor: '#e2e7eb',
     color: theme.palette.text.primary,
-    borderRadius: theme.shape.borderRadius,
-    padding: theme.spacing(1, 2)
+    borderRadius: 10,
+    padding: '10px 16px'
   },
   content: {
-    marginTop: theme.spacing(1)
+    
+  },
+  message: {
+    fontSize: 16,
+    color: '#6f889d',
+    fontFamily: 'T THoves',
+    fontWeight: 500
   },
   image: {
     marginTop: theme.spacing(2),
@@ -71,14 +82,6 @@ function ConversationMessage({ message, session, className, ticket, ...rest }) {
         />
         <div>
           <div className={classes.body}>
-            <div>
-              <Typography
-                color="inherit"
-                variant="h6"
-              >
-                {message.role === session.user.role ? 'Me' : message.surname}
-              </Typography>
-            </div>
             <div className={classes.content}>
               {match ? (
                 <img
@@ -90,6 +93,7 @@ function ConversationMessage({ message, session, className, ticket, ...rest }) {
                 <Typography
                   color="inherit"
                   variant="body1"
+                  className={classes.message}
                 >
                   {message.contents}
                 </Typography>

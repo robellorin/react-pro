@@ -206,11 +206,11 @@ export default function NavBar({
           <IconButton onClick={handleDrawerClose} style={{ marginRight: open ? 0 : 8 }}>
             {
               open &&
-                <ChevronLeftIcon style={{ color: '#ffffff' }} />
+                <ChevronLeftIcon style={{ fontSize: 30, color: '#ffffff' }} />
             }
             {
               !open &&
-                <MenuIcon style={{ color: '#ffffff' }} />
+                <MenuIcon style={{ fontSize: 30, color: '#ffffff' }} />
             }
           </IconButton>
         </div>

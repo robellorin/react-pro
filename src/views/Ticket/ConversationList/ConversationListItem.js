@@ -16,12 +16,12 @@ import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: 16,
+    padding: 16
   },
   active: {
     // boxShadow: `inset 4px 0px 0px ${theme.palette.primary.main}`,
     boxShadow: `0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)`,
-    backgroundColor: '#4404e0e6',
+    backgroundColor: '#512dd9',
     '&:hover': {
       backgroundColor: '#4404e0c4'
     },
@@ -30,13 +30,22 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   avatar: {
-    height: 40,
-    width: 40,
-    borderRadius: 10,
+    height: 48,
+    width: 48,
+    borderRadius: 15,
+    borderColor: '#ffffff',
+    borderWidth: 2,
+    borderStyle: 'solid',
     boxShadow: `0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)`,
   },
   listItemText: {
-
+    marginLeft: 5,
+    fontSize: 15,
+    '& span': {
+      fontSize: 20,
+      fontFamily: 'T THoves',
+      fontWeight: 500
+    }
   },
   details: {
     marginLeft: theme.spacing(2),
@@ -77,8 +86,7 @@ function ConversationListItem({
         className={classes.listItemText}
         primary={conversation.title}
         primaryTypographyProps={{
-          noWrap: false,
-          variant: 'h6'
+          noWrap: false
         }}
       />
       {

@@ -7,14 +7,12 @@ import ConversationMessage from './ConversationMessage';
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
-    overflow: 'scroll',
+    overflow: 'auto',
     maxHeight: '100%',
-    height: 'calc(100vh - 194px)',
-    backgroundColor: theme.palette.common.white,
-    borderRadius: 20
+    height: 'calc(100vh - 194px)'
   },
   inner: {
-    padding: theme.spacing(2)
+    padding: '16px 30px'
   }
 }));
 

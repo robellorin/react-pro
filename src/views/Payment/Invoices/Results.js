@@ -32,9 +32,6 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: 30,
     paddingRight: 30
   },
-  filterButton: {
-    marginRight: theme.spacing(2)
-  },
   content: {
     padding: 0,
     height: 554
@@ -113,9 +110,9 @@ const useStyles = makeStyles((theme) => ({
     margin: '0 7px',
     borderRadius: 10,
     border: '1px solid #c8d5da',
-    // '&:hover': {
-    //   border: 'none'
-    // }
+    '& fieldset': {
+      border: 'none'
+    }
   },
   rowsSelect: {
     paddingBottom: 5,

@@ -64,8 +64,8 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'center',
     padding: theme.spacing(0, 1),
-    marginTop: 85,
-    // necessary for content to be below app bar
+    marginTop: 105,
+    marginBottom: 30,
     ...theme.mixins.toolbar,
   },
   navigation: {

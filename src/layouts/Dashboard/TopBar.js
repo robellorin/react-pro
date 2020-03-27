@@ -35,7 +35,8 @@ const gravatar = require('gravatar');
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: '#ffffff',
-    padding: '20px 20px 10px 30px'
+    padding: '20px 20px 10px 30px',
+    // boxShadow: 'none'
   },
   flexGrow: {
     flexGrow: 1

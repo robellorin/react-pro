@@ -8,7 +8,10 @@ import Chart from './Chart';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    height: '100%'
+    height: '100%',
+    borderRadius: 20,
+    border: 'none',
+    boxShadow: 'none'
   },
   content: {
     padding: 0
@@ -18,7 +21,7 @@ const useStyles = makeStyles(theme => ({
   },
   chart: {
     padding: theme.spacing(4, 2, 0, 2),
-    height: 330
+    height: 319
   }
 }));
 

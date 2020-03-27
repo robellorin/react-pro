@@ -55,12 +55,14 @@ export const MESSAGE_REQUEST_FAILED = 'MESSAGE_REQUEST_FAILED';
 export const SET_NOTIFICATION = 'SET_NOTIFICATION';
 
 export const countryList = {
+  "AL": "Albania",
   "AR": "Argentina",
   "AU": "Australia",
   "BE": "Belgium",
   "BR": "Brazil",
   "BD": "Bangladesh",
   "CL": "Chile",
+  "HR": "Croatia",
   "DK": "Denmark",
   "EG": "Egypt",
   "FR": "France",
@@ -73,6 +75,7 @@ export const countryList = {
   "NL": "Netherlands",
   "PE": "Peru",
   "RU": "Russia",
+  "SI": "Slovenia",
   "ZA": "South Africa",
   "ES": "Spain",
   "UA": "Ukraine"

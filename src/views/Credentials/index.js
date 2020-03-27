@@ -9,13 +9,13 @@ import CredentialsForm from './Credentials';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    paddingTop: theme.spacing(3),
+    paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(3),
     height: '100%'
   },
   container: {
-    paddingTop: theme.spacing(1),
-    paddingBottom: theme.spacing(3)
+    paddingTop: theme.spacing(0),
+    paddingBottom: theme.spacing(0)
   },
   credentials: {
     marginTop: theme.spacing(3)

@@ -12,7 +12,7 @@ import { fetchInvoices } from 'src/actions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    paddingTop: theme.spacing(2),
+    paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(3),
     height: '100%'
   },
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: 0
   },
   results: {
-    marginTop: 20
+    marginTop: 24
   },
   modalContainer: {
     position: 'absolute',

@@ -122,7 +122,7 @@ function Login() {
       <div className={classes.container}>
         <Hidden mdDown>
           <div style={{ position: 'relative', filter: 'drop-shadow(0px 5px 24.5px rgba(33,51,109,0.56))' }}>
-            <img src='/images/auth/bg.jpg' alt='background' style={{ height: '100vh' }} />
+            <img src='/images/auth/bg.png' alt='background' style={{ height: '100vh' }} />
             <div className={classes.greetingWrapper}>
               <Typography className={classes.hello}>Hello Welcome</Typography>
               <Typography className={classes.greetings}>

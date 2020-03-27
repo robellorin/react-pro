@@ -14,7 +14,8 @@ import LoadingComponent from 'src/components/Loading';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    paddingTop: theme.spacing(3),
+    paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(3),
     height: '100%'
   },
   loadingWrapper: {
@@ -119,7 +120,7 @@ function DashboardAnalytics() {
     }
     {
       !loading &&
-      <Container maxWidth={false} style={{ paddingRight: 0 }}>
+      <Container maxWidth={false} style={{ paddingRight: 0, marginTop: 24 }}>
         <NewArea data={news} isChecked={dashboardData.checkNews} onCheckHandle={onCheckHandle} />
         <Grid
           container

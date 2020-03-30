@@ -8,7 +8,6 @@ const useStyles = makeStyles((theme) => ({
   container: {
     minHeight: '100vh',
     display: 'flex',
-    // backgroundImage: 'url("/images/auth/background.jpg")',
     '@media all and (-ms-high-contrast:none)': {
       height: 0 // IE11 fix
     }
@@ -17,7 +16,6 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     maxWidth: '100%',
     overflowX: 'hidden',
-    // paddingTop: 64,
     [theme.breakpoints.down('xs')]: {
       paddingTop: 56
     }

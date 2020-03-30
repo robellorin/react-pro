@@ -13,8 +13,9 @@ import {
   IconButton,
   Toolbar,
   Hidden,
-  Avatar,
-  Typography
+  Typography,
+  InputAdornment,
+  TextField
 
 } from '@material-ui/core';
 
@@ -22,15 +23,16 @@ import InputIcon from '@material-ui/icons/Input';
 import MenuIcon from '@material-ui/icons/Menu';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import NotificationsPopover from 'src/components/NotificationsPopover';
+import UserListPopover from 'src/components/UserListPopover';
 import { logout } from 'src/actions';
 import * as constant from 'src/constant';
 import socket from 'src/components/Socket';
+import Avatar from 'src/components/Avatar';
 import SmsIcon from '@material-ui/icons/Sms';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
 import PaymentIcon from '@material-ui/icons/Payment';
 import LockIcon from '@material-ui/icons/Lock';
-
-const gravatar = require('gravatar');
+import ChatBubbleIcon from '@material-ui/icons/ChatBubble';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -67,15 +69,6 @@ const useStyles = makeStyles((theme) => ({
       content: '""',
     },
   },
-  avatar: {
-    height: 48,
-    width: 48,
-    borderRadius: 15,
-    borderColor: '#ffffff',
-    borderWidth: 2,
-    borderStyle: 'solid',
-    boxShadow: `0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)`
-  },
   logoutButton: {
     textTransform: 'capitalize',
     marginLeft: theme.spacing(2),
@@ -86,11 +79,10 @@ const useStyles = makeStyles((theme) => ({
   },
   titleWrapper: {
     color: '#8f9da4',
-    paddingLeft: 44,
-    paddingTop: 36,
-    paddingBottom: 10,
+    padding: '21px 30px 10px 44px',
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'space-between'
   },
   headerTitle: {
     fontSize: 23,
@@ -98,6 +90,15 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: 'TT Hoves',
     fontWeight: 500,
     paddingLeft: 10
+  },
+  userInput: {
+    padding: 0,
+    '& .MuiOutlinedInput-adornedEnd ': {
+      padding: 0
+    },
+    '& .MuiInputBase-input': {
+      padding: 10
+    }
   }
 }));
 
@@ -143,7 +144,9 @@ function TopBar({
   const history = useHistory();
   const dispatch = useDispatch();
   const notificationsRef = useRef(null);
+  const userListRef = useRef(null);
   const [openNotifications, setOpenNotifications] = useState(false);
+  const [openUserList, setOpenUserList] = useState(false);
   let headerData = {};
   if (history.location.pathname.indexOf('analytics') >= 0) {
     headerData = {
@@ -169,7 +172,13 @@ function TopBar({
       title: 'Support' 
     }
   }
-    
+  if (history.location.pathname.indexOf('support') >= 0) {
+    headerData = {
+      icon: ChatBubbleIcon,
+      title: 'News' 
+    }
+  }
+  
   const handleLogout = () => {
     const client = socket(session.user);
     history.push('/auth/login');
@@ -178,7 +187,6 @@ function TopBar({
     dispatch(logout());
   };
  
-
   const handleNotificationsOpen = () => {
     setOpenNotifications(true);
   };
@@ -189,6 +197,10 @@ function TopBar({
     });
     setOpenNotifications(false);
   };
+
+  const handleSelectUser = (user) => {
+
+  }
 
   return (
     <AppBar
@@ -226,12 +238,12 @@ function TopBar({
                   }}
                   variant="dot"
                 >
-                  <Avatar className={classes.avatar} alt='user' src={gravatar.url(session.user.username, {s: '200', r: 'pg', d: 'retro'}, false)} variant="rounded" />
+                <Avatar role={session.user.role} />
                 </StyledBadge>
             }
             { 
               (!notification || !notification.isNotification) &&
-              <Avatar className={classes.avatar} alt='user' src={gravatar.url(session.user.username, {s: '200', r: 'pg', d: 'retro'}, false)} variant="rounded" />
+              <Avatar role={session.user.role} />
             }              
             <Typography style={{ padding: '0 5px', color: 'darkslategray', textTransform: 'capitalize' }}>{session.user.surname}</Typography>
             <ArrowDropDownIcon />
@@ -247,8 +259,36 @@ function TopBar({
         </Button>
       </Toolbar>
       <div className={classes.titleWrapper}>
-        {<headerData.icon />}
-        <Typography className={classes.headerTitle}>{headerData.title}</Typography>
+        <div style={{ display: 'flex' }}>
+          {<headerData.icon />}
+          <Typography className={classes.headerTitle}>{headerData.title}</Typography>
+        </div>
+        <div>
+          {
+            (session.user.role === 'support' || session.user.role === 'admin') &&
+            <TextField
+              ref={userListRef}
+              fullWidth
+              className={classes.userInput}
+              // value={credential.password}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="start">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      style={{ padding: 0 }}
+                      onClick={() => setOpenUserList(true)}
+                      onMouseDown={(event) => event.preventDefault()}
+                    >
+                      <ArrowDropDownIcon />
+                    </IconButton>
+                  </InputAdornment>
+                )
+              }}
+              variant='outlined'
+            />
+          }
+        </div>
       </div>
       <NotificationsPopover
         anchorEl={notificationsRef.current}
@@ -256,6 +296,13 @@ function TopBar({
         onClose={handleNotificationsClose}
         handleNotificationsClose={handleNotificationsClose}
         open={openNotifications}
+      />
+      <UserListPopover
+        anchorEl={userListRef.current}
+        users={[]}
+        handleSelectUser={handleSelectUser}
+        open={openUserList}
+        onClose={() => setOpenUserList(false)}
       />
     </AppBar>
   );

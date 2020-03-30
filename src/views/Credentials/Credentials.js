@@ -34,10 +34,10 @@ import DeleteModal from './DeleteModal';
 const logUrls = {
   bet365: '/images/logos/bet365.png',
   paddypower: '/images/logos/paddypower.jpeg',
-  skybet: 'https://bet.sbgcdn.com/static/mbet/img/favicon_default.png',
+  skybet: '/images/logos/skybet.jpeg',
   betfair: '/images/logos/betfair.png',
   williamhill: '/images/logos/williamhill.png',
-  betfred: 'https://www.betfred.com/images/web-clip-icon/114.png',
+  betfred: '/images/logos/betfred.jpeg',
 }
 
 const bookmakers = {
@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     padding: 0,
-    height: 554
+    height: 544
   },
   headerTitle: {
     textAlign: 'center',
@@ -150,7 +150,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
     fontSize: 15,
-    lineHeight: 6,
+    lineHeight: '6px',
     color: '#8f9da4',
     fontFamily: 'TT Hoves',
     fontWeight: 500,
@@ -178,6 +178,7 @@ const useStyles = makeStyles((theme) => ({
     color: '#37c566'
   },
   createBtn: {
+    margin: '10px 0',
     backgroundColor: '#37c566',
     color: '#ffffff',
     width: 157,
@@ -222,7 +223,7 @@ function CredentialsForm({ className, ...rest }) {
   const [data, setData] = useState(credentials.credentials);
   const [loading, setLoading] = useState(credentials.loading);
   const [page, setPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(4);
   const [curRow, setCurRow] = useState(null);
   const [updating, setUpdating] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
@@ -498,7 +499,7 @@ function CredentialsForm({ className, ...rest }) {
                             </InputAdornment>
                           ),
                         }}
-                    />
+                      />
                     </ListItemText>
                     <ListItemText classes={{ root:classes.flex2, primary: classes.total }}>{credential.Balance}</ListItemText>
                     <ListItemText classes={{ root:classes.flex3, primary: classes.text }}>{credential.actions}</ListItemText>
@@ -527,55 +528,58 @@ function CredentialsForm({ className, ...rest }) {
             <div style={{ float:"left", clear: "both" }} ref={listEnd} />
           </List>
         </CardContent>
-        <div className={classes.pagination}>
-          <div className={classes.rowsPerPage}>
-            <p>Show</p>
-            <FormControl variant="outlined">
-              <Select
-                className={classes.rowsSelInput}
-                labelId="perCounts"
-                id="perCounts-select"
-                classes={{ root: classes.rowsSelect, icon: classes.selIcon }}
-                value={rowsPerPage}
-                onChange={handleChangeRowsPerPage}
-                
-              >
-                <MenuItem value={5}>5</MenuItem>
-                <MenuItem value={10}>10</MenuItem>
-                <MenuItem value={25}>25</MenuItem>
-              </Select>
-            </FormControl>
-            <p>Records</p>
-          </div>
-          <div className={classes.rowsPerPage}>
-            <IconButton edge="start" aria-label="back" onClick={() => handleChangePage(0)} disabled={page < 2}>
-              <ArrowLeftIcon />
-            </IconButton>
-            <p>Page</p>
-            <FormControl variant="outlined">
-              <Select
-                className={classes.rowsSelInput}
-                labelId="perCounts"
-                id="perCounts-select"
-                classes={{ root: classes.rowsSelect, icon: classes.selIcon }}
-                value={page}
-                onChange={handleSelectPage}
-              >
-              {
-                pageList.map(curPage => (
-                  <MenuItem key={curPage} value={curPage}>{curPage}</MenuItem>  
-                ))
-              }
-              </Select>
-            </FormControl>
-            <p>{`of ${totalPages}`}</p>
-            <IconButton edge="end" aria-label="next" onClick={() => handleChangePage(1)} disabled={page >= totalPages}>
-              <ArrowRightIcon />
-            </IconButton>
-          </div>
+        <div>
           <Button onClick={addClickHandle} className={classes.createBtn} disabled={updating}>
-            + Add
-          </Button>
+              + Add
+            </Button>
+          <div className={classes.pagination}>
+            <div className={classes.rowsPerPage}>
+              <p>Show</p>
+              <FormControl variant="outlined">
+                <Select
+                  className={classes.rowsSelInput}
+                  labelId="perCounts"
+                  id="perCounts-select"
+                  classes={{ root: classes.rowsSelect, icon: classes.selIcon }}
+                  value={rowsPerPage}
+                  onChange={handleChangeRowsPerPage}
+                  
+                >
+                  <MenuItem value={4}>4</MenuItem>
+                  <MenuItem value={8}>8</MenuItem>
+                  <MenuItem value={12}>12</MenuItem>
+                </Select>
+              </FormControl>
+              <p>Records</p>
+            </div>
+            <div className={classes.rowsPerPage}>
+              <IconButton edge="start" aria-label="back" onClick={() => handleChangePage(0)} disabled={page < 2}>
+                <ArrowLeftIcon />
+              </IconButton>
+              <p>Page</p>
+              <FormControl variant="outlined">
+                <Select
+                  className={classes.rowsSelInput}
+                  labelId="perCounts"
+                  id="perCounts-select"
+                  classes={{ root: classes.rowsSelect, icon: classes.selIcon }}
+                  value={page}
+                  onChange={handleSelectPage}
+                >
+                {
+                  pageList.map(curPage => (
+                    <MenuItem key={curPage} value={curPage}>{curPage}</MenuItem>  
+                  ))
+                }
+                </Select>
+              </FormControl>
+              <p>{`of ${totalPages}`}</p>
+              <IconButton edge="end" aria-label="next" onClick={() => handleChangePage(1)} disabled={page >= totalPages}>
+                <ArrowRightIcon />
+              </IconButton>
+            </div>
+            <div/>
+          </div>
         </div>
         <DeleteModal
           onClose={onRowDelete}

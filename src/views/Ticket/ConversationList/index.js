@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column'
   },
   toolbar: {
-    padding: '0 0 25px 0',
+    padding: '0 0 32px 0',
     minHeight: 83
   },
   createBtn: {

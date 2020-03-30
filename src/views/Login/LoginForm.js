@@ -70,6 +70,10 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 500,
     '&:hover': {
       backgroundColor: '#37c566ba'
+    },
+    '&:disabled': {
+      backgroundColor: '#37c566ba',
+      color: '#ffffff'
     }
   },
   linkWrapper: {

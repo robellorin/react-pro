@@ -4,20 +4,14 @@ import { useHistory } from 'react-router';
 import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
 import {
-  Card,
-  CardContent,
   Typography,
   Divider,
   Link,
+  Hidden
 } from '@material-ui/core';
-import PersonAddIcon from '@material-ui/icons/PersonAddOutlined';
 import Snackbar from '@material-ui/core/Snackbar';
-
 import Alert from 'src/components/Alert';
-import gradients from 'src/utils/gradients';
 import Page from 'src/components/Page';
-import AuthBackground from 'src/components/AuthBackground';
-
 import RegisterForm from './RegisterForm';
 
 const useStyles = makeStyles((theme) => ({
@@ -26,44 +20,97 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: theme.spacing(6, 2)
+    overflow: 'hidden'
   },
-  card: {
-    width: theme.breakpoints.values.md,
-    maxWidth: '100%',
-    overflow: 'visible',
+  container: {
     display: 'flex',
-    position: 'relative',
-    '& > *': {
-      flexGrow: 1,
-      flexBasis: '50%',
-      width: '50%'
+    flexDirection: 'row',
+    flex: 1,
+    height: '100vh'
+  },
+  greetingWrapper: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 45,
+  },
+  hello: {
+    fontSize: 48,
+    color: '#ffffff',
+    fontFamily: 'TT Hoves',
+    fontWeight: 'bold',
+    lineHeight: '48px'
+  },
+  greetings: {
+    fontSize: 20,
+    lineHeight: '27px',
+    color: '#ffffff',
+    fontFamily: 'TT Hoves',
+    fontWeight: 500,
+    textAlign: 'center',
+    padding: 25
+  },
+  signup: {
+    fontSize: 20,
+    color: '#ffffff',
+    fontFamily: 'TT Hoves',
+    fontWeight: 500,
+    textTransform: 'capitalize',
+    width: 254,
+    height: 78,
+    borderRadius: 15,
+    marginTop: 10,
+    filter: 'drop-shadow(0 0 12.5px rgba(0,0,0,0.03))',
+    backgroundColor: '#512dd9',
+    border: '3px solid #37c566',
+    '&:hover': {
+      backgroundColor: '#4404e0c4'
     }
   },
-  content: {
-    padding: theme.spacing(8, 4, 3, 4)
+  formWrapper: {
+    display: 'flex',
+    flexGrow: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#ffffff'
   },
-  icon: {
-    backgroundImage: gradients.orange,
-    color: theme.palette.common.white,
-    borderRadius: theme.shape.borderRadius,
-    padding: theme.spacing(1),
-    position: 'absolute',
-    top: -32,
-    left: theme.spacing(3),
-    height: 64,
-    width: 64,
-    fontSize: 32
+  title: {
+    fontSize: 60,
+    lineHeight: '70px',
+    color: '#37c566',
+    fontFamily: 'TT Hoves',
+    fontWeight: 'bold',
+    textAlign: 'center'
   },
-  registerForm: {
-    marginTop: theme.spacing(3)
+  subTitle: {
+    fontSize: 25,
+    color: '#161e33',
+    fontFamily: 'TT Hoves',
+    fontWeight: 500,
+    textAlign: 'center',
+    lineHeight: '25px',
+    padding: '10px 0 5px 0'
   },
-  divider: {
-    margin: theme.spacing(2, 0)
+  signupForm: {
+    marginTop: 40,
+    width: 600,
+    '@media (max-width: 750px)': {
+      width: 500
+    }
   },
-  person: {
-    marginTop: theme.spacing(2),
-    display: 'flex'
+  link: {
+    fontSize: 25,
+    color: '#37c566',
+    fontFamily: 'TT Hoves',
+    fontWeight: 500,
+    marginTop: 25
   }
 }));
 
@@ -108,21 +155,29 @@ function Register() {
         <Alert variant={session.message ? 'success' : 'error'} message={message} />
       </Snackbar>
       
-      <Card className={classes.card}>
-        <CardContent className={classes.content}>
-          <PersonAddIcon className={classes.icon} />
-          <Typography
-            gutterBottom
-            variant="h3"
-          >
-            Sign up
+      <div className={classes.container}>
+        <Hidden mdDown>
+          <div style={{ position: 'relative', filter: 'drop-shadow(0px 5px 24.5px rgba(33,51,109,0.56))' }}>
+            <img src='/images/auth/bg.png' alt='background' style={{ height: '100vh' }} />
+            <div className={classes.greetingWrapper}>
+              <Typography className={classes.hello}>Hello Welcome</Typography>
+              <Typography className={classes.greetings}>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+              </Typography>
+            </div>
+          </div>
+        </Hidden>
+        <div className={classes.formWrapper}>
+          <Typography className={classes.title}>
+          Sign Up
           </Typography>
-          <Typography variant="subtitle2">
-            Sign up on the internal platform
+          <Typography className={classes.subTitle}>
+            Sign Up on the internal platform
           </Typography>
-          <RegisterForm className={classes.registerForm} />
+          <RegisterForm className={classes.signupForm} />
           <Divider className={classes.divider} />
           <Link
+            className={classes.link}
             align="center"
             color="secondary"
             component={RouterLink}
@@ -130,11 +185,10 @@ function Register() {
             underline="always"
             variant="subtitle2"
           >
-            Have an account?
+            Already have an account? Sign In
           </Link>
-        </CardContent>
-        <AuthBackground type="register" />
-      </Card>
+        </div>
+      </div>
     </Page>
   );
 }

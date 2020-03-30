@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   conversationList: {
     width: 280,
     flexBasis: 280,
-    marginRight: 20,
+    marginRight: 39,
     flexShrink: 0,
     // '@media (min-width: 864px)': {
     //   borderRight: `1px solid ${theme.palette.divider}`

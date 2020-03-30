@@ -9,7 +9,10 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     overflow: 'auto',
     maxHeight: '100%',
-    height: 'calc(100vh - 194px)'
+    height: 'calc(100vh - 194px)',
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    backgroundColor: '#ffffff'
   },
   inner: {
     padding: '16px 30px'

@@ -7,12 +7,12 @@ import {
   ListItemAvatar,
   ListItemSecondaryAction,
   ListItemText,
-  Avatar,
   IconButton,
   colors
 } from '@material-ui/core';
 import DoneOutlineIcon from '@material-ui/icons/DoneOutline';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import Avatar from 'src/components/Avatar';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,15 +28,6 @@ const useStyles = makeStyles((theme) => ({
     '& $listItemText span' : {
       color: '#ffffff'
     }
-  },
-  avatar: {
-    height: 48,
-    width: 48,
-    borderRadius: 15,
-    borderColor: '#ffffff',
-    borderWidth: 2,
-    borderStyle: 'solid',
-    boxShadow: `0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)`,
   },
   listItemText: {
     marginLeft: 5,
@@ -75,12 +66,7 @@ function ConversationListItem({
       onClick={() => clickHandle(conversation.id)}
     >
       <ListItemAvatar>
-        <Avatar
-          alt="Person"
-          variant="rounded"
-          className={classes.avatar}
-          src={''}
-        />
+        <Avatar role={session.user.role === 'player' ? 'support' : 'player' }  />
       </ListItemAvatar>
       <ListItemText
         className={classes.listItemText}

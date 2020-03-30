@@ -3,21 +3,20 @@ import { Link as RouterLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
 import {
-  Card,
-  CardContent,
+  Hidden,
   Typography,
   Divider,
   Link,
   TextField,
   Button,
-  Snackbar
+  Snackbar,
+  InputAdornment
 } from '@material-ui/core';
-import LockIcon from '@material-ui/icons/Lock';
 
 import Alert from 'src/components/Alert';
 import Page from 'src/components/Page';
-import gradients from 'src/utils/gradients';
 import { forgotPassword } from 'src/actions';
+import MailOutlineIcon from '@material-ui/icons/MailOutline';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,51 +24,139 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: theme.spacing(6, 2)
+    overflow: 'hidden'
   },
-  card: {
-    width: theme.breakpoints.values.sm,
-    maxWidth: '100%',
-    overflow: 'visible',
+  container: {
     display: 'flex',
-    position: 'relative',
-    '& > *': {
-      flexGrow: 1,
-      flexBasis: '50%',
-      width: '50%'
+    flexDirection: 'row',
+    flex: 1,
+    height: '100vh'
+  },
+  greetingWrapper: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 45,
+  },
+  hello: {
+    fontSize: 48,
+    color: '#ffffff',
+    fontFamily: 'TT Hoves',
+    fontWeight: 'bold',
+    lineHeight: '48px'
+  },
+  greetings: {
+    fontSize: 20,
+    lineHeight: '27px',
+    color: '#ffffff',
+    fontFamily: 'TT Hoves',
+    fontWeight: 500,
+    textAlign: 'center',
+    padding: 25
+  },
+  signup: {
+    fontSize: 20,
+    color: '#ffffff',
+    fontFamily: 'TT Hoves',
+    fontWeight: 500,
+    textTransform: 'capitalize',
+    width: 254,
+    height: 78,
+    borderRadius: 15,
+    marginTop: 10,
+    filter: 'drop-shadow(0 0 12.5px rgba(0,0,0,0.03))',
+    backgroundColor: '#512dd9',
+    border: '3px solid #37c566',
+    '&:hover': {
+      backgroundColor: '#4404e0c4'
     }
   },
-  content: {
-    padding: theme.spacing(8, 4, 3, 4)
-  },
-  
-  icon: {
-    backgroundImage: gradients.green,
-    color: theme.palette.common.white,
-    borderRadius: theme.shape.borderRadius,
-    padding: theme.spacing(1),
-    position: 'absolute',
-    top: -32,
-    left: theme.spacing(3),
-    height: 64,
-    width: 64,
-    fontSize: 32
-  },
-  resendButton: {
-    marginTop: theme.spacing(4),
-    width: '100%'
-  },
-  divider: {
-    margin: theme.spacing(2, 0)
-  },
-  person: {
-    marginTop: theme.spacing(2),
-    display: 'flex'
-  },
-  linkWrapper: {
-    width: '100%',
+  formWrapper: {
     display: 'flex',
-    justifyContent: 'space-between'
+    flexGrow: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#ffffff'
+  },
+  title: {
+    fontSize: 60,
+    lineHeight: '70px',
+    color: '#37c566',
+    fontFamily: 'TT Hoves',
+    fontWeight: 'bold',
+    textAlign: 'center'
+  },
+  subTitle: {
+    fontSize: 25,
+    color: '#161e33',
+    fontFamily: 'TT Hoves',
+    fontWeight: 500,
+    textAlign: 'center',
+    lineHeight: '25px',
+    padding: '10px 0 5px 0'
+  },
+  signupForm: {
+    marginTop: 40,
+    width: 600,
+    '@media (max-width: 750px)': {
+      width: 500
+    }
+  },
+  link: {
+    fontSize: 25,
+    color: '#37c566',
+    fontFamily: 'TT Hoves',
+    fontWeight: 500,
+    marginTop: 25
+  },
+  textField: {
+    backgroundColor: '#f5f9f9',
+    borderRadius: 15,
+    '& fieldset': {
+      border: 'none'
+    }
+  },
+  input: {
+    fontSize: 25,
+    fontFamily: 'TT Hoves',
+    fontWeight: 500,
+    // color: '#bdbdbd',
+    '&::placeholder': {
+      color: '#bdbdbd',
+    },
+    "&:-webkit-autofill": {
+      WebkitBoxShadow: "0 0 0 1000px #f5f9f9 inset"
+    }
+  },
+
+  icon: {
+    color: '#bdbdbd'
+  },
+  submitButton: {
+    marginTop: 40,
+    width: '100%',
+    borderRadius: 15,
+    padding: '15px',
+    filter: 'drop-shadow(0 0 12.5px rgba(0,0,0,0.03))',
+    backgroundColor: '#37c566',
+    fontSize: 20,
+    fontFamily: 'TT Hoves',
+    textTransform: 'capitalize',
+    fontWeight: 500,
+    '&:hover': {
+      backgroundColor: '#37c566ba'
+    },
+    '&:disabled': {
+      backgroundColor: '#37c566ba',
+      color: '#ffffff'
+    }
   }
 }));
 
@@ -91,7 +178,7 @@ function ForgotPassword() {
   return (
     <Page
       className={classes.root}
-      title="Login"
+      title="Forgot Password"
     >
       <Snackbar
         anchorOrigin={{
@@ -104,44 +191,61 @@ function ForgotPassword() {
       >
         <Alert variant="success" message="sent email" />
       </Snackbar>
-      <Card className={classes.card}>
-        <CardContent className={classes.content}>
-          <LockIcon className={classes.icon} />
-          <Typography
-            gutterBottom
-            variant="h3"
-            style={{marginBottom: 25}}
-          >
-            Account Recovery
+      <div className={classes.container}>
+        <Hidden mdDown>
+          <div style={{ position: 'relative', filter: 'drop-shadow(0px 5px 24.5px rgba(33,51,109,0.56))' }}>
+            <img src='/images/auth/bg.png' alt='background' style={{ height: '100vh' }} />
+            <div className={classes.greetingWrapper}>
+              <Typography className={classes.hello}>Hello Welcome</Typography>
+              <Typography className={classes.greetings}>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+              </Typography>
+            </div>
+          </div>
+        </Hidden>
+        <div className={classes.formWrapper}>
+          <Typography className={classes.title}>
+            Forgot Password
           </Typography>
-          <Typography variant="subtitle2">
-            We will send link to your email for reset password.
+          <Typography className={classes.subTitle}>
+            <div>Please enter your email and we will send you a</div>
+            <div>link to reset your password.</div>
           </Typography>
-          <Typography variant="subtitle2">
-            If you didn't receive email within 15 minutes, please click send button again.
-          </Typography>
-          <TextField
-            fullWidth
-            style={{marginTop: 25}}
-            label="Email"
-            name="email"
-            type="email"
-            onChange={handleChange}
-            value={email}
-            variant="outlined"
-          />
-          <Button
-            className={classes.resendButton}
-            color="secondary"
-            onClick={sendRequest}
-            size="large"
-            type="button"
-            variant="contained"
-          >
-            Resend
-          </Button>
+          <div>
+            <TextField
+            classes={{ root: classes.textField}}
+              fullWidth
+              style={{marginTop: 25}}
+              placeholder="Email"
+              name="email"
+              type="email"
+              onChange={handleChange}
+              value={email}
+              autoComplete='off'
+              InputProps={{
+                classes: {input: classes.input},
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <MailOutlineIcon className={classes.icon} />
+                  </InputAdornment>
+                ),
+              }}
+              variant="outlined"
+            />
+            <Button
+              className={classes.submitButton}
+              color="secondary"
+              onClick={sendRequest}
+              size="large"
+              type="button"
+              variant="contained"
+            >
+              Resend
+            </Button>
+          </div>
           <Divider className={classes.divider} />
           <Link
+            className={classes.link}
             align="center"
             color="secondary"
             component={RouterLink}
@@ -151,8 +255,8 @@ function ForgotPassword() {
           >
             Go back
           </Link>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </Page>
   );
 }

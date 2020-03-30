@@ -141,10 +141,10 @@ function Login() {
         </Hidden>
         <div className={classes.formWrapper}>
           <Typography className={classes.title}>
-            Sign in
+            Sign In
           </Typography>
           <Typography className={classes.subTitle}>
-            Sign in on the internal platform
+            Sign In on the internal platform
           </Typography>
           <LoginForm className={classes.loginForm} onChange={handleChange} sendRequest={sendRequest} />
         </div>

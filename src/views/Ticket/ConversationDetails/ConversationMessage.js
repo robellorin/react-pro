@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
-import { Typography, Avatar } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 
+import Avatar from 'src/components/Avatar';
 const useStyles = makeStyles(theme => ({
   root: {
     marginBottom: theme.spacing(3)
@@ -30,13 +31,6 @@ const useStyles = makeStyles(theme => ({
   },
   avatar: {
     marginRight: theme.spacing(2),
-    height: 48,
-    width: 48,
-    borderRadius: 15,
-    borderColor: '#ffffff',
-    borderWidth: 2,
-    borderStyle: 'solid',
-    boxShadow: `0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)`,
   },
   body: {
     backgroundColor: '#e2e7eb',
@@ -76,10 +70,7 @@ function ConversationMessage({ message, session, className, ticket, ...rest }) {
       )}
     >
       <div className={classes.inner}>
-        <Avatar
-          className={classes.avatar}
-          src={''}
-        />
+      <Avatar className={classes.avatar} role={message.role} />
         <div>
           <div className={classes.body}>
             <div className={classes.content}>

@@ -65,6 +65,13 @@ const useStyles = makeStyles((theme) => ({
   listItemText: {
     flex: 1
   },
+  alignCenter: {
+    flex: 1,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center'
+  },
   text: {
     fontSize: 20,
     color: '#161e33',
@@ -78,15 +85,22 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 500
   },
   state: {
+    fontFamily: 'TT Hoves',
+    fontSize: 20,
     border: '1px solid',
-    paddingLeft: 5,
-    paddingRight: 5,
-    width: 'fit-content'
+    width: 150,
+    height: 42,
+    padding: 8,
+    borderRadius: 10,
+    textAlign: 'center',
+    verticalAlign: 'middle',
+    textTransform: 'Capitalize',
+    display: 'table-cell'
   },
   actionsWrapper: {
     flex: 1,
     display: 'flex',
-    justifyContent: 'flex-end'
+    justifyContent: 'center'
   },
   actions: {
     padding: theme.spacing(0, 1),
@@ -122,14 +136,23 @@ const useStyles = makeStyles((theme) => ({
   },
   selIcon: {
     color: '#37c566'
+  },
+  button: {
+    width: 150,
+    height: 42,
+    borderRadius: 10,
+    color: '#ffffff',
+    fontSize: 20,
+    fontFamily: 'TT Hoves',
+    textTransform: 'capitalize'
   }
 }));
 
 const paymentStatusColors = {
-  created: colors.orange[600],
-  approved: colors.green[600],
+  created: '#2f38e7',
+  approved: '#37c565',
   refunded: colors.red[600],
-  idle:colors.grey[600]
+  idle: '#ffc90d'
 };
 
 const headers = ['Ref', 'Total', 'Status', 'Date', 'Actions'];
@@ -177,7 +200,7 @@ function Results({ className, invoices, onView, onPay, ...rest }) {
             <ListItem className={classes.listItem} style={{ border: 'none', paddingBottom: 0 }}>
               {
                 headers.map((item, index) => (
-                  <ListItemText key={item} classes={{ root: index < 4 ? classes.listItemText : classes.actionsWrapper, primary: classes.headers }}>
+                  <ListItemText key={item} classes={{ root: index === 0 ? classes.listItemText : classes.alignCenter, primary: classes.headers }}>
                     {item}
                   </ListItemText>
                 ))
@@ -190,18 +213,19 @@ function Results({ className, invoices, onView, onPay, ...rest }) {
               ).map((invoice) => (
                 <ListItem key={invoice.id} className={classes.listItem}>
                   <ListItemText classes={{ root:classes.listItemText, primary: classes.text }}>{invoice.id}</ListItemText>
-                  <ListItemText classes={{ root:classes.listItemText, primary: classes.total }}>&euro;{` ${invoice.amount}`}</ListItemText>
-                  <ListItemText classes={{ root:classes.listItemText }}>
+                  <ListItemText classes={{ root:classes.alignCenter, primary: classes.total }}>&euro;{` ${invoice.amount}`}</ListItemText>
+                  <ListItemText classes={{ root:classes.alignCenter }}>
                     <Typography className={classes.state} style={{ color: paymentStatusColors[invoice.state], borderColor: paymentStatusColors[invoice.state] }}>
                       {invoice.state}
                     </Typography>
                   </ListItemText>
-                  <ListItemText classes={{ root:classes.listItemText, primary: classes.text }}>
+                  <ListItemText classes={{ root:classes.alignCenter, primary: classes.text }}>
                     {moment(invoice.created_at).format('DD MMM YYYY')}
                   </ListItemText>
                   <div className={classes.actionsWrapper}>
                     <Button
-                      style={{color: '#fff', backgroundColor: invoice.state === 'created' ? '#007bff' : colors.green[600]}}
+                      className={classes.button}
+                      style={{ backgroundColor: invoice.state === 'created' ? '#37c565' : '#2f38e7' }}
                       onClick={() => handleClick(invoice)}
                       size="small"
                       variant="contained"

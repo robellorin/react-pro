@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import {
   IconButton,
@@ -15,12 +14,14 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.common.white,
     display: 'flex',
     alignItems: 'center',
-    padding: theme.spacing(1, 2)
+    padding: '3px 8px',
+    borderRadius: 20,
+    marginTop: 15
   },
   paper: {
     flexGrow: 1,
     marginLeft: theme.spacing(2),
-    padding: theme.spacing(0.5, 2),
+    padding: '5px 8px',
     border: 'none',
     boxShadow: 'none'
   },
@@ -32,7 +33,8 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 500
   },
   sendButton: {
-    marginRight: 40
+    marginRight: 40,
+    padding: 0
   },
   fileInput: {
     display: 'none'
@@ -79,7 +81,7 @@ function ConversationForm({ sendMessage, className, ...rest }) {
       <form
         {...rest}
         autoComplete="off"
-        className={clsx(classes.root, className)}
+        className={classes.root}
         onSubmit={handleSubmit}
       >
         <Paper
@@ -95,8 +97,8 @@ function ConversationForm({ sendMessage, className, ...rest }) {
           />
         </Paper>
         <Tooltip title="Send">
-          <IconButton className={classes.sendButton} color={value.length > 0 ? 'primary' : '#6f889d'} type="submit">
-            <TelegramIcon style={{fontSize: 35}} />
+          <IconButton className={classes.sendButton}  type="submit">
+            <TelegramIcon style={{ fontSize: 35 }}  />
           </IconButton>
         </Tooltip>
       </form>

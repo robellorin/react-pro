@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
 import validate from 'validate.js';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
@@ -7,16 +6,23 @@ import { useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
 import {
   Button,
-  Checkbox,
-  FormHelperText,
   TextField,
-  Typography,
-  Link
+  InputAdornment
 } from '@material-ui/core';
+import MailOutlineIcon from '@material-ui/icons/MailOutline';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import PermContactCalendarOutlinedIcon from '@material-ui/icons/PermContactCalendarOutlined';
+import GroupOutlinedIcon from '@material-ui/icons/GroupOutlined';
 import { register } from 'src/actions';
 
 const schema = {
   userName: {
+    presence: { allowEmpty: false, message: 'is required' },
+    length: {
+      maximum: 32
+    }
+  },
+  firstName: {
     presence: { allowEmpty: false, message: 'is required' },
     length: {
       maximum: 32
@@ -45,10 +51,6 @@ const schema = {
     length: {
       maximum: 128
     }
-  },
-  policy: {
-    presence: { allowEmpty: false, message: 'is required' },
-    checked: true
   }
 };
 
@@ -63,16 +65,48 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(1)
     }
   },
-  policy: {
-    display: 'flex',
-    alignItems: 'center'
+  textField: {
+    backgroundColor: '#f5f9f9',
+    borderRadius: 15,
+    '& fieldset': {
+      border: 'none'
+    }
   },
-  policyCheckbox: {
-    marginLeft: '-14px'
+  input: {
+    fontSize: 25,
+    fontFamily: 'TT Hoves',
+    fontWeight: 500,
+    // color: '#bdbdbd',
+    '&::placeholder': {
+      color: '#bdbdbd',
+    },
+    "&:-webkit-autofill": {
+      WebkitBoxShadow: "0 0 0 1000px #f5f9f9 inset"
+    }
+  },
+
+  icon: {
+    color: '#bdbdbd'
   },
   submitButton: {
-    marginTop: theme.spacing(2),
-    width: '100%'
+    marginTop: 20,
+    width: '100%',
+    borderRadius: 15,
+    padding: '15px',
+    filter: 'drop-shadow(0 0 12.5px rgba(0,0,0,0.03))',
+    backgroundColor: '#37c566',
+    fontSize: 20,
+    fontFamily: 'TT Hoves',
+    textTransform: 'capitalize',
+    fontWeight: 500,
+    color: '#ffffff',
+    '&:hover': {
+      backgroundColor: '#37c566ba'
+    },
+    '&:disabled': {
+      backgroundColor: '#37c566ba',
+      color: '#ffffff'
+    }
   }
 }));
 
@@ -119,6 +153,7 @@ function RegisterForm({ className, ...rest }) {
     dispatch(register(
       {
         username: event.target.userName.value,
+        firstname: event.target.firstName.value,
         surname: event.target.lastName.value,
         referredBy: event.target.referredBy.value,
         password: event.target.password.value
@@ -146,104 +181,147 @@ function RegisterForm({ className, ...rest }) {
     >
       <div className={classes.fields}>
         <TextField
+          classes={{ root: classes.textField}}
+          autoComplete='off'
           error={hasError('userName')}
           helperText={
             hasError('userName') ? formState.errors.userName[0] : null
           }
-          label="Email"
+          placeholder="Email"
           name="userName"
           type='email'
           onChange={handleChange}
           value={formState.values.userName || ''}
+          fullWidth
+          InputProps={{
+            classes: {input: classes.input},
+            startAdornment: (
+              <InputAdornment position="start">
+                <MailOutlineIcon className={classes.icon} />
+              </InputAdornment>
+            ),
+          }}
           variant="outlined"
         />
         <TextField
+          classes={{ root: classes.textField}}
+          autoComplete='off'
+          error={hasError('firstName')}
+          helperText={
+            hasError('firstName') ? formState.errors.lastName[0] : null
+          }
+          placeholder="FirstName"
+          name="firstName"
+          onChange={handleChange}
+          value={formState.values.firstName || ''}
+          fullWidth
+          InputProps={{
+            classes: {input: classes.input},
+            startAdornment: (
+              <InputAdornment position="start">
+                <PermContactCalendarOutlinedIcon className={classes.icon} />
+              </InputAdornment>
+            ),
+          }}
+          variant="outlined"
+        />
+        <TextField
+          classes={{ root: classes.textField}}
+          autoComplete='off'
           error={hasError('lastName')}
           helperText={
             hasError('lastName') ? formState.errors.lastName[0] : null
           }
-          label="Surname"
+          placeholder="Surname"
           name="lastName"
           onChange={handleChange}
           value={formState.values.lastName || ''}
+          fullWidth
+          InputProps={{
+            classes: {input: classes.input},
+            startAdornment: (
+              <InputAdornment position="start">
+                <PermContactCalendarOutlinedIcon className={classes.icon} />
+              </InputAdornment>
+            ),
+          }}
           variant="outlined"
         />
         <TextField
+          classes={{ root: classes.textField}}
+          autoComplete='off'
           error={hasError('referredBy')}
           fullWidth
           helperText={hasError('referredBy') ? formState.errors.referredBy[0] : null}
-          label="ReferredBy"
+          placeholder="ReferredBy"
           name="referredBy"
           onChange={handleChange}
           value={formState.values.referredBy || ''}
+          InputProps={{
+            classes: {input: classes.input},
+            startAdornment: (
+              <InputAdornment position="start">
+                <GroupOutlinedIcon className={classes.icon} />
+              </InputAdornment>
+            ),
+          }}
           variant="outlined"
         />
         <TextField
+          classes={{ root: classes.textField}}
+          autoComplete="off"
           error={hasError('password')}
           fullWidth
           helperText={
             hasError('password') ? formState.errors.password[0] : null
           }
-          label="Password"
+          placeholder="Password"
           name="password"
           onChange={handleChange}
           type="password"
           value={formState.values.password || ''}
+          InputProps={{
+            classes: {input: classes.input},
+            startAdornment: (
+              <InputAdornment position="start">
+                <LockOutlinedIcon className={classes.icon} />
+              </InputAdornment>
+            ),
+          }}
           variant="outlined"
         />
         <TextField
+          classes={{ root: classes.textField}}
+          autoComplete='off'
           error={hasError('confirmPassword')}
           fullWidth
           helperText={
             hasError('confirmPassword') ? formState.errors.confirmPassword[0] : null
           }
-          label="Confirm Password"
+          placeholder="Confirm Password"
           name="confirmPassword"
           onChange={handleChange}
           type="password"
           value={formState.values.confirmPassword || ''}
+          InputProps={{
+            classes: {input: classes.input},
+            startAdornment: (
+              <InputAdornment position="start">
+                <LockOutlinedIcon className={classes.icon} />
+              </InputAdornment>
+            ),
+          }}
           variant="outlined"
         />
-        <div>
-          <div className={classes.policy}>
-            <Checkbox
-              checked={formState.values.policy || false}
-              className={classes.policyCheckbox}
-              color="primary"
-              name="policy"
-              onChange={handleChange}
-            />
-            <Typography
-              color="textSecondary"
-              variant="body1"
-            >
-              I have read the
-              {' '}
-              <Link
-                color="secondary"
-                component={RouterLink}
-                to="#"
-                underline="always"
-                variant="h6"
-              >
-                Terms and Conditions
-              </Link>
-            </Typography>
-          </div>
-          {hasError('policy') && (
-            <FormHelperText error>{formState.errors.policy[0]}</FormHelperText>
-          )}
-        </div>
       </div>
       <Button
         className={classes.submitButton}
-        color="secondary"
         disabled={!formState.isValid}
         size="large"
         type="submit"
         variant="contained"
       >
-        Create account
+        Sign Up
       </Button>
     </form>
   );

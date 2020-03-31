@@ -1,13 +1,13 @@
 import axios from 'axios';
 import * as constant from 'src/constant';
 
-export const getCredentials = (role) => async (dispatch) => {
+export const getCredentials = (userId) => async (dispatch) => {
   const userData = JSON.parse(localStorage.getItem('user'));
   dispatch({
     type: constant.CREDENTIAL_REQUEST
   });
-  const param = role === 'admin' || role === 'support' ? '?type=all' : '';
-  await axios.get(`${constant.API_URL}/credential${param}`, {
+  const params = userId ? `?userId=${userId}` : '';
+  await axios.get(`${constant.API_URL}/credential${params}`, {
     headers: {
       'Authorization': `Bearer ${userData.token}`
     }

@@ -36,18 +36,19 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function InvoicesList() {
+function InvoicesList(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const paymentData = useSelector(state => state.payment);
+  const session = useSelector(state => state.session);
   const [invoices, setInvoices] = useState(paymentData.invoices);
   const [openCheckout, setOpenCheckout] = useState(false);
   const [openView, setOpenView] = useState(false);
   const [selectedInvoice, setSelectedInvoice] = useState({});
-
+  const payDisabled = props.selectedUser && props.selectedUser.id !== session.user.id;
   useEffect(() => {
-    dispatch(fetchInvoices());
-  }, [dispatch]);
+    dispatch(fetchInvoices(props.selectedUser ? props.selectedUser.id : null));
+  }, [dispatch, props.selectedUser]);
 
   useEffect(() => {
     if (paymentData.loading) {
@@ -96,6 +97,7 @@ function InvoicesList() {
             invoices={invoices}
             onView={viewInvoice}
             onPay={pay}
+            payDisabled={payDisabled}
           />
           <Modal open={openCheckout}>
             <Container

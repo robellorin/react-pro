@@ -9,8 +9,7 @@ import FinancialStats from './FinancialStats';
 import NewArea from './NewArea';
 import { getProfit, getNews } from 'src/actions';
 import * as constant from 'src/constant';
-import LoadingComponent from 'src/components/Loading';
-
+// import LoadingComponent from 'src/components/Loading';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function DashboardAnalytics() {
+function DashboardAnalytics(props) {
   const dispatch = useDispatch();
   const now = new Date();
   const year = now.getFullYear();
@@ -40,9 +39,9 @@ function DashboardAnalytics() {
   useEffect(() => {
     const from = Date.parse(new Date(`${year}-01-01`));
     const to = Date.now();
-      dispatch(getProfit(from, to));
-      dispatch(getNews());
-  }, [year, dispatch]);
+    dispatch(getProfit(from, to, props.selectedUser ? props.selectedUser.id : null));
+    dispatch(getNews());
+  }, [year, dispatch, props.selectedUser]);
 
   useEffect(() => {
     const { bets } = betData;
@@ -114,12 +113,6 @@ function DashboardAnalytics() {
       className={classes.root}
       title="Analytics Dashboard"
     >
-    {
-      loading &&
-      <LoadingComponent />
-    }
-    {
-      !loading &&
       <Container maxWidth={false} style={{ paddingRight: 0, marginTop: 24 }}>
         <NewArea data={news} isChecked={dashboardData.checkNews} onCheckHandle={onCheckHandle} />
         <Grid
@@ -149,7 +142,6 @@ function DashboardAnalytics() {
           </Grid>
         </Grid>
       </Container>
-    }
     </Page>
   );
 }

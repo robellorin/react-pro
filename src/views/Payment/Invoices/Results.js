@@ -157,7 +157,7 @@ const paymentStatusColors = {
 
 const headers = ['Ref', 'Total', 'Status', 'Date', 'Actions'];
 
-function Results({ className, invoices, onView, onPay, ...rest }) {
+function Results({ className, invoices, onView, onPay, payDisabled, ...rest }) {
   const classes = useStyles();
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -226,6 +226,7 @@ function Results({ className, invoices, onView, onPay, ...rest }) {
                     <Button
                       className={classes.button}
                       style={{ backgroundColor: invoice.state === 'created' ? '#37c565' : '#2f38e7' }}
+                      disabled={payDisabled && invoice.state === 'created'}
                       onClick={() => handleClick(invoice)}
                       size="small"
                       variant="contained"

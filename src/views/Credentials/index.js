@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import {
@@ -22,8 +22,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Credentials() {
+function Credentials(props) {
   const classes = useStyles();
+  const [selectedUser, setSelectedUser] = useState(props.selectedUser);
+  useEffect(() => {
+    setSelectedUser(props.selectedUser);
+  }, [props.selectedUser]);
 
   return (
     <Page
@@ -31,7 +35,7 @@ function Credentials() {
       title="Credentials"
     >
       <Container maxWidth={false} className={classes.container}>
-        <CredentialsForm className={classes.credentials} />
+        <CredentialsForm className={classes.credentials} selectedUser={selectedUser} />
       </Container>
     </Page>
   );

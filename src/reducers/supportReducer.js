@@ -3,6 +3,7 @@ import * as constant from 'src/constant';
 const initialState = {
   loading: true,
   usersWithNews: [],
+  users: [],
   status: 'success'
 };
 
@@ -47,6 +48,13 @@ const supportReducer = (state = initialState, action) => {
         usersWithNews: clone,
         status: 'success'
       };
+    }
+
+    case constant.GET_USERS_SUCCESS: {
+      return {
+        ...state,
+        users: action.data
+      }
     }
 
     case constant.SUPPORT_REQUEST_FAILED: {

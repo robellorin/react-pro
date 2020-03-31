@@ -9,7 +9,7 @@ import NavBar from './NavBar';
 import TopBar from './TopBar';
 import * as constant from 'src/constant';
 import socket from 'src/components/Socket';
-import { setNotification } from 'src/actions';
+import { setNotification, getAllUsers } from 'src/actions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,8 +46,10 @@ function Dashboard({ route }) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const session = useSelector(state => state.session);
+  const supportData = useSelector(state => state.supportData);
   const notification = useSelector(state => state.notification);
   const userData = localStorage.getItem('user');
+  const [user, setUser] = useState('');
     
   useEffect(() => {
     const receivedMessage = (data) => {
@@ -68,6 +70,14 @@ function Dashboard({ route }) {
     }
   }, [session, dispatch, userData]);
 
+  useEffect(() => {
+    dispatch(getAllUsers());
+  }, [dispatch]);
+
+  const selectUser = (selectedUser) => {
+    setUser(selectedUser);
+  }
+
   const [openNavBarMobile, setOpenNavBarMobile] = useState(false);
    
   return (
@@ -84,12 +94,14 @@ function Dashboard({ route }) {
             position="sticky"
             session={session}
             notification={notification}
+            users={supportData.users}
+            selectUser={selectUser}
             onOpenNavBarMobile={() => setOpenNavBarMobile(true)}
           />
           <div className={classes.container}>
             <div className={classes.content}>
               <Suspense fallback={<LinearProgress />}>
-                {renderRoutes(route.routes)}
+                {renderRoutes(route.routes, { selectedUser: user })}
               </Suspense>
             </div>
           </div>

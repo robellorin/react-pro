@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { useHistory } from 'react-router';
 import PropTypes from 'prop-types';
@@ -138,6 +138,8 @@ function TopBar({
   className,
   session,
   notification,
+  users,
+  selectUser,
   ...rest
 }) {
   const classes = useStyles();
@@ -145,39 +147,52 @@ function TopBar({
   const dispatch = useDispatch();
   const notificationsRef = useRef(null);
   const userListRef = useRef(null);
+  const inputRef = React.useRef();
   const [openNotifications, setOpenNotifications] = useState(false);
   const [openUserList, setOpenUserList] = useState(false);
+  const [user, setUser] = useState('');
+  const [filteredUsers, setUsers] = useState(users);
   let headerData = {};
+  let showUsers = false;
   if (history.location.pathname.indexOf('analytics') >= 0) {
     headerData = {
       icon: EqualizerIcon,
       title: 'Analytics Overview' 
     }
+    showUsers = true;
   }
   if (history.location.pathname.indexOf('credentials') >= 0) {
     headerData = {
       icon: LockIcon,
       title: 'Bookmaker Accounts' 
     }
+    showUsers = true;
   }
   if (history.location.pathname.indexOf('payment') >= 0) {
     headerData = {
       icon: PaymentIcon,
       title: 'Payments' 
     }
+    showUsers = true;
   }
   if (history.location.pathname.indexOf('ticket') >= 0) {
     headerData = {
       icon: SmsIcon,
       title: 'Support' 
     }
+    showUsers = false;
   }
   if (history.location.pathname.indexOf('support') >= 0) {
     headerData = {
       icon: ChatBubbleIcon,
       title: 'News' 
     }
+    showUsers = false;
   }
+
+  useEffect(() => {
+    setUsers(users);
+  }, [users]);
   
   const handleLogout = () => {
     const client = socket(session.user);
@@ -199,7 +214,18 @@ function TopBar({
   };
 
   const handleSelectUser = (user) => {
+    setUser(`${user.firstname} ${user.surname}`);
+    setOpenUserList(false);
+    selectUser(user);
+  }
 
+  const handleFilter = (event) => {
+    event.persist();
+    setUser(event.target.value);
+    const keywords = event.target.value.toLowerCase();
+    const tempUsers = users.filter((item) => (`${item.firstname} ${item.surname}`.toLowerCase().includes(keywords)));
+    setUsers(tempUsers);
+    setOpenUserList(true);
   }
 
   return (
@@ -265,19 +291,21 @@ function TopBar({
         </div>
         <div>
           {
-            (session.user.role === 'support' || session.user.role === 'admin') &&
+            (session.user.role === 'support' || session.user.role === 'admin') &&  showUsers &&
             <TextField
               ref={userListRef}
+              inputRef={inputRef}
               fullWidth
               className={classes.userInput}
-              // value={credential.password}
+              value={user}
+              onChange={handleFilter}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="start">
                     <IconButton
                       aria-label="toggle password visibility"
                       style={{ padding: 0 }}
-                      onClick={() => setOpenUserList(true)}
+                      onClick={() => setOpenUserList((prev) => !prev)}
                       onMouseDown={(event) => event.preventDefault()}
                     >
                       <ArrowDropDownIcon />
@@ -297,13 +325,17 @@ function TopBar({
         handleNotificationsClose={handleNotificationsClose}
         open={openNotifications}
       />
-      <UserListPopover
-        anchorEl={userListRef.current}
-        users={[]}
-        handleSelectUser={handleSelectUser}
-        open={openUserList}
-        onClose={() => setOpenUserList(false)}
-      />
+      {
+        openUserList &&
+          <UserListPopover
+            users={filteredUsers}
+            handleSelectUser={handleSelectUser}
+            // anchorEl={userListRef.current}
+            // open={openUserList}
+            // onClose={() => setOpenUserList(false)}
+            // onEntering = {setFocusInput}
+          />
+      }
     </AppBar>
   );
 }

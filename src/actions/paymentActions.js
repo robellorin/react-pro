@@ -32,12 +32,13 @@ export const executePayment = (id, paymentID, payerID) => async (dispatch) => {
   });
 }
 
-export const fetchInvoices = () => async (dispatch) => {
+export const fetchInvoices = (userId) => async (dispatch) => {
   const userData = JSON.parse(localStorage.getItem('user'));
   dispatch({
     type: constant.PAYMENT_REQUEST
   });
-  await axios.get(`${constant.API_URL}/invoice`, {
+  const params = userId ? `?userId=${userId}` : '';
+  await axios.get(`${constant.API_URL}/invoice${params}`, {
     headers: {
       'Authorization': `Bearer ${userData.token}`,
       'Content-Type': 'application/json'

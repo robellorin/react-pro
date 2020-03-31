@@ -31,6 +31,36 @@ export const getUsersWithNews = () => async (dispatch) => {
   });
 }
 
+export const getAllUsers = () => async (dispatch) => {
+  const userData = JSON.parse(localStorage.getItem('user'));
+  dispatch({
+    type: constant.SUPPORT_REQUEST
+  });
+
+  await axios.get(`${constant.API_URL}/user`, {
+    headers: {
+      'Authorization': `Bearer ${userData.token}`
+    }
+  })
+  .then(res => {
+    if (res.status === 200 && res.data) {
+      dispatch({
+        type: constant.GET_USERS_SUCCESS,
+        data: res.data
+      });
+    } else {
+      dispatch({
+        type: constant.SUPPORT_REQUEST_FAILED
+      });
+    }
+  })
+  .catch(error => {
+    dispatch({
+      type: constant.SUPPORT_REQUEST_FAILED
+    });
+  });
+}
+
 export const updateUsersWithNews = (id, cutOff, newsId, news) => async (dispatch) => {
   const userData = JSON.parse(localStorage.getItem('user'));
   dispatch({

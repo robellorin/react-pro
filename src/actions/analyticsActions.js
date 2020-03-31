@@ -1,14 +1,15 @@
 import axios from 'axios';
 import * as constant from 'src/constant';
 
-export const getProfit = (from, to) => async (dispatch) => {
+export const getProfit = (from, to, userId = null) => async (dispatch) => {
   const userData = JSON.parse(localStorage.getItem('user'));
   dispatch({
     type: constant.BETTING_HISTORY_REQUEST
   });
   const data = {
-    from: from,
-    to: to
+    from,
+    to,
+    userId
   }
   await axios.post(`${constant.API_URL}/bet`, data, {
     headers: {

@@ -214,12 +214,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const headers = ['Bookmaker', 'Country', 'Username', 'Password', 'Balance', 'Notes', 'Actions'];
-function CredentialsForm({ className, ...rest }) {
+function CredentialsForm({ className, selectedUser, ...rest }) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const listEnd = useRef(null);
   const credentials = useSelector(state => state.credentials);
-  const session = useSelector(state => state.session);
   const [data, setData] = useState(credentials.credentials);
   const [loading, setLoading] = useState(credentials.loading);
   const [page, setPage] = useState(1);
@@ -240,8 +239,8 @@ function CredentialsForm({ className, ...rest }) {
   }
 
   useEffect(() => {
-    dispatch(getCredentials(session.user.role));
-  }, [dispatch, session.user]);
+    dispatch(getCredentials(selectedUser ? selectedUser.id : null));
+  }, [dispatch, selectedUser]);
 
   useEffect(() => {
     if (loading && !credentials.loading && credentials.status === 'success') {

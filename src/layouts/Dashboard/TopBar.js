@@ -90,9 +90,9 @@ const useStyles = makeStyles((theme) => ({
   },
   titleWrapper: {
     color: '#8f9da4',
-    padding: '21px 30px 10px 44px',
+    padding: '26px 30px 5px 44px',
     display: 'flex',
-    alignItems: 'center',
+    alignItems: 'flex-end',
     justifyContent: 'space-between'
   },
   headerTitle: {
@@ -100,7 +100,10 @@ const useStyles = makeStyles((theme) => ({
     color: '#8f9da4',
     fontFamily: 'TT Hoves',
     fontWeight: 500,
-    paddingLeft: 10
+    paddingLeft: 10,
+    [theme.breakpoints.down('md')]: {
+      fontSize: 20
+    }
   },
   userInput: {
     padding: 0,

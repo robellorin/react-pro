@@ -74,7 +74,10 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 23,
     color: '#161e33',
     fontFamily: 'TT Hoves',
-    fontWeight: 500
+    fontWeight: 500,
+    [theme.breakpoints.down('md')]: {
+      fontSize: 20
+    }
   },
   inner: {
     // padding: 10

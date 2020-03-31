@@ -38,14 +38,18 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     padding: 0,
-    flex: 1
+    flex: 1,
+    overflow: 'auto'
   },
   headerTitle: {
     textAlign: 'center',
     fontSize: 23,
     color: '#161e33',
     fontFamily: 'TT Hoves',
-    fontWeight: 500
+    fontWeight: 500,
+    [theme.breakpoints.down('md')]: {
+      fontSize: 20
+    }
   },
   inner: {
     // padding: 10
@@ -58,6 +62,9 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 10,
     '@media (max-width: 949px)': {
       padding: '16px 50px',
+    },
+    '@media (max-width: 750px)': {
+      padding: '10px 20px',
     }
   },
   headers: {
@@ -76,29 +83,29 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     textAlign: 'center'
   },
+  tableText: {
+    '& p, span, button': {
+      fontSize: 20,
+      '@media (max-width: 1440px)': {
+        fontSize: 17
+      }
+    }
+  },
   text: {
-    fontSize: 20,
     color: '#161e33',
     fontFamily: 'TT Hoves',
     fontWeight: 500
   },
   total: {
-    fontSize: 20,
     color: '#37c566',
     fontFamily: 'TT Hoves',
     fontWeight: 500
   },
   state: {
-    fontFamily: 'TT Hoves',
-    fontSize: 20,
     border: '1px solid',
-    width: 150,
-    height: 42,
     padding: 8,
-    borderRadius: 10,
     textAlign: 'center',
     verticalAlign: 'middle',
-    textTransform: 'Capitalize',
     display: 'table-cell'
   },
   actionsWrapper: {
@@ -143,13 +150,20 @@ const useStyles = makeStyles((theme) => ({
     color: '#37c566'
   },
   button: {
+    color: '#ffffff',
+  },
+  rowButton: {
     width: 150,
     height: 42,
     borderRadius: 10,
-    color: '#ffffff',
-    fontSize: 20,
     fontFamily: 'TT Hoves',
-    textTransform: 'capitalize'
+    textTransform: 'capitalize',
+    '@media (max-width: 1440px)': {
+      width: 120
+    },
+    [theme.breakpoints.down('sm')]: {
+      width: 100
+    }
   }
 }));
 
@@ -201,7 +215,7 @@ function Results({ className, invoices, onView, onPay, payDisabled, ...rest }) {
           title="Invoices"
         />
         <CardContent className={classes.content}>
-          <List style={{ overflow: 'auto', height: '100%' }}>
+          <List style={{ height: '100%' }}>
             <ListItem className={classes.listItem} style={{ border: 'none', paddingBottom: 0 }}>
               {
                 headers.map((item, index) => (
@@ -216,11 +230,11 @@ function Results({ className, invoices, onView, onPay, payDisabled, ...rest }) {
                 ? invoices.slice((page - 1) * rowsPerPage, page * rowsPerPage)
                 : invoices
               ).map((invoice) => (
-                <ListItem key={invoice.id} className={classes.listItem}>
+                <ListItem key={invoice.id} className={clsx(classes.listItem, classes.tableText)}>
                   <ListItemText classes={{ root:classes.listItemText, primary: classes.text }}>{invoice.id}</ListItemText>
                   <ListItemText classes={{ root:classes.alignCenter, primary: classes.total }}>&euro;{` ${invoice.amount}`}</ListItemText>
                   <ListItemText classes={{ root:classes.alignCenter }}>
-                    <Typography className={classes.state} style={{ color: paymentStatusColors[invoice.state], borderColor: paymentStatusColors[invoice.state] }}>
+                    <Typography className={clsx(classes.state, classes.rowButton)} style={{ color: paymentStatusColors[invoice.state], borderColor: paymentStatusColors[invoice.state] }}>
                       {invoice.state}
                     </Typography>
                   </ListItemText>
@@ -229,7 +243,7 @@ function Results({ className, invoices, onView, onPay, payDisabled, ...rest }) {
                   </ListItemText>
                   <div className={classes.actionsWrapper}>
                     <Button
-                      className={classes.button}
+                      className={clsx(classes.button, classes.rowButton)}
                       style={{ backgroundColor: invoice.state === 'created' ? '#37c565' : '#2f38e7' }}
                       disabled={(payDisabled && invoice.state === 'created') ? true : false}
                       onClick={() => handleClick(invoice)}

@@ -118,7 +118,7 @@ function Details({ invoice, className, onClose, ...rest }) {
               Date of issue
             </Typography>
             <Typography>
-              {moment(invoice.betTo).format('DD MMM YYYY')}
+              {moment(invoice.updatedAt).format('DD MMM YYYY')}
             </Typography>
           </Grid>
           <Grid item>

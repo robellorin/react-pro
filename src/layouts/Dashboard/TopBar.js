@@ -38,7 +38,10 @@ const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: '#ffffff',
     padding: '20px 20px 10px 30px',
-    // boxShadow: 'none'
+    boxShadow: 'none',
+    borderBottomWidth: 1,
+    borderBottomStyle: 'solid',
+    borderBottomColor: '#eeeeef'
   },
   flexGrow: {
     flexGrow: 1
@@ -70,12 +73,20 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   logoutButton: {
-    textTransform: 'capitalize',
-    marginLeft: theme.spacing(2),
-    color: '#6f889d'
+    marginLeft: theme.spacing(3),
   },
   logoutIcon: {
-    marginLeft: theme.spacing(1)
+    marginLeft: theme.spacing(1),
+    color: '#60686d'
+  },
+  toolbar: {
+    fontSize: 16,
+    color: '#60686d',
+    fontFamily: 'TT Hoves',
+    fontWeight: 500,
+    '& p, $logoutButton': {
+      textTransform: 'capitalize'
+    }
   },
   titleWrapper: {
     color: '#8f9da4',
@@ -237,7 +248,7 @@ function TopBar({
       {...rest}
       className={clsx(classes.root, className)}
     >
-      <Toolbar>
+      <Toolbar className={classes.toolbar}>
         <Hidden smUp>
           <IconButton
             className={classes.menuButton}
@@ -275,7 +286,7 @@ function TopBar({
               (!notification || !notification.isNotification) &&
               <Avatar role={session.user.role} />
             }              
-            <Typography style={{ padding: '0 5px', color: 'darkslategray', textTransform: 'capitalize' }}>{session.user.surname}</Typography>
+            <Typography style={{ marginLeft: 10 }}>{`${session.user.firstname} ${session.user.surname}`}</Typography>
             <ArrowDropDownIcon />
           </Button>
         </Hidden>

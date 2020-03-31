@@ -54,6 +54,10 @@ function ConversationListItem({
   active, session, conversation, className, clickHandle, clickSolveHandle, ...rest
 }) {
   const classes = useStyles();
+  const playerName = `${conversation.playerFirstname ? conversation.playerFirstname : ''} ${conversation.playerSurname ? conversation.playerSurname: ''}`;
+  const supportName = conversation.supportId === 0
+    ? 'Support'
+    : `${conversation.supportFirstname ? conversation.supportFirstname : ''} ${conversation.supportSurname ? conversation.supportSurname: ''}`;
   
   return (
     <ListItem
@@ -74,7 +78,7 @@ function ConversationListItem({
       </ListItemAvatar>
       <ListItemText
         classes={{ root: classes.listItemText, primary: classes.primary, secondary: classes.secondary }}
-        primary={`${conversation.playerFirstname ? conversation.playerFirstname : ''} ${conversation.playerSurname ? conversation.playerSurname: ''}`}
+        primary={session.user.role === 'player' ? supportName : playerName}
         secondary={
           <React.Fragment>
             <span

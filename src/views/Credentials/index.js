@@ -13,15 +13,16 @@ const useStyles = makeStyles((theme) => ({
   root: {
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(3),
-    height: '100%',
+    height: 'calc(100vh - 165px)',
     position: 'relative'
   },
   container: {
-    paddingTop: theme.spacing(0),
-    paddingBottom: theme.spacing(0)
+    height: '100%',
+    paddingBottom: 12
   },
   credentials: {
-    marginTop: theme.spacing(3)
+    paddingTop: theme.spacing(3),
+    height: '100%'
   },
 }));
 

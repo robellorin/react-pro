@@ -26,15 +26,19 @@ const useStyles = makeStyles((theme) => ({
     
   },
   card: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
     border: 'none',
     borderRadius: 20,
     boxShadow: 'none',
     paddingLeft: 30,
-    paddingRight: 30
+    paddingRight: 30,
+    paddingBottom: 12
   },
   content: {
     padding: 0,
-    height: 554
+    flex: 1
   },
   headerTitle: {
     textAlign: 'center',
@@ -109,8 +113,9 @@ const useStyles = makeStyles((theme) => ({
   pagination: {
     display: 'flex',
     justifyContent: 'space-between',
+    alignItems: 'center',
     fontSize: 15,
-    lineHeight: 6,
+    lineHeight: '6px',
     color: '#8f9da4',
     fontFamily: 'TT Hoves',
     fontWeight: 500,
@@ -160,7 +165,7 @@ const headers = ['Ref', 'Total', 'Status', 'Date', 'Actions'];
 function Results({ className, invoices, onView, onPay, payDisabled, ...rest }) {
   const classes = useStyles();
   const [page, setPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(4);
   const totalPages = Math.floor(invoices.length / rowsPerPage) + 1;
   const pageList = [];
   for (let i = 0; i < totalPages; i ++) {
@@ -252,9 +257,9 @@ function Results({ className, invoices, onView, onPay, payDisabled, ...rest }) {
                 onChange={handleChangeRowsPerPage}
                 
               >
-                <MenuItem value={5}>5</MenuItem>
-                <MenuItem value={10}>10</MenuItem>
-                <MenuItem value={25}>25</MenuItem>
+                <MenuItem value={4}>4</MenuItem>
+                <MenuItem value={8}>8</MenuItem>
+                <MenuItem value={12}>12</MenuItem>
               </Select>
             </FormControl>
             <p>Records</p>

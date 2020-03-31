@@ -14,15 +14,16 @@ const useStyles = makeStyles((theme) => ({
   root: {
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(3),
-    height: '100%',
+    height: 'calc(100vh - 165px)',
     position: 'relative'
   },
   container: {
-    paddingTop: 0,
-    paddingBottom: 0
+    height: '100%',
+    paddingBottom: 12
   },
   results: {
-    marginTop: 24
+    paddingTop: 24,
+    height: '100%'
   },
   modalContainer: {
     position: 'absolute',

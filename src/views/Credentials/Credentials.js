@@ -54,15 +54,20 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative'
   },
   card: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
     border: 'none',
     borderRadius: 20,
     boxShadow: 'none',
     paddingLeft: 30,
-    paddingRight: 30
+    paddingRight: 30,
+    paddingBottom: 12
   },
   content: {
     padding: 0,
-    height: 544
+    flex: 1,
+    overflow: 'auto'
   },
   headerTitle: {
     textAlign: 'center',

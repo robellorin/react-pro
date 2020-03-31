@@ -15,7 +15,8 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    overflow: 'hidden'
+    overflow: 'hidden',
+    background: '#ffffff'
   },
   container: {
     display: 'flex',
@@ -34,6 +35,39 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 45,
+    '@media (max-width: 1550px)': {
+      '& $hello': {
+        fontSize: 40
+      },
+      '& $greetings': {
+        fontSize: 17
+      },
+      '& $signup': {
+        transform: 'scale(0.8)'
+      }
+    },
+    '@media (max-height: 945px)': {
+      '& $hello': {
+        fontSize: 40
+      },
+      '& $greetings': {
+        fontSize: 17
+      },
+      '& $signup': {
+        transform: 'scale(0.8)'
+      }
+    },
+    '@media (max-height: 670px)': {
+      '& $hello': {
+        fontSize: 35
+      },
+      '& $greetings': {
+        fontSize: 15
+      },
+      '& $signup': {
+        transform: 'scale(0.6)'
+      }
+    }
   },
   hello: {
     fontSize: 48,
@@ -49,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: 'TT Hoves',
     fontWeight: 500,
     textAlign: 'center',
-    padding: 25
+    padding: '25px 0'
   },
   signup: {
     fontSize: 20,
@@ -74,7 +108,16 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#ffffff'
+    '@media (max-width: 1550px)': {
+      transform: 'scale(0.8)'
+    },
+    '@media (max-height: 945px)': {
+      transform: 'scale(0.8)'
+    },
+    '@media (max-height: 670px)': {
+      transform: 'scale(0.7)'
+    }
+
   },
   title: {
     fontSize: 60,

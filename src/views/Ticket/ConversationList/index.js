@@ -64,7 +64,7 @@ function ConversationList({ conversations, session, onCreate, className, clickIt
   const [curPage, setCurPage] = useState(1);
   const params = useParams();
   const selectedTicketId = params.id;
-  const count = 9;
+  const count = session.user.role === 'player' ? 9: 7;
   const totalPages = Math.floor(conversations.length / count) + 1;
   const onBack = () => {
     setCurPage(curPage - 1);

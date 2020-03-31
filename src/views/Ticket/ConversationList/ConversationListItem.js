@@ -6,6 +6,7 @@ import {
   ListItem,
   ListItemAvatar,
   ListItemSecondaryAction,
+  ListItemText,
   IconButton,
   colors
 } from '@material-ui/core';
@@ -23,16 +24,23 @@ const useStyles = makeStyles((theme) => ({
     '&:hover': {
       backgroundColor: '#4404e0c4'
     },
-    '& $listItemText' : {
+    '& $primary, $secondary' : {
       color: '#ffffff'
     }
   },
   listItemText: {
     marginLeft: 5,
-    paddingRight: 25,
+    fontWeight: 500,
+    fontFamily: 'TT Hoves'
+  },
+  primary: {
     fontSize: 20,
-    fontFamily: 'TT Hoves',
-    fontWeight: 500
+    color: '#161e33'
+    
+  },
+  secondary: {
+    fontSize: 15,
+    color: '#6f889d',
   },
   details: {
     marginLeft: theme.spacing(2),
@@ -64,7 +72,21 @@ function ConversationListItem({
       <ListItemAvatar>
         <Avatar role={session.user.role === 'player' ? 'support' : 'player' }  />
       </ListItemAvatar>
-      <p className={classes.listItemText}>{conversation.title}</p>
+      <ListItemText
+        classes={{ root: classes.listItemText, primary: classes.primary, secondary: classes.secondary }}
+        primary={`${conversation.playerFirstname ? conversation.playerFirstname : ''} ${conversation.playerSurname ? conversation.playerSurname: ''}`}
+        secondary={
+          <React.Fragment>
+            <span
+              component="span"
+              variant="body2"
+              color="textPrimary"
+            >
+              {conversation.title}
+            </span>
+          </React.Fragment>
+        }
+      />
       {
         conversation.status &&
           <ListItemSecondaryAction>

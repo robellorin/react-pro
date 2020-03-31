@@ -225,7 +225,7 @@ function Results({ className, invoices, onView, onPay, payDisabled, ...rest }) {
                     </Typography>
                   </ListItemText>
                   <ListItemText classes={{ root:classes.alignCenter, primary: classes.text }}>
-                    {moment(invoice.created_at).format('DD MMM YYYY')}
+                    {moment(invoice.updatedAt).format('DD MMM YYYY')}
                   </ListItemText>
                   <div className={classes.actionsWrapper}>
                     <Button

@@ -57,7 +57,7 @@ function Details({ invoice, className, onClose, ...rest }) {
         ctx.drawImage(img,0,0);
         const imgData = canvas.toDataURL('image/png', 0.95);
         pdf.addImage(imgData, 'image/png', 0, 0);
-        pdf.save(`${moment(invoice.created_at).format('DD-MM-YYYY')}-invoice.pdf`);
+        pdf.save(`${moment(invoice.updatedAt).format('DD-MM-YYYY')}-invoice.pdf`);
        }
     });
   }

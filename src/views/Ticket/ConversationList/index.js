@@ -79,14 +79,14 @@ function ConversationList({ conversations, session, onCreate, className, clickIt
       {...rest}
       className={clsx(classes.root, className)}
     >
-      <Toolbar className={classes.toolbar}>
       {
         session.user.role !== 'admin' && session.user.role !== 'support' &&
-          <Button onClick={onCreate} className={classes.createBtn} fullWidth>
-            New Ticket
-          </Button>
+          <Toolbar className={classes.toolbar}>
+            <Button onClick={onCreate} className={classes.createBtn} fullWidth>
+              New Ticket
+            </Button>
+          </Toolbar>
       }
-      </Toolbar>
       <List className={classes.list} disablePadding>
         {conversations.slice(begin, end).map((conversation, i) => (
           <ConversationListItem

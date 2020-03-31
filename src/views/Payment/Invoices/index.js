@@ -14,7 +14,8 @@ const useStyles = makeStyles((theme) => ({
   root: {
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(3),
-    height: '100%'
+    height: '100%',
+    position: 'relative'
   },
   container: {
     paddingTop: 0,
@@ -82,34 +83,31 @@ function InvoicesList(props) {
       className={classes.root}
       title="Invoices Management List"
     >
-    {
-      paymentData.loading &&
-        <LoadingComponent />
-    }
-    {
-      !paymentData.loading &&
-        <Container
-          maxWidth={false}
-          className={classes.container}
-        >
-          <Results
-            className={classes.results}
-            invoices={invoices}
-            onView={viewInvoice}
-            onPay={pay}
-            payDisabled={payDisabled}
-          />
-          <Modal open={openCheckout}>
-            <Container
-              maxWidth={false}
-              className={classes.modalContainer}
-            >
-              <Checkout isModal={true} onClose={onCheckoutClose} invoice={selectedInvoice} />
+      <Container
+        maxWidth={false}
+        className={classes.container}
+      >
+        <Results
+          className={classes.results}
+          invoices={invoices}
+          onView={viewInvoice}
+          onPay={pay}
+          payDisabled={payDisabled}
+        />
+        <Modal open={openCheckout}>
+          <Container
+            maxWidth={false}
+            className={classes.modalContainer}
+          >
+            <Checkout isModal={true} onClose={onCheckoutClose} invoice={selectedInvoice} />
           </Container>
         </Modal>
         <InvoiceModal invoice={selectedInvoice} isOpen={openView} onClose={onViewClose} />
       </Container>
-    }
+      {
+        paymentData.loading &&
+          <LoadingComponent />
+      }
     </Page>
   );
 }

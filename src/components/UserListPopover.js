@@ -27,6 +27,9 @@ const useStyles = makeStyles(() => ({
 
 function UserListPopover({ users, anchorEl, handleSelectUser, ...rest }) {
   const classes = useStyles();
+  const sortusers = users.sort((a, b) => (
+    `${a.firstname} ${a.surname}` > `${b.firstname} ${b.surname}` ? 1 : `${a.firstname} ${a.surname}` < `${b.firstname} ${b.surname}` ? -1 : 0
+  ));
   
   return (
     <Paper
@@ -35,7 +38,7 @@ function UserListPopover({ users, anchorEl, handleSelectUser, ...rest }) {
     >
       <List>
         {
-          users.map((user) => (
+          sortusers.map((user) => (
             <ListItem
               key={user.id}
               className={classes.listItem}

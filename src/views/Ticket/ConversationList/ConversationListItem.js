@@ -6,7 +6,6 @@ import {
   ListItem,
   ListItemAvatar,
   ListItemSecondaryAction,
-  ListItemText,
   IconButton,
   colors
 } from '@material-ui/core';
@@ -19,24 +18,21 @@ const useStyles = makeStyles((theme) => ({
     padding: 16
   },
   active: {
-    // boxShadow: `inset 4px 0px 0px ${theme.palette.primary.main}`,
     boxShadow: `0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)`,
     backgroundColor: '#512dd9',
     '&:hover': {
       backgroundColor: '#4404e0c4'
     },
-    '& $listItemText span' : {
+    '& $listItemText' : {
       color: '#ffffff'
     }
   },
   listItemText: {
     marginLeft: 5,
-    fontSize: 15,
-    '& span': {
-      fontSize: 20,
-      fontFamily: 'TT Hoves',
-      fontWeight: 500
-    }
+    paddingRight: 25,
+    fontSize: 20,
+    fontFamily: 'TT Hoves',
+    fontWeight: 500
   },
   details: {
     marginLeft: theme.spacing(2),
@@ -68,13 +64,7 @@ function ConversationListItem({
       <ListItemAvatar>
         <Avatar role={session.user.role === 'player' ? 'support' : 'player' }  />
       </ListItemAvatar>
-      <ListItemText
-        className={classes.listItemText}
-        primary={conversation.title}
-        primaryTypographyProps={{
-          noWrap: false
-        }}
-      />
+      <p className={classes.listItemText}>{conversation.title}</p>
       {
         conversation.status &&
           <ListItemSecondaryAction>

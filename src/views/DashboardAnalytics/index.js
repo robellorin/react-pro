@@ -9,16 +9,14 @@ import FinancialStats from './FinancialStats';
 import NewArea from './NewArea';
 import { getProfit, getNews } from 'src/actions';
 import * as constant from 'src/constant';
-// import LoadingComponent from 'src/components/Loading';
+import LoadingComponent from 'src/components/Loading';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(3),
+    position: 'relative',
     height: '100%'
-  },
-  loadingWrapper: {
-    width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'
   }
 }));
 
@@ -142,6 +140,10 @@ function DashboardAnalytics(props) {
           </Grid>
         </Grid>
       </Container>
+      {
+        loading &&
+        <LoadingComponent />
+      }
     </Page>
   );
 }

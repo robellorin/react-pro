@@ -226,7 +226,7 @@ function Results({ className, invoices, onView, onPay, payDisabled, ...rest }) {
                     <Button
                       className={classes.button}
                       style={{ backgroundColor: invoice.state === 'created' ? '#37c565' : '#2f38e7' }}
-                      disabled={payDisabled && invoice.state === 'created'}
+                      disabled={(payDisabled && invoice.state === 'created') ? true : false}
                       onClick={() => handleClick(invoice)}
                       size="small"
                       variant="contained"

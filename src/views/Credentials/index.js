@@ -1,17 +1,20 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
 import {
   Container
 } from '@material-ui/core';
 import Page from 'src/components/Page';
 import CredentialsForm from './Credentials';
+import LoadingComponent from 'src/components/Loading';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(3),
-    height: '100%'
+    height: '100%',
+    position: 'relative'
   },
   container: {
     paddingTop: theme.spacing(0),
@@ -25,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
 function Credentials(props) {
   const classes = useStyles();
   const [selectedUser, setSelectedUser] = useState(props.selectedUser);
+  const credentials = useSelector(state => state.credentials);
   useEffect(() => {
     setSelectedUser(props.selectedUser);
   }, [props.selectedUser]);
@@ -37,6 +41,10 @@ function Credentials(props) {
       <Container maxWidth={false} className={classes.container}>
         <CredentialsForm className={classes.credentials} selectedUser={selectedUser} />
       </Container>
+      {
+        credentials.loading &&
+          <LoadingComponent />
+      }
     </Page>
   );
 }

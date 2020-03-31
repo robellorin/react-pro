@@ -51,7 +51,7 @@ const bookmakers = {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    
+    position: 'relative'
   },
   card: {
     border: 'none',
@@ -586,7 +586,6 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
           credential={curRow}
         />
       </Card>
-
     </div>
   );
 }

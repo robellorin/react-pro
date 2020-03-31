@@ -193,7 +193,7 @@ function TopBar({
   useEffect(() => {
     setUsers(users);
   }, [users]);
-  
+    
   const handleLogout = () => {
     const client = socket(session.user);
     history.push('/auth/login');
@@ -226,6 +226,10 @@ function TopBar({
     const tempUsers = users.filter((item) => (`${item.firstname} ${item.surname}`.toLowerCase().includes(keywords)));
     setUsers(tempUsers);
     setOpenUserList(true);
+  }
+
+  const handleClickIcon = () => {
+    setOpenUserList((prev) => !prev);
   }
 
   return (
@@ -305,7 +309,7 @@ function TopBar({
                     <IconButton
                       aria-label="toggle password visibility"
                       style={{ padding: 0 }}
-                      onClick={() => setOpenUserList((prev) => !prev)}
+                      onClick={handleClickIcon}
                       onMouseDown={(event) => event.preventDefault()}
                     >
                       <ArrowDropDownIcon />
@@ -330,10 +334,6 @@ function TopBar({
           <UserListPopover
             users={filteredUsers}
             handleSelectUser={handleSelectUser}
-            // anchorEl={userListRef.current}
-            // open={openUserList}
-            // onClose={() => setOpenUserList(false)}
-            // onEntering = {setFocusInput}
           />
       }
     </AppBar>

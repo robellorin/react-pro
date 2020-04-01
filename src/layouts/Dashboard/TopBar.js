@@ -32,7 +32,7 @@ import SmsIcon from '@material-ui/icons/Sms';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
 import PaymentIcon from '@material-ui/icons/Payment';
 import LockIcon from '@material-ui/icons/Lock';
-import ChatBubbleIcon from '@material-ui/icons/ChatBubble';
+import SettingsIcon from '@material-ui/icons/Settings';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,7 +41,11 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: 'none',
     borderBottomWidth: 1,
     borderBottomStyle: 'solid',
-    borderBottomColor: '#eeeeef'
+    borderBottomColor: '#eeeeef',
+    height: 165,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between'
   },
   flexGrow: {
     flexGrow: 1
@@ -198,8 +202,8 @@ function TopBar({
   }
   if (history.location.pathname.indexOf('support') >= 0) {
     headerData = {
-      icon: ChatBubbleIcon,
-      title: 'News' 
+      icon: SettingsIcon,
+      title: 'Setting' 
     }
     showUsers = false;
   }

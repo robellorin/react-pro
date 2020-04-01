@@ -9,8 +9,8 @@ const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 420,
     position: 'fixed',
-    bottom: -3,
-    right: 15,
+    bottom: 14,
+    right: 16,
     margin: theme.spacing(3),
     outline: 'none',
     zIndex: 2000

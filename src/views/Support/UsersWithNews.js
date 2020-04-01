@@ -11,9 +11,9 @@ import MaterialTable from "material-table";
 import { getUsersWithNews, updateUsersWithNews } from 'src/actions';
 
 const columns = [
-  { title: 'UserName', field: 'username' },
-  { title: 'Surname', field: 'surname'},
-  { title: 'CutOff', field: 'cutOff'},
+  { title: 'UserName', field: 'username', editable: 'never' },
+  { title: 'Full Name', field: 'fullname', editable: 'never'},
+  { title: 'Team', field: 'tags', editable: 'never'},
   { 
     title: 'News',
     editComponent: props => <TextField
@@ -31,9 +31,20 @@ const columns = [
 ];
 
 const useStyles = makeStyles(theme => ({
-  root: {},
+  root: {
+    borderRadius: 20,
+    border: 'none',
+    boxShadow: 'none',
+    width: '100%',
+    height: '100%'
+  },
   content: {
-    padding: 20,
+    padding: 36,
+    height: '100%',
+    overflow: 'auto'
+  },
+  table: {
+    height: '100%'
   },
   addBtn: {
     marginTop: theme.spacing(2)
@@ -47,10 +58,8 @@ function UsersWithNews({ className, ...rest }) {
   const supportData = useSelector(state => state.supportData);
   const [data, setData] = useState(supportData.usersWithNews);
   const [loading, setLoading] = useState(supportData.loading);
-  const addIcon = React.useRef(null);
 
   useEffect(() => {
-    // addIcon.current.parentNode.parentNode.classList.remove('MuiIconButton-root');
     dispatch(getUsersWithNews());
   }, [dispatch]);
 
@@ -62,7 +71,7 @@ function UsersWithNews({ className, ...rest }) {
   }, [supportData, loading]);
   
   const onRowUpdate = (newRow, oldRow) => {
-    return dispatch(updateUsersWithNews(oldRow.id, newRow.cutOff, oldRow.newsId, newRow.news));
+    return dispatch(updateUsersWithNews(oldRow.id, oldRow.newsId, newRow.news));
   }
     
   return (
@@ -72,17 +81,13 @@ function UsersWithNews({ className, ...rest }) {
     >
       <CardContent className={classes.content}>
         <MaterialTable
+          className={classes.table}
           title=""
           columns={columns}
           data={data}
           editable={{
               onRowUpdate: (newData, oldData) => onRowUpdate(newData, oldData)
           }}
-          icons={
-            {
-              Add: props => <div ref={addIcon}/>
-            }
-          }
           options={{
             actionsColumnIndex: -1
           }}

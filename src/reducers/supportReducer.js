@@ -24,7 +24,7 @@ const supportReducer = (state = initialState, action) => {
         return item;
       })
       return {
-        ...initialState,
+        ...state,
         loading: false,
         usersWithNews: action.data,
         status: 'success'
@@ -34,8 +34,7 @@ const supportReducer = (state = initialState, action) => {
     case constant.SUPPORT_UPDATE_REQUEST_SUCCESS: {
       let clone = state.usersWithNews;
       clone.map(item => {
-        if (item.id === action.user.id) {
-          item.cutOff = action.user.cutOff;
+        if (item.id === action.userId) {
           item.news = action.news ?? '';
           item.newsId = action.newsId;
 
@@ -53,7 +52,8 @@ const supportReducer = (state = initialState, action) => {
     case constant.GET_USERS_SUCCESS: {
       return {
         ...state,
-        users: action.data
+        users: action.data,
+        loading: false
       }
     }
 

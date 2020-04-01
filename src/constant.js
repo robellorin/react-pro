@@ -81,3 +81,14 @@ export const countryList = {
   "ES": "Spain",
   "UA": "Ukraine"
 };
+
+export const teamList = [
+  "DEFAULT",
+  "Balmers Team",
+  "Dines Team",
+  "Kapousouzis Team",
+  "Mansos Team",
+  "Rosss Team",
+  "Solo Team",
+  "Wilkinsons Team"
+]

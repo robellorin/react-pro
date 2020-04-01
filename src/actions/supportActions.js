@@ -61,22 +61,8 @@ export const getAllUsers = () => async (dispatch) => {
   });
 }
 
-export const updateUsersWithNews = (id, cutOff, newsId, news) => async (dispatch) => {
+export const updateUser = (id, data) => async (dispatch) => {
   const userData = JSON.parse(localStorage.getItem('user'));
-  dispatch({
-    type: constant.SUPPORT_REQUEST
-  });
-  let createdNewsId = newsId;
-  if (!newsId) {
-    const newsResponse = await addNews(id,news);
-    createdNewsId = newsResponse.data.id;
-  } else {
-    await updateNews(newsId, news);
-  }
-  
-  const data = {
-    cutOff
-  }
   await axios.put(`${constant.API_URL}/user/${id}`, data, {
     headers: {
       'Authorization': `Bearer ${userData.token}`,
@@ -85,23 +71,36 @@ export const updateUsersWithNews = (id, cutOff, newsId, news) => async (dispatch
   })
   .then(res => {
     if (res.status === 200) {
-      dispatch({
-        type: constant.SUPPORT_UPDATE_REQUEST_SUCCESS,
-        user: res.data,
-        news,
-        newsId: createdNewsId
-      });
-    } else {
-      dispatch({
-        type: constant.SUPPORT_REQUEST_FAILED
-      });
+      dispatch(getAllUsers());
     }
-  })
-  .catch(error => {
+  });
+}
+
+export const updateUsersWithNews = (id, newsId, news) => async (dispatch) => {
+  dispatch({
+    type: constant.SUPPORT_REQUEST
+  });
+  let createdNewsId = newsId;
+  let response;
+  if (!newsId) {
+    response = await addNews(id,news);
+    createdNewsId = response.data.id;
+  } else {
+    response = await updateNews(newsId, news);
+  }
+    
+  if (response.status === 200) {
+    dispatch({
+      type: constant.SUPPORT_UPDATE_REQUEST_SUCCESS,
+      userId: id,
+      news,
+      newsId: createdNewsId
+    });
+  } else {
     dispatch({
       type: constant.SUPPORT_REQUEST_FAILED
     });
-  });
+  }
 }
 
 async function addNews (userId, news) {
@@ -124,10 +123,11 @@ async function updateNews(id, news) {
   const data = {
     news
   }
-  await axios.put(`${constant.API_URL}/news/${id}`, data, {
+  const response = await axios.put(`${constant.API_URL}/news/${id}`, data, {
     headers: {
       'Authorization': `Bearer ${userData.token}`,
       'Content-Type': 'application/json'
     }
   });
+  return response;
 }

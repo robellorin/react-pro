@@ -6,27 +6,35 @@ import {
   Container,
   Tabs,
   Tab,
-  Divider,
   colors
 } from '@material-ui/core';
 import Page from 'src/components/Page';
-import Header from './Header';
 import UsersWithNews from './UsersWithNews';
 import GlobalNews from './GlobalNews';
+import Users from './Users/index';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    paddingTop: theme.spacing(3),
-    paddingBottom: theme.spacing(3)
+    paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(3),
+    height: 'calc(100vh - 165px)',
+    position: 'relative'
   },
   tabs: {
-    marginTop: theme.spacing(3)
+    marginBottom: 10
   },
   divider: {
     backgroundColor: colors.grey[300]
   },
+  container: {
+    height: '100%',
+    paddingBottom: 12,
+    display: 'flex',
+    flexDirection: 'column'
+  },
   content: {
-    marginTop: theme.spacing(3)
+    flex: 1,
+    overflow: 'auto'
   }
 }));
 
@@ -34,8 +42,9 @@ function Support({ match, history }) {
   const classes = useStyles();
   const { tab: currentTab } = match.params;
   const tabs = [
+    { value: 'users', label: 'Users' },
     { value: 'globalNews', label: 'Global News' },
-    { value: 'usersWithNews', label: 'Users With News' }
+    { value: 'usersWithNews', label: 'News of Users' }
   ];
 
   const handleTabsChange = (event, value) => {
@@ -43,7 +52,7 @@ function Support({ match, history }) {
   };
 
   if (!currentTab) {
-    return <Redirect to="/support/globalNews" />;
+    return <Redirect to="/support/users" />;
   }
 
   if (!tabs.find((tab) => tab.value === currentTab)) {
@@ -56,7 +65,6 @@ function Support({ match, history }) {
       title="Support"
     >
       <Container maxWidth={false} className={classes.container}>
-        <Header />
         <Tabs
           className={classes.tabs}
           onChange={handleTabsChange}
@@ -72,10 +80,10 @@ function Support({ match, history }) {
             />
           ))}
         </Tabs>
-        <Divider className={classes.divider} />
         <div className={classes.content}>
           {currentTab === 'usersWithNews' && <UsersWithNews />}
           {currentTab === 'globalNews' && <GlobalNews />}
+          {currentTab === 'users' && <Users />}
         </div>
         
       </Container>

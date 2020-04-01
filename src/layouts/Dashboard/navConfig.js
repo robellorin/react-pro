@@ -4,9 +4,7 @@ import EqualizerIcon from '@material-ui/icons/Equalizer';
 import PaymentIcon from '@material-ui/icons/Payment';
 import LockIcon from '@material-ui/icons/Lock';
 import SettingsIcon from '@material-ui/icons/Settings';
-import ChatBubbleIcon from '@material-ui/icons/ChatBubble';
 import SmsIcon from '@material-ui/icons/Sms';
-import GroupIcon from '@material-ui/icons/Group';
 
 export default [
   {
@@ -36,19 +34,7 @@ export default [
         title: 'Support',
         href: '/support',
         icon: SettingsIcon,
-        role: 'support',
-        items: [
-          {
-            title: 'Global News',
-            href: '/support/globalNews',
-            icon: ChatBubbleIcon
-          },
-          {
-            title: 'Users WithNews',
-            href: '/support/usersWithNews',
-            icon: GroupIcon
-          }
-        ]
+        role: 'support'
       }
     ]
   }

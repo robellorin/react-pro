@@ -8,8 +8,7 @@ import ConversationForm from './ConversationForm';
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
-    flexDirection: 'column',
-    marginTop: -32
+    flexDirection: 'column'
   }
 }));
 

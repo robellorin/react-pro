@@ -14,9 +14,15 @@ import LoadingComponent from 'src/components/Loading';
 const useStyles = makeStyles((theme) => ({
   root: {
     paddingTop: theme.spacing(1),
-    paddingBottom: theme.spacing(3),
+    paddingBottom: 36,
     position: 'relative',
-    height: '100%'
+    height: 'calc(100vh - 165px)',
+  },
+  container: {
+    paddingRight: 0,
+    paddingTop: 24,
+    height: '100%',
+    overflow: 'auto'
   }
 }));
 
@@ -111,7 +117,7 @@ function DashboardAnalytics(props) {
       className={classes.root}
       title="Analytics Dashboard"
     >
-      <Container maxWidth={false} style={{ paddingRight: 0, marginTop: 24 }}>
+      <Container maxWidth={false} className={classes.container}>
         <NewArea data={news} isChecked={dashboardData.checkNews} onCheckHandle={onCheckHandle} />
         <Grid
           container
@@ -135,6 +141,7 @@ function DashboardAnalytics(props) {
             lg={12}
             xl={12}
             xs={12}
+            style={{ paddingBottom: 0 }}
           >
             <FinancialStats data={monthData} clickHandle={clickHandle} />
           </Grid>

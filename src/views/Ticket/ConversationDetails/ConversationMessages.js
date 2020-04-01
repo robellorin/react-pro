@@ -8,8 +8,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
     overflow: 'auto',
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
+    borderRadius: 20,
     backgroundColor: '#ffffff'
   },
   inner: {

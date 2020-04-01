@@ -13,9 +13,17 @@ import AddIcon from '@material-ui/icons/Add';
 import { getNews, addNews, deleteNews, updateNews } from 'src/actions';
 
 const useStyles = makeStyles(theme => ({
-  root: {},
+  root: {
+    borderRadius: 20,
+    border: 'none',
+    boxShadow: 'none',
+    width: '100%',
+    height: '100%'
+  },
   content: {
-    padding: 20,
+    padding: 36,
+    height: '100%',
+    overflow: 'auto'
   },
   addBtn: {
     marginTop: theme.spacing(2)

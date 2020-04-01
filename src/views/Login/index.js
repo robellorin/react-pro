@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
         transform: 'scale(0.8)'
       }
     },
-    '@media (max-height: 670px)': {
+    '@media (max-height: 820px)': {
       '& $hello': {
         fontSize: 35
       },
@@ -65,12 +65,23 @@ const useStyles = makeStyles((theme) => ({
         fontSize: 15
       },
       '& $signup': {
+        transform: 'scale(0.7)'
+      }
+    },
+    '@media (max-height: 737px)': {
+      '& $hello': {
+        fontSize: 30
+      },
+      '& $greetings': {
+        fontSize: 13
+      },
+      '& $signup': {
         transform: 'scale(0.6)'
       }
     }
   },
   hello: {
-    fontSize: 48,
+    fontSize: 45,
     color: '#ffffff',
     fontFamily: 'TT Hoves',
     fontWeight: 'bold',
@@ -167,9 +178,9 @@ function Login() {
           <div style={{ position: 'relative', filter: 'drop-shadow(0px 5px 24.5px rgba(33,51,109,0.56))' }}>
             <img src='/images/auth/bg.png' alt='background' style={{ height: '100vh' }} />
             <div className={classes.greetingWrapper}>
-              <Typography className={classes.hello}>Hello Welcome</Typography>
+              <Typography className={classes.hello}>Welcome to Udevia</Typography>
               <Typography className={classes.greetings}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+                The land where dreams come true. Access more insights in your Dashboard and learn how you can make Big Data work for you. 
               </Typography>
               <Button
                 className={classes.signup}
@@ -185,9 +196,6 @@ function Login() {
         <div className={classes.formWrapper}>
           <Typography className={classes.title}>
             Sign In
-          </Typography>
-          <Typography className={classes.subTitle}>
-            Sign In on the internal platform
           </Typography>
           <LoginForm className={classes.loginForm} onChange={handleChange} sendRequest={sendRequest} />
         </div>

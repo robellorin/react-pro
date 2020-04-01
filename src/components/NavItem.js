@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     marginRight: 33,
-    marginLeft: 18,
+    marginLeft: 19,
     fontSize: 53,
     borderRadius: 12,
     padding: 15,

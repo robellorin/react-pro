@@ -99,13 +99,19 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 500
   },
   flex1: {
-    flex: 1
+    flex: 1,
+    display: 'flex',
+    alignItems: 'center'
   },
   flex2: {
-    flex: 2
+    flex: 2,
+    display: 'flex',
+    alignItems: 'center'
   },
   flex3: {
-    flex: 3
+    flex: 3,
+    display: 'flex',
+    alignItems: 'center'
   },
   bookmaker: {
     flex: 2,
@@ -482,53 +488,54 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
                       <ListItemText classes={{ root:classes.flex2, primary: classes.text }}>{constants.countryList[credential.country]}</ListItemText>
                       <ListItemText classes={{ root:classes.flex2, primary: classes.text }}>{credential.bookmakerUsername}</ListItemText>
                       <ListItemText classes={{ root:classes.flex2, primary: classes.text }}>
-                      <TextField
-                        fullWidth
-                        name="password"
-                        type={credential.showPassword ? 'text' : 'password'}
-                        value={credential.password}
-                        InputProps={{
-                          classes: {underline: classes.underline},
-                          readOnly: true,
-                          endAdornment: (
-                            <InputAdornment position="start">
-                              <IconButton
-                                aria-label="toggle password visibility"
-                                onClick={() => handleClickShowPassword(credential.id)}
-                                onMouseDown={handleMouseDownPassword}
-                              >
+                        <TextField
+                          style={{width: 176 }}
+                          name="password"
+                          type={credential.showPassword ? 'text' : 'password'}
+                          value={credential.password}
+                          InputProps={{
+                            classes: {underline: classes.underline},
+                            readOnly: true,
+                            // maxLength: 16,
+                            endAdornment: (
+                              <InputAdornment position="start">
+                                <IconButton
+                                  aria-label="toggle password visibility"
+                                  onClick={() => handleClickShowPassword(credential.id)}
+                                  onMouseDown={handleMouseDownPassword}
+                                >
                                 {
                                   credential.showPassword
                                     ? <Visibility className={classes.visibility} />
                                     : <VisibilityOff className={classes.visibility} />
                                 }
-                              </IconButton>
-                            </InputAdornment>
-                          ),
-                        }}
-                      />
-                    </ListItemText>
-                    <ListItemText classes={{ root:classes.flex2, primary: classes.total }}>{credential.Balance}</ListItemText>
-                    <ListItemText classes={{ root:classes.flex3, primary: classes.text }}>{credential.actions}</ListItemText>
-                    <div className={classes.actionsWrapper}>
-                      <IconButton
-                        className={classes.actionsButton}
-                        style={{ marginRight: 5, backgroundColor: '#00bff3'}}
-                        disabled={updating}
-                        onClick={() => handleClickUpdate(credential)}
-                      >
-                        <EditIcon className={classes.actionsIcon}/>
-                      </IconButton>
-                      <IconButton
-                        className={classes.actionsButton}
-                        style={{ backgroundColor: '#df5157' }}
-                        onClick={() => handleClickDelete(credential)}
-                        disabled={updating}
-                      >
-                        <DeleteIcon className={classes.actionsIcon} />
-                      </IconButton>
-                    </div>
-                  </ListItem>
+                                </IconButton>
+                              </InputAdornment>
+                            ),
+                          }}
+                        />
+                      </ListItemText>
+                      <ListItemText classes={{ root:classes.flex2, primary: classes.total }}>{credential.Balance}</ListItemText>
+                      <ListItemText classes={{ root:classes.flex3, primary: classes.text }}>{credential.actions}</ListItemText>
+                      <div className={classes.actionsWrapper}>
+                        <IconButton
+                          className={classes.actionsButton}
+                          style={{ marginRight: 5, backgroundColor: '#00bff3'}}
+                          disabled={updating}
+                          onClick={() => handleClickUpdate(credential)}
+                        >
+                          <EditIcon className={classes.actionsIcon}/>
+                        </IconButton>
+                        <IconButton
+                          className={classes.actionsButton}
+                          style={{ backgroundColor: '#df5157' }}
+                          onClick={() => handleClickDelete(credential)}
+                          disabled={updating}
+                        >
+                          <DeleteIcon className={classes.actionsIcon} />
+                        </IconButton>
+                      </div>
+                    </ListItem>
                 )
               })
             }

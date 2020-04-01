@@ -76,7 +76,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 25,
     fontFamily: 'TT Hoves',
     fontWeight: 500,
-    // color: '#bdbdbd',
+    paddingLeft: 10,
     '&::placeholder': {
       color: '#bdbdbd',
     },

@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const src = {
-  'player': '/images/logos/user.jpeg',
+  'player': '/images/logos/user.png',
   'support': '/images/logos/support.jpeg'
 }
 

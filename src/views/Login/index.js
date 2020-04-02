@@ -96,22 +96,26 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     padding: '25px 0'
   },
-  signup: {
-    fontSize: 20,
-    color: '#ffffff',
+  signupWrapper: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    padding: 20,
+    display: 'flex',
+    // justifyContent: 'center',
+    alignItems: 'center',
     fontFamily: 'TT Hoves',
+    color: '#60686d'
+  },
+  signup: {
+    fontSize: 15,
     fontWeight: 500,
-    textTransform: 'capitalize',
-    width: 254,
-    height: 78,
+    color: '#60686d',
+    marginLeft: 15,
+    textTransform: 'none',
     borderRadius: 15,
-    marginTop: 10,
-    filter: 'drop-shadow(0 0 12.5px rgba(0,0,0,0.03))',
-    backgroundColor: '#512dd9',
-    border: '3px solid #37c566',
-    '&:hover': {
-      backgroundColor: '#4404e0c4'
-    }
+    backgroundColor: '#ffffff',
+    padding: '3px 15px',
   },
   formWrapper: {
     display: 'flex',
@@ -182,14 +186,6 @@ function Login() {
               <Typography className={classes.greetings}>
                 The land where dreams come true. Access more insights in your Dashboard and learn how you can make Big Data work for you. 
               </Typography>
-              <Button
-                className={classes.signup}
-                component={RouterLink}
-                variant="outlined"
-                to="/auth/register"
-              >
-                Sign Up
-              </Button>
             </div>
           </div>
         </Hidden>
@@ -199,6 +195,17 @@ function Login() {
           </Typography>
           <LoginForm className={classes.loginForm} onChange={handleChange} sendRequest={sendRequest} />
         </div>
+      </div>
+      <div className={classes.signupWrapper}>
+        <p>Dont't have an account?</p>
+        <Button
+          className={classes.signup}
+          component={RouterLink}
+          variant="outlined"
+          to="/auth/register"
+        >
+          Get started
+        </Button>
       </div>
     </Page>
   );

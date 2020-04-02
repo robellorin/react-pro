@@ -26,8 +26,15 @@ const useStyles = makeStyles(() => ({
 
 function NotificationsPopover({ notifications, anchorEl, handleNotificationsClose, ...rest }) {
   const classes = useStyles();
+  console.log(notifications)
   const notification = notifications && notifications.message ? notifications.message : 'You have not notifications';
-  const link = notifications && notifications.ticketId ? `/ticket/${notifications.ticketId}` : '#';
+  let link = '#';
+  if (notifications) {
+    if (notifications.type === 'credentials') link = '/credentials';
+    else if ((notifications.type === 'ticket' || notifications.type === 'message') && notifications.ticketId)
+      link = `/ticket/${notifications.ticketId}`;
+  }
+
   return (
     <Popover
       {...rest}

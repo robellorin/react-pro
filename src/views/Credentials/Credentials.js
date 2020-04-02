@@ -233,6 +233,8 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
   const dispatch = useDispatch();
   const listEnd = useRef(null);
   const credentials = useSelector(state => state.credentials);
+  const session = useSelector(state => state.session);
+  const notification = useSelector(state => state.notification);
   const [data, setData] = useState(credentials.credentials);
   const [loading, setLoading] = useState(credentials.loading);
   const [page, setPage] = useState(1);
@@ -251,10 +253,9 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
   for (let i = 0; i < totalPages; i ++) {
     pageList.push(i + 1);
   }
-
   useEffect(() => {
     dispatch(getCredentials(selectedUser ? selectedUser.id : null));
-  }, [dispatch, selectedUser]);
+  }, [dispatch, selectedUser, notification]);
 
   useEffect(() => {
     if (loading && !credentials.loading && credentials.status === 'success') {
@@ -543,9 +544,9 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
           </List>
         </CardContent>
         <div>
-          <Button onClick={addClickHandle} className={classes.createBtn} disabled={updating}>
-              + Add
-            </Button>
+          <Button onClick={addClickHandle} className={classes.createBtn} disabled={(updating || (session.user.role !== 'player' && !selectedUser))}>
+            + Add
+          </Button>
           <div className={classes.pagination}>
             <div className={classes.rowsPerPage}>
               <p>Show</p>

@@ -36,6 +36,14 @@ export default function (user) {
   function closeTicket(msg) {
     socket.emit('close-ticket', msg);
   }
+
+  function updateBookieaccount(msg) {
+    socket.emit('update-bookieaccount', msg);
+  }
+
+  function userRegister(msg) {
+    socket.emit('user-register', msg);
+  }
   
   
   return {
@@ -44,6 +52,8 @@ export default function (user) {
     message,
     ticket,
     closeTicket,
+    updateBookieaccount,
+    userRegister,
     leave
   }
 }

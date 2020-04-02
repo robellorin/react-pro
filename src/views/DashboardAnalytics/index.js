@@ -122,11 +122,12 @@ function DashboardAnalytics(props) {
         <Grid
           container
           spacing={3}
-          style={{width: '100%',}}
+          style={{ width: '100%', height: '100%', margin: '0 -12px' }}
         >
           <Grid
             item
             xs={12}
+            style={{ paddingTop: 0 }}
           >
             <Overview data={betData} />
           </Grid>

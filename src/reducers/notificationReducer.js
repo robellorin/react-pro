@@ -5,7 +5,7 @@ const initialState = {
   data: null
 };
 
-const paymentReducer = (state = initialState, action) => {
+const notificationReducer = (state = initialState, action) => {
   switch (action.type) {
     case constant.SET_NOTIFICATION: {
       return {
@@ -20,4 +20,4 @@ const paymentReducer = (state = initialState, action) => {
   }
 };
 
-export default paymentReducer;
+export default notificationReducer;

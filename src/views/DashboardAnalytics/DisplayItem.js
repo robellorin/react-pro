@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     borderRadius: 20,
     position: 'relative',
+    boxShadow: 'none'
   },
   details: {
     display: 'flex',

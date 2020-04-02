@@ -50,6 +50,8 @@ export const addCredential = (bookmaker, country, bookmakerUsername, password) =
   })
   .then(res => {
     if (res.status === 200) {
+      const message = `${userData.firstname} ${userData.surname} added a new bookieaccount - "${res.data.bookmakerUsername}"`
+      window.$client.updateBookieaccount(message);
       dispatch({
         type: constant.CREDENTIAL_ADD_REQUEST_SUCCESS,
         credential: res.data
@@ -86,6 +88,8 @@ export const updateCredential = (bookmaker, country, bookmakerUsername, password
   })
   .then(res => {
     if (res.status === 200) {
+      const message = `${userData.firstname} ${userData.surname} updated bookieaccount - "${res.data.bookmakerUsername}"`
+      window.$client.updateBookieaccount(message);
       dispatch({
         type: constant.CREDENTIAL_UPDATE_REQUEST_SUCCESS,
         credential: res.data
@@ -115,6 +119,8 @@ export const deleteCredential = (id) => async (dispatch) => {
   })
   .then(res => {
     if (res.status === 200) {
+      const message = `${userData.firstname} ${userData.surname} deleted bookieaccount - "${res.data.bookmakerUsername}"`
+      window.$client.updateBookieaccount(message);
       dispatch({
         type: constant.CREDENTIAL_DELETE_REQUEST_SUCCESS,
         credential: res.data

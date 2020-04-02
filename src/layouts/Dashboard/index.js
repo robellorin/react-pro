@@ -9,7 +9,7 @@ import NavBar from './NavBar';
 import TopBar from './TopBar';
 import * as constant from 'src/constant';
 import socket from 'src/components/Socket';
-import { setNotification, getAllUsers } from 'src/actions';
+import { getNotifications, getAllUsers } from 'src/actions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,10 +50,13 @@ function Dashboard({ route }) {
   const notification = useSelector(state => state.notification);
   const userData = localStorage.getItem('user');
   const [user, setUser] = useState('');
-    
+  
   useEffect(() => {
-    const receivedMessage = (data) => {
-      dispatch(setNotification(true, data));
+    dispatch(getNotifications());
+  }, [dispatch]);
+  useEffect(() => {
+    const receivedMessage = () => {
+      dispatch(getNotifications());
     };
     
     if (session.user.id) {

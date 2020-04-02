@@ -26,15 +26,8 @@ const useStyles = makeStyles(() => ({
 
 function NotificationsPopover({ notifications, anchorEl, handleNotificationsClose, ...rest }) {
   const classes = useStyles();
-  console.log(notifications)
-  const notification = notifications && notifications.message ? notifications.message : 'You have not notifications';
-  let link = '#';
-  if (notifications) {
-    if (notifications.type === 'credentials') link = '/credentials';
-    else if ((notifications.type === 'ticket' || notifications.type === 'message') && notifications.ticketId)
-      link = `/ticket/${notifications.ticketId}`;
-  }
-
+  const notificationList = notifications.length > 0 ? notifications.slice(0, 10) : [{ id: 0, notification: 'You have not notifications' }];
+  
   return (
     <Popover
       {...rest}
@@ -48,18 +41,27 @@ function NotificationsPopover({ notifications, anchorEl, handleNotificationsClos
         <CardHeader title="Notification" />
         <Divider />
         <List>
-          <ListItem
-            className={classes.listItem}
-            component={RouterLink}
-            to={link}
-            onClick={handleNotificationsClose}
-          >
-            <ListItemText
-              primary={notification}
-              primaryTypographyProps={{ variant: 'body1' }}
-            />
-            <ArrowForwardIcon className={classes.arrowForwardIcon} />
-          </ListItem>
+          {
+            notificationList.map((notification) => {
+              let link = '#'
+              if (notification.id > 0) link = notification.notification.includes('bookieaccount') ? '/credentials' : '/ticket';
+              return (
+                <ListItem
+                  key={notification.id}
+                  className={classes.listItem}
+                  component={RouterLink}
+                  to={link}
+                  onClick={(event) => handleNotificationsClose(event, notification.id)}
+                >
+                  <ListItemText
+                    primary={notification.notification}
+                    primaryTypographyProps={{ variant: 'body1' }}
+                  />
+                  <ArrowForwardIcon className={classes.arrowForwardIcon} />
+                </ListItem>
+              )
+            })
+          }
         </List>
         <Divider />
       </div>

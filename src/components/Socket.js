@@ -44,6 +44,16 @@ export default function (user) {
   function userRegister(msg) {
     socket.emit('user-register', msg);
   }
+
+  function joinRoom(ticketId, userId) {
+    console.log('join room', ticketId);
+    socket.emit('join-room', ticketId, userId);
+  }
+
+  function leaveRoom(ticketId, userId) {
+    console.log('leave room', ticketId);
+    socket.emit('leave-room', userId);
+  }
   
   
   return {
@@ -54,6 +64,8 @@ export default function (user) {
     closeTicket,
     updateBookieaccount,
     userRegister,
+    joinRoom,
+    leaveRoom,
     leave
   }
 }

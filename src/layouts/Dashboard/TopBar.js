@@ -34,6 +34,8 @@ import PaymentIcon from '@material-ui/icons/Payment';
 import LockIcon from '@material-ui/icons/Lock';
 import SettingsIcon from '@material-ui/icons/Settings';
 
+import { deleteNotification } from 'src/actions';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: '#ffffff',
@@ -224,10 +226,8 @@ function TopBar({
     setOpenNotifications(true);
   };
 
-  const handleNotificationsClose = () => {
-    dispatch({
-      type: constant.SET_NOTIFICATION, value: false
-    });
+  const handleNotificationsClose = (event, id) => {
+    if (id > 0) dispatch(deleteNotification(id));
     setOpenNotifications(false);
   };
 

@@ -7,7 +7,7 @@ import Page from 'src/components/Page';
 import ConversationList from './ConversationList';
 import ConversationDetails from './ConversationDetails';
 import ConversationPlaceholder from './ConversationPlaceholder';
-import { getTickets, createTicket, updateTicket, getMessages, createMessage, setNotification } from 'src/actions';
+import { getTickets, createTicket, updateTicket, getMessages, createMessage } from 'src/actions';
 import socket from 'src/components/Socket';
 
 const useStyles = makeStyles((theme) => ({
@@ -63,8 +63,7 @@ function Ticket() {
   const dispatch = useDispatch();
   const ticketsData = useSelector(state => state.tickets);
   const session = useSelector(state => state.session);
-  const notification = useSelector(state => state.notification);
-  const [conversations, setConversations] = useState(ticketsData.tickets);
+    const [conversations, setConversations] = useState(ticketsData.tickets);
   const [ticketsLoading, setTicketsLoading] = useState(false);
   const [messages, setMessages] = useState(ticketsData.messages);
 
@@ -75,11 +74,14 @@ function Ticket() {
   }, [dispatch, params, session]);
 
   useEffect(() => {
-    if (notification.isNotification && notification.data.ticketId.toString() === params.id) {
-      dispatch(setNotification(false));
+    if (params.id && params.id !== 'new-create')
+      window.$client.joinRoom(params.id, session.user.id);
+    return() => {
+      if (params.id && params.id !== 'new-create')
+        window.$client.leaveRoom(params.id, session.user.id);
     }
-  }, [dispatch, notification, params.id]);
-
+  }, [params.id, session.user.id]);
+  
   useEffect(() => {
     if (ticketsLoading && !ticketsData.ticketsLoading) {
       const sortTickets = ticketsData.tickets.sort((a,b) => (a.createdAt < b.createdAt) ? 1 : ((b.createdAt < a.createdAt) ? -1 : 0));
@@ -94,7 +96,6 @@ function Ticket() {
         for (const ticket of sortTickets) {
           if (ticket.status) continue;
             history.push(`/ticket/${ticket.id}`);
-            dispatch(setNotification(false));
             break;
         }
       }

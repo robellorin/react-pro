@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 20,
     filter: 'drop-shadow(0 0 16px rgba(0,0,0,0.07))',
     border: '1px solid #d7d7d7',
-    padding: '20px 100px',
+    padding: '20px 50px',
     marginBottom: 10,
     '@media (max-width: 949px)': {
       padding: '16px 50px',
@@ -73,6 +73,20 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: 'TT Hoves',
     fontWeight: 500
   },
+  actionsHeader: {
+    fontSize: 15,
+    color: '#161e33',
+    fontFamily: 'TT Hoves',
+    fontWeight: 500,
+    width: 150,
+    textAlign: 'center',
+    '@media (max-width: 1440px)': {
+      width: 120
+    },
+    [theme.breakpoints.down('sm')]: {
+      width: 100
+    }
+  },
   listItemText: {
     flex: 1
   },
@@ -81,6 +95,13 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    textAlign: 'center'
+  },
+  ActionHeaderWrapper: {
+    flex: 1,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
     textAlign: 'center'
   },
   tableText: {
@@ -111,7 +132,7 @@ const useStyles = makeStyles((theme) => ({
   actionsWrapper: {
     flex: 1,
     display: 'flex',
-    justifyContent: 'center'
+    justifyContent: 'flex-end'
   },
   actions: {
     padding: theme.spacing(0, 1),
@@ -219,7 +240,10 @@ function Results({ className, invoices, onView, onPay, payDisabled, ...rest }) {
             <ListItem className={classes.listItem} style={{ border: 'none', paddingBottom: 0 }}>
               {
                 headers.map((item, index) => (
-                  <ListItemText key={item} classes={{ root: index === 0 ? classes.listItemText : classes.alignCenter, primary: classes.headers }}>
+                  <ListItemText
+                    key={item}
+                    classes={{ root: index === 0 ? classes.listItemText : index === 4 ? classes.ActionHeaderWrapper : classes.alignCenter, primary: index < 4 ? classes.headers : classes.actionsHeader }}
+                  >
                     {item}
                   </ListItemText>
                 ))

@@ -86,17 +86,31 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 20,
     filter: 'drop-shadow(0 0 16px rgba(0,0,0,0.07))',
     border: '1px solid #d7d7d7',
-    padding: '20px 30px',
+    padding: '20px 50px',
     marginBottom: 10,
     '@media (max-width: 949px)': {
-      padding: '16px 30px',
+      padding: '16px 50px',
     }
   },
   headers: {
-    ffontSize: 15,
+    fontSize: 15,
     color: '#161e33',
     fontFamily: 'TT Hoves',
     fontWeight: 500
+  },
+  actionsHeader: {
+    fontSize: 15,
+    color: '#161e33',
+    fontFamily: 'TT Hoves',
+    fontWeight: 500,
+    width: 150,
+    textAlign: 'center',
+    '@media (max-width: 1440px)': {
+      width: 120
+    },
+    [theme.breakpoints.down('sm')]: {
+      width: 100
+    }
   },
   flex1: {
     flex: 1,
@@ -116,7 +130,8 @@ const useStyles = makeStyles((theme) => ({
   bookmaker: {
     flex: 2,
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    textTransform: 'capitalize'
   },
   password: {
     background: 'transparent'
@@ -148,17 +163,33 @@ const useStyles = makeStyles((theme) => ({
     width: 'fit-content'
   },
   actionsWrapper: {
-    flex: 1,
+    flex: 2,
     display: 'flex',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
+  },
+  buttonWrapper: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: 150,
+    height: 42,
+    borderRadius: 10,
+    '@media (max-width: 1440px)': {
+      width: 120
+    },
+    [theme.breakpoints.down('sm')]: {
+      width: 100
+    }
   },
   actionsButton: {
     borderRadius: 5,
-    padding: 4
+    padding: 4,
+    flex: 1,
+    height: 35
   },
   actionsIcon: {
-    color: '#ffffff',
-    fontSize: 18 
+    fontSize: 20,
+    color: '#ffffff'
   },
   pagination: {
     display: 'flex',
@@ -387,7 +418,7 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
                 headers.map((item, index) => (
                   <ListItemText
                     key={item}
-                    classes={{ root: index < 5 ? classes.flex2 : index === 5 ? classes.flex3 : classes.actionsWrapper, primary: classes.headers }}
+                    classes={{ root: index < 6 ? classes.flex2  : classes.actionsWrapper, primary: index < 6 ? classes.headers : classes.actionsHeader }}
                   >
                     {item}
                   </ListItemText>
@@ -459,21 +490,23 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
                         </TextField>
                       </div>
                       <ListItemText className={classes.flex2}></ListItemText>
-                      <ListItemText className={classes.flex3}></ListItemText>
+                      <ListItemText className={classes.flex2}></ListItemText>
                       <div className={classes.actionsWrapper}>
-                        <IconButton
-                          className={classes.actionsButton}
-                          style={{ marginRight: 5, backgroundColor: '#37c566'}}
-                          onClick={() => onRowUpdate(credential)}
-                        >
-                          <CheckIcon className={classes.actionsIcon}/>
-                        </IconButton>
-                        <IconButton 
-                          className={classes.actionsButton}
-                          style={{ backgroundColor: '#df5157' }}
-                          onClick={() => onRowCancel(credential)}>
-                          <CloseIcon className={classes.actionsIcon} />
-                        </IconButton>
+                        <div className={classes.buttonWrapper}>
+                          <IconButton
+                            className={classes.actionsButton}
+                            style={{ marginRight: 15, backgroundColor: '#37c566'}}
+                            onClick={() => onRowUpdate(credential)}
+                          >
+                            <CheckIcon className={classes.actionsIcon}/>
+                          </IconButton>
+                          <IconButton 
+                            className={classes.actionsButton}
+                            style={{ backgroundColor: '#df5157' }}
+                            onClick={() => onRowCancel(credential)}>
+                            <CloseIcon className={classes.actionsIcon} />
+                          </IconButton>
+                        </div>
                       </div>
                     </ListItem>
                   )
@@ -517,24 +550,26 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
                         />
                       </ListItemText>
                       <ListItemText classes={{ root:classes.flex2, primary: classes.total }}>{credential.Balance}</ListItemText>
-                      <ListItemText classes={{ root:classes.flex3, primary: classes.text }}>{credential.actions}</ListItemText>
+                      <ListItemText classes={{ root:classes.flex2, primary: classes.text }}>{credential.actions}</ListItemText>
                       <div className={classes.actionsWrapper}>
-                        <IconButton
-                          className={classes.actionsButton}
-                          style={{ marginRight: 5, backgroundColor: '#00bff3'}}
-                          disabled={updating}
-                          onClick={() => handleClickUpdate(credential)}
-                        >
-                          <EditIcon className={classes.actionsIcon}/>
-                        </IconButton>
-                        <IconButton
-                          className={classes.actionsButton}
-                          style={{ backgroundColor: '#df5157' }}
-                          onClick={() => handleClickDelete(credential)}
-                          disabled={updating}
-                        >
-                          <DeleteIcon className={classes.actionsIcon} />
-                        </IconButton>
+                        <div className={classes.buttonWrapper}>
+                          <IconButton
+                            className={classes.actionsButton}
+                            style={{ marginRight: 15, backgroundColor: '#00bff3'}}
+                            disabled={updating}
+                            onClick={() => handleClickUpdate(credential)}
+                          >
+                            <EditIcon className={classes.actionsIcon}/>
+                          </IconButton>
+                          <IconButton
+                            className={classes.actionsButton}
+                            style={{ backgroundColor: '#df5157' }}
+                            onClick={() => handleClickDelete(credential)}
+                            disabled={updating}
+                          >
+                            <DeleteIcon className={classes.actionsIcon} />
+                          </IconButton>
+                        </div>
                       </div>
                     </ListItem>
                 )

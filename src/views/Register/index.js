@@ -13,6 +13,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import Alert from 'src/components/Alert';
 import Page from 'src/components/Page';
 import RegisterForm from './RegisterForm';
+import TermModal from './TermsModal';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -173,7 +174,8 @@ function Register() {
   const history = useHistory();
   const [loading, setLoading] = useState(session.loading);
   const [message, setMessage] = useState('');
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [isShownTerm, setShownTerm] = useState(false);
   useEffect(() => {
     if (loading && !session.loading && session.message) {
       setMessage(session.message);
@@ -189,6 +191,10 @@ function Register() {
     setOpen(false);
     setMessage('');
     if (session.message) history.push('/');
+  }
+
+  const showTerms = (value) => {
+    setShownTerm(value);
   }
 
   return (
@@ -224,7 +230,7 @@ function Register() {
           <Typography className={classes.title}>
           Sign Up
           </Typography>
-          <RegisterForm className={classes.signupForm} />
+          <RegisterForm className={classes.signupForm} showTerms={showTerms} />
           <Divider className={classes.divider} />
           <Link
             className={classes.link}
@@ -239,6 +245,10 @@ function Register() {
           </Link>
         </div>
       </div>
+      <TermModal
+        onClose={() => setShownTerm(false)}
+        open={isShownTerm}
+      />
     </Page>
   );
 }

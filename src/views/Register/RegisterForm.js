@@ -7,7 +7,10 @@ import { makeStyles } from '@material-ui/styles';
 import {
   Button,
   TextField,
-  InputAdornment
+  InputAdornment,
+  Checkbox,
+  Typography,
+  FormHelperText
 } from '@material-ui/core';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -51,6 +54,10 @@ const schema = {
     length: {
       maximum: 128
     }
+  },
+  policy: {
+    presence: { allowEmpty: false, message: 'is required' },
+    checked: true
   }
 };
 
@@ -107,10 +114,18 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: '#37c566ba',
       color: '#ffffff'
     }
-  }
+  },
+  policy: {
+    display: 'flex',
+    alignItems: 'center',
+    marginTop: 15
+  },
+  policyCheckbox: {
+    marginLeft: '-14px'
+  },
 }));
 
-function RegisterForm({ className, ...rest }) {
+function RegisterForm({ className, showTerms, ...rest }) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [formState, setFormState] = useState({
@@ -313,6 +328,34 @@ function RegisterForm({ className, ...rest }) {
           }}
           variant="outlined"
         />
+      </div>
+      <div>
+        <div className={classes.policy}>
+          <Checkbox
+            checked={formState.values.policy || false}
+            className={classes.policyCheckbox}
+            color="primary"
+            name="policy"
+            onChange={handleChange}
+          />
+          <Typography
+            color="textSecondary"
+            variant="h4"
+          >
+            I have read and agree the
+            {' '}
+            <Button
+              color="secondary"
+              style={{ fontSize: 16 }}
+              onClick={() => showTerms(true)}
+            >
+              Terms and Conditions
+            </Button>
+          </Typography>
+        </div>
+        {hasError('policy') && (
+          <FormHelperText error>{formState.errors.policy[0]}</FormHelperText>
+        )}
       </div>
       <Button
         className={classes.submitButton}

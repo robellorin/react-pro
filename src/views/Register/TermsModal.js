@@ -71,7 +71,7 @@ function TermsModal({
         {...rest}
         className={clsx(classes.root, className)}
       >
-        <CardHeader title="TERMS ADN CONDITIONS" />
+        <CardHeader style={{ paddingLeft: 36 }} title="TERMS ADN CONDITIONS" />
         <Divider />
         <CardContent className={classes.content}>
           <Typography className={classes.bold} variant="body1">

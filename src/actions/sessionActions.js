@@ -79,8 +79,6 @@ export const sendSignupEmailVerification = (token, history) => (dispatch) => {
   axios.get(`${constant.API_URL}/auth/verify?verification=${token}`)
   .then(res => {
     if (res.status === 200) {
-      const message = `${res.data.user.firstname} ${res.data.user.surname} has been registered.`
-      window.$client.updateBookieaccount(message);
       history.push('/auth/login');
     } else {
       dispatch({
@@ -90,6 +88,7 @@ export const sendSignupEmailVerification = (token, history) => (dispatch) => {
     }
   })
   .catch(error => {
+    alert(error);
     dispatch({
       type: constant.SESSION_REQUEST_FINISHED,
       message: 'verification token has been expired'

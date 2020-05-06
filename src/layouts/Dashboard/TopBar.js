@@ -240,7 +240,7 @@ function TopBar({
   }
 
   const handleFilter = (event) => {
-    event.persist();
+    event.stopPropagation();
     setUser(event.target.value);
     const keywords = event.target.value.toLowerCase();
     const tempUsers = users.filter((item) => (`${item.firstname} ${item.surname}`.toLowerCase().includes(keywords)));
@@ -248,7 +248,8 @@ function TopBar({
     setOpenUserList(true);
   }
 
-  const handleClickIcon = () => {
+  const handleClickIcon = (event) => {
+    event.stopPropagation();
     setOpenUserList((prev) => !prev);
   }
 
@@ -256,6 +257,7 @@ function TopBar({
     <AppBar
       {...rest}
       className={clsx(classes.root, className)}
+      onClick={() => setOpenUserList(false)}
     >
       <Toolbar className={classes.toolbar}>
         <Hidden smUp>

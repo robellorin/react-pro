@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import {
   Modal,
+  Box,
   Card,
   CardHeader,
   CardContent,
@@ -30,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     overflowY: 'auto',
     maxWidth: '100%'
   },
-  content: {
+  box: {
     display: 'flex',
     justifyContent: 'space-around'
   },
@@ -50,12 +51,18 @@ function EditModal({
 }) {
   const classes = useStyles();
   const [formState, setFormState] = useState({
+    firstname: '',
+    username: '',
+    surname: '',
     cutOff: '',
     tags: ''
   })
   
   useEffect(() => {
     setFormState({
+      firstname: user?.firstname ? user.firstname: '',
+      surname: user?.surname ? user.surname: '',
+      username: user?.username ? user.username: '',
       cutOff: user ? user.cutOff : '',
       tags: user ? user.tags : ''
     });
@@ -82,34 +89,68 @@ function EditModal({
         <CardHeader title='Edit User' />
         <Divider />
         <CardContent className={classes.content}>
-          <TextField
-            className={classes.textField}
-            id='cut-off'
-            label='CutOff'
-            name='cutOff'
-            type='number'
-            variant='outlined'
-            value={formState.cutOff}
-            onChange={handleChange}
-          />
-          <TextField
-            id="standard-select-team"
-            className={classes.textField}
-            name="tags"
-            label="Team"
-            select
-            value={formState.tags}
-            onChange={handleChange}
-            helperText="Please select team"
-            variant='outlined'
-            fullWidth
-          >
-            {constants.teamList.map(option => (
-              <MenuItem key={option} value={option}>
-                <Typography>{option}</Typography>
-              </MenuItem>
-            ))}>
-          </TextField>
+          <Box className={classes.box}>
+            <TextField
+              className={classes.textField}
+              id='first-name'
+              label='First Name'
+              name='firstname'
+              variant='outlined'
+              value={formState.firstname}
+              onChange={handleChange}
+              fullWidth
+            />
+            <TextField
+              className={classes.textField}
+              fullWidth
+              id='last-name'
+              label='Last Name'
+              name='surname'
+              variant='outlined'
+              value={formState.surname}
+              onChange={handleChange}
+            />
+            <TextField
+              className={classes.textField}
+              fullWidth
+              id='email'
+              label='Email'
+              name='username'
+              variant='outlined'
+              value={formState.username}
+              onChange={handleChange}
+            />
+          </Box>
+          <Box className={classes.box}>
+            <TextField
+              className={classes.textField}
+              id='cut-off'
+              label='CutOff'
+              name='cutOff'
+              type='number'
+              variant='outlined'
+              value={formState.cutOff}
+              onChange={handleChange}
+            />
+            <TextField
+              id="standard-select-team"
+              className={classes.textField}
+              name="tags"
+              label="Team"
+              select
+              value={formState.tags}
+              onChange={handleChange}
+              helperText="Please select team"
+              variant='outlined'
+              fullWidth
+            >
+              {constants.teamList.map(option => (
+                <MenuItem key={option} value={option}>
+                  <Typography>{option}</Typography>
+                </MenuItem>
+              ))}
+            </TextField>
+          </Box>
         </CardContent>
         <Divider />
         <CardActions className={classes.actions}>

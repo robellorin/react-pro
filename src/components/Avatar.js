@@ -20,8 +20,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const src = {
-  'player': '/images/logos/user.png',
-  'support': '/images/logos/support.jpeg'
+  'player': '/images/logos/user1.png',
+  'support': '/images/logos/support1.png'
 }
 
 function CustomAvatar({ role, className }) {

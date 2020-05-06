@@ -18,6 +18,10 @@ const useStyles = makeStyles(() => ({
     right: 45,
     boxShadow: `0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)`
   },
+  list: {
+    maxHeight: 'calc(100vh - 165px)',
+    overflow: 'auto'
+  },
   listItem: {
     borderBottomStyle: 'solid',
     borderBottomWidth: 1,
@@ -36,7 +40,7 @@ function UserListPopover({ users, anchorEl, handleSelectUser, ...rest }) {
       {...rest}
       className={classes.root}
     >
-      <List>
+      <List className={classes.list}>
         {
           sortusers.map((user) => (
             <ListItem

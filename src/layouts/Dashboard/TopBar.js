@@ -52,7 +52,9 @@ const useStyles = makeStyles((theme) => ({
   flexGrow: {
     flexGrow: 1
   },
-    
+  avatar: {
+    borderRadius: 24
+  },
   menuButton: {
     marginRight: theme.spacing(1)
   },
@@ -73,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
       width: '100%',
       height: '100%',
       borderRadius: '50%',
-      animation: '$ripple 1.2s infinite ease-in-out',
+      // animation: '$ripple 1.2s infinite ease-in-out',
       border: '1px solid currentColor',
       content: '""',
     },
@@ -136,9 +138,9 @@ const StyledBadge = withStyles(theme => ({
       width: '100%',
       height: '100%',
       borderRadius: '50%',
-      animation: '$ripple 1.2s infinite ease-in-out',
+      // animation: '$ripple 1.2s infinite ease-in-out',
       border: '1px solid currentColor',
-      content: '""',
+      // content: '""',
     },
   },
   '@keyframes ripple': {
@@ -286,12 +288,12 @@ function TopBar({
                   }}
                   variant="dot"
                 >
-                <Avatar role={session.user.role} />
+                <Avatar className={classes.avatar} role={session.user.role} />
                 </StyledBadge>
             }
             { 
               (!notification || !notification.isNotification) &&
-              <Avatar role={session.user.role} />
+              <Avatar className={classes.avatar} role={session.user.role} />
             }              
             <Typography style={{ marginLeft: 10 }}>{`${session.user.firstname} ${session.user.surname}`}</Typography>
             <ArrowDropDownIcon />

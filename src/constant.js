@@ -68,7 +68,7 @@ export const countryList = {
   "DK": "Denmark",
   "EG": "Egypt",
   "FR": "France",
-  "GB": "Great Britain",
+  "UK": "United Kingdom",
   "DE": "Germany",
   "GR": "Greece",
   "IN": "India",

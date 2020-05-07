@@ -63,7 +63,7 @@ function Users({ className, ...rest }) {
       <CardContent className={classes.content}>
         {
           constants.teamList.map((team, index) => {
-            const filteredUsers = supportData.users.filter(item => item.tags === team);
+            const filteredUsers = supportData.users.filter(item => item.tags.toLowerCase() === team.toLowerCase());
             return (
               <ExpansionPanel key={team} expanded={expanded[index]} onChange={() => handleClick(index)}>
                 <ExpansionPanelSummary

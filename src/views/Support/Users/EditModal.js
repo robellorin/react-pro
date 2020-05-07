@@ -63,7 +63,7 @@ function EditModal({
       firstname: user?.firstname ? user.firstname: '',
       surname: user?.surname ? user.surname: '',
       username: user?.username ? user.username: '',
-      cutOff: user ? user.cutOff : '',
+      cutOff: user ? parseFloat(user.cutOff) : '',
       tags: user ? user.tags : ''
     });
   }, [user]);

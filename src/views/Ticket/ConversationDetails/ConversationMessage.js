@@ -31,6 +31,7 @@ const useStyles = makeStyles(theme => ({
   },
   avatar: {
     marginRight: theme.spacing(2),
+    borderRadius: 24
   },
   body: {
     backgroundColor: '#e2e7eb',

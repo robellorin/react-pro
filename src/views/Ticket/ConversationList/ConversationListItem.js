@@ -48,6 +48,9 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'flex-end'
   },
+  avatar: {
+    borderRadius: 24
+  },
 }));
 
 function ConversationListItem({
@@ -74,7 +77,7 @@ function ConversationListItem({
       onClick={() => clickHandle(conversation.id)}
     >
       <ListItemAvatar>
-        <Avatar role={session.user.role === 'player' ? 'support' : 'player' }  />
+        <Avatar className={classes.avatar} role={session.user.role === 'player' ? 'support' : 'player' }  />
       </ListItemAvatar>
       <ListItemText
         classes={{ root: classes.listItemText, primary: classes.primary, secondary: classes.secondary }}

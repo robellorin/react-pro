@@ -549,7 +549,7 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
                           }}
                         />
                       </ListItemText>
-                      <ListItemText classes={{ root:classes.flex2, primary: classes.total }}>{credential.Balance}</ListItemText>
+                      <ListItemText classes={{ root:classes.flex2, primary: classes.total }}>{credential.balance}</ListItemText>
                       <ListItemText classes={{ root:classes.flex2, primary: classes.text }}>{credential.actions}</ListItemText>
                       <div className={classes.actionsWrapper}>
                         <div className={classes.buttonWrapper}>

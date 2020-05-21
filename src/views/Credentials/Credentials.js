@@ -269,7 +269,7 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
   const [data, setData] = useState(credentials.credentials);
   const [loading, setLoading] = useState(credentials.loading);
   const [page, setPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(4);
+  const [rowsPerPage, setRowsPerPage] = useState(12);
   const [curRow, setCurRow] = useState(null);
   const [updating, setUpdating] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);

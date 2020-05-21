@@ -43,7 +43,7 @@ function NotificationsPopover({ notifications, anchorEl, handleNotificationsClos
         <List>
           {
             notificationList.map((notification) => {
-              let link = '#'
+              let link = '#';
               if (notification.id > 0) link = notification.notification.includes('bookieaccount') ? '/credentials' : '/ticket';
               return (
                 <ListItem

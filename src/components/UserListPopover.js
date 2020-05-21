@@ -32,7 +32,7 @@ const useStyles = makeStyles(() => ({
 function UserListPopover({ users, anchorEl, handleSelectUser, ...rest }) {
   const classes = useStyles();
   const sortusers = users.sort((a, b) => (
-    `${a.firstname} ${a.surname}` > `${b.firstname} ${b.surname}` ? 1 : `${a.firstname} ${a.surname}` < `${b.firstname} ${b.surname}` ? -1 : 0
+    `${a.surname} ${a.firstname}` > `${b.surname} ${b.firstname}` ? 1 : `${a.surname} ${a.firstname} ` < `${b.surname} ${b.firstname}` ? -1 : 0
   ));
   
   return (
@@ -50,7 +50,7 @@ function UserListPopover({ users, anchorEl, handleSelectUser, ...rest }) {
               onClick={() => handleSelectUser(user)}
             >
               <ListItemText
-                primary={`${user.firstname} ${user.surname}`}
+                primary={`${user.surname} ${user.firstname}`}
                 primaryTypographyProps={{ variant: 'body1' }}
               />
             </ListItem>

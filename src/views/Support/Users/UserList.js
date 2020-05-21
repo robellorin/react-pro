@@ -66,7 +66,7 @@ function UserList({ users, team, saveUserData }) {
           {users.map(user => (
             <TableRow key={user.id}>
               <TableCell component="th" scope="row">
-                {`${user.firstname} ${user.surname}`}
+                {`${user.surname} ${user.firstname}`}
               </TableCell>
               <TableCell>{user.username}</TableCell>
               <TableCell>{team.toLowerCase() === 'default' ? user.referredBy : user.tags}</TableCell>

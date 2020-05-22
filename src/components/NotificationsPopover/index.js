@@ -26,7 +26,7 @@ const useStyles = makeStyles(() => ({
 
 function NotificationsPopover({ notifications, anchorEl, handleNotificationsClose, ...rest }) {
   const classes = useStyles();
-  const notificationList = notifications.length > 0 ? notifications.slice(0, 10) : [{ id: 0, notification: 'You have not notifications' }];
+  const notificationList = notifications.length > 0 ? notifications.slice(0, 10) : [{ id: 0, notification: 'No notifications to show' }];
   
   return (
     <Popover

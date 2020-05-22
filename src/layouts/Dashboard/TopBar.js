@@ -24,7 +24,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import NotificationsPopover from 'src/components/NotificationsPopover';
 import UserListPopover from 'src/components/UserListPopover';
-import { logout } from 'src/actions';
+import { logout, deleteNotification } from 'src/actions';
 import * as constant from 'src/constant';
 import socket from 'src/components/Socket';
 import Avatar from 'src/components/Avatar';
@@ -33,8 +33,6 @@ import EqualizerIcon from '@material-ui/icons/Equalizer';
 import PaymentIcon from '@material-ui/icons/Payment';
 import LockIcon from '@material-ui/icons/Lock';
 import SettingsIcon from '@material-ui/icons/Settings';
-
-import { deleteNotification } from 'src/actions';
 
 const useStyles = makeStyles((theme) => ({
   root: {

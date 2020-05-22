@@ -15,13 +15,13 @@ const notificationReducer = (state = initialState, action) => {
     }
 
     case constant.DELETE_NOTIFICATION: {
-      const clone = state.data.filter(item => item.id !== action.data.id);
+      const clone = state.data.filter(item => item.id !== action.id);
       return {
         isNotification: clone.length > 0,
         data: clone
       };
     }
-       
+
     default: {
       return state;
     }

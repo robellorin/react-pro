@@ -34,7 +34,7 @@ export const deleteNotification = (id) => async (dispatch) => {
     if (res.status === 200) {
       dispatch({
         type: constant.DELETE_NOTIFICATION,
-        data: res.data
+        id
       });
     }
   });

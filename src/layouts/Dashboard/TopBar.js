@@ -232,7 +232,7 @@ function TopBar({
   };
 
   const handleSelectUser = (user) => {
-    setUser(`${user.firstname} ${user.surname}`);
+    setUser(`${user.surname} ${user.firstname}`);
     setOpenUserList(false);
     selectUser(user);
   }

@@ -1,11 +1,11 @@
 @font-face {
   font-family: TT Hoves;
   font-weight: 500;
-  src: url(assets/fonts/TT\Hoves\Medium.otf);
+  src: url(assets/fonts/TTHovesMedium.otf);
 }
 
 @font-face {
   font-family: TT Hoves;
   font-weight: bold;
-  src: url(assets/fonts/TT\Hoves\Bold.otf);
+  src: url(assets/fonts/TTHovesBold.otf);
 }

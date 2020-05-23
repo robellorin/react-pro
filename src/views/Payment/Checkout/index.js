@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
 import {
@@ -24,8 +24,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEuroSign, faPoundSign, faDollarSign } from '@fortawesome/free-solid-svg-icons';
 import CloseIcon from '@material-ui/icons/Close';
 import Page from 'src/components/Page';
-import StripeForm from './StripeForm';
 import Alert from 'src/components/Alert';
+import StripeForm from './StripeForm';
 import PaypalBtn from './PaypalBtn';
 
 const currencies = [
@@ -44,11 +44,11 @@ const currencies = [
 ];
 
 const style = {
-  'label':'paypal', 
-  'tagline': false, 
-  'size':'large', 
-  'shape':'pill', 
-  'color':'blue',
+  label: 'paypal',
+  tagline: false,
+  size: 'large',
+  shape: 'pill',
+  color: 'blue',
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -99,11 +99,11 @@ function OrderPayment({ isModal, onClose, invoice }) {
   const [method, setMethod] = React.useState('paypal');
   const [currency, setCurrency] = React.useState('EUR');
   const [amount, setAmount] = React.useState((invoice && invoice.amount) ?? 0);
-  const paymentData = useSelector(state => state.payment);
+  const paymentData = useSelector((state) => state.payment);
   const [loading, setLoading] = useState(paymentData.payLoading);
   const [open, setOpen] = useState(false);
-  const [message, setMessage] = useState("");
-  const [paymentStatus, setPaymentStatus] = useState("error");
+  const [message, setMessage] = useState('');
+  const [paymentStatus, setPaymentStatus] = useState('error');
 
   useEffect(() => {
     if (loading && !paymentData.payLoading) {
@@ -114,15 +114,15 @@ function OrderPayment({ isModal, onClose, invoice }) {
     setLoading(paymentData.payLoading);
   }, [loading, setLoading, paymentData]);
 
-  const handleCurrencyChange = event => {
+  const handleCurrencyChange = (event) => {
     setCurrency(event.target.value);
   };
 
-  const handleAmountChange = event => {
+  const handleAmountChange = (event) => {
     setAmount(event.target.value);
   };
 
-  const handleChange = panel => () => {
+  const handleChange = (panel) => () => {
     setMethod(panel);
   };
 
@@ -131,28 +131,26 @@ function OrderPayment({ isModal, onClose, invoice }) {
       event.persist();
     }
     setMethod(value);
-    
   };
 
-  const onSuccess = (payment) =>
-    console.log('Successful payment!', payment);
+  const onSuccess = (payment) => console.log('Successful payment!', payment);
 
   const onError = (error) => {
-        setOpen(true);
-        setPaymentStatus('error');
-        setMessage('Erroneous payment OR failed to load script!');
-  }
-  const onCancel = (data) =>
-    console.log('Cancelled payment!', data);
+    setOpen(true);
+    setPaymentStatus('error');
+    setMessage('Erroneous payment OR failed to load script!');
+  };
+  const onCancel = (data) => console.log('Cancelled payment!', data);
 
   const closeHandle = () => {
-   onClose(paymentStatus);
-  }
+    onClose(paymentStatus);
+  };
 
   const onCloseAlert = () => {
     setOpen(false);
+
     if (paymentStatus === 'success') onClose(paymentStatus);
-  }
+  };
 
   return (
     <Page
@@ -171,18 +169,19 @@ function OrderPayment({ isModal, onClose, invoice }) {
         <Alert variant={paymentStatus} message={message} />
       </Snackbar>
       <Card className={classes.card}>
-        {isModal &&
+        {isModal
+          && (
           <div>
             <CardHeader
-              action={
+              action={(
                 <IconButton onClick={closeHandle}>
                   <CloseIcon />
                 </IconButton>
-              }
+              )}
             />
             <Divider />
           </div>
-        }
+          )}
         <CardContent className={classes.content}>
           <div className={classes.amountWrapper}>
             <TextField
@@ -194,7 +193,7 @@ function OrderPayment({ isModal, onClose, invoice }) {
               onChange={handleCurrencyChange}
               helperText="Please select your currency"
             >
-              {currencies.map(option => (
+              {currencies.map((option) => (
                 <MenuItem key={option.value} value={option.value}>
                   <div style={{ display: 'flex' }}>
                     <ListItemIcon>
@@ -212,13 +211,13 @@ function OrderPayment({ isModal, onClose, invoice }) {
               value={amount}
               helperText="Please input amount"
               InputProps={{
-                style: {fontSize: 18},
+                style: { fontSize: 18 },
                 inputProps: {
                   min: 0
                 },
                 startAdornment: (
                   <InputAdornment position="start">
-                    <FontAwesomeIcon icon={currencies.find(item => item.value === currency).icon} />
+                    <FontAwesomeIcon icon={currencies.find((item) => item.value === currency).icon} />
                   </InputAdornment>
                 )
               }}
@@ -246,7 +245,8 @@ function OrderPayment({ isModal, onClose, invoice }) {
                 <div>
                   <Typography className={classes.text}>Pay via PayPal</Typography>
                   {
-                    parseFloat(amount) > 0 &&
+                    parseFloat(amount) > 0
+                      && (
                       <PaypalBtn
                         env={ENV}
                         client={CLIENT}
@@ -258,6 +258,7 @@ function OrderPayment({ isModal, onClose, invoice }) {
                         onCancel={onCancel}
                         invoice={invoice}
                       />
+                      )
                   }
                 </div>
               </ExpansionPanelDetails>

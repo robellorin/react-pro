@@ -16,8 +16,16 @@ import {
   IconButton,
   Select,
   MenuItem,
-  Avatar
+  Avatar,
+  Typography,
+  ListItemIcon
 } from '@material-ui/core';
+import {
+  faEuroSign,
+  faPoundSign,
+  faDollarSign
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import SportsSoccerIcon from '@material-ui/icons/SportsSoccer';
@@ -50,6 +58,21 @@ const bookmakers = {
   williamhill: 'williamhill',
   betfred: 'betfred'
 };
+
+const currencies = [
+  {
+    value: 'USD',
+    icon: faDollarSign
+  },
+  {
+    value: 'EUR',
+    icon: faEuroSign
+  },
+  {
+    value: 'GBP',
+    icon: faPoundSign
+  }
+];
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -260,7 +283,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const headers = ['Bookmaker', 'Country', 'Username', 'Password', 'Balance', 'Notes', 'Actions'];
+const headers = ['Bookmaker', 'Country', 'Username', 'Password', 'Balance', '$$', 'Notes', 'Actions'];
 
 function CredentialsForm({ className, selectedUser, ...rest }) {
   const classes = useStyles();
@@ -280,7 +303,8 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
     bookmaker: '',
     country: '',
     username: '',
-    password: ''
+    password: '',
+    currency: 'EUR'
   });
   const totalPages = Math.floor(data.length / rowsPerPage) + 1;
   const pageList = [];
@@ -427,7 +451,7 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
                 headers.map((item, index) => (
                   <ListItemText
                     key={item}
-                    classes={{ root: index < 6 ? classes.flex2 : classes.actionsWrapper, primary: index < 6 ? classes.headers : classes.actionsHeader }}
+                    classes={{ root: index < 6 ? classes.flex2 : index === 6 ? classes.flex1 : classes.actionsWrapper, primary: index < 7 ? classes.headers : classes.actionsHeader }}
                   >
                     {item}
                   </ListItemText>
@@ -443,7 +467,11 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
                   return (
                     <ListItem key={credential.id} className={classes.listItem}>
                       <div className={clsx(classes.bookmaker, classes.text)}>
-                        <Avatar className={classes.avatar} alt="user" src={logUrls[formState.bookmaker]}>
+                        <Avatar
+                          className={classes.avatar}
+                          alt="user"
+                          src={logUrls[formState.bookmaker]}
+                        >
                           <SportsSoccerIcon />
                         </Avatar>
                         <Select
@@ -453,11 +481,11 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
                           value={formState.bookmaker}
                           onChange={handleChangeForm}
                         >
-                          {
-                          Object.keys(bookmakers).map((key) => (
-                            <MenuItem key={key} value={key}>{bookmakers[key]}</MenuItem>
-                          ))
-                        }
+                          {Object.keys(bookmakers).map((key) => (
+                            <MenuItem key={key} value={key}>
+                              {bookmakers[key]}
+                            </MenuItem>
+                          ))}
                         </Select>
                       </div>
                       <div className={classes.flex2}>
@@ -469,11 +497,11 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
                           value={formState.country}
                           onChange={handleChangeForm}
                         >
-                          {
-                          Object.keys(constants.countryList).map((key) => (
-                            <MenuItem key={key} value={key}>{constants.countryList[key]}</MenuItem>
-                          ))
-                        }
+                          {Object.keys(constants.countryList).map((key) => (
+                            <MenuItem key={key} value={key}>
+                              {constants.countryList[key]}
+                            </MenuItem>
+                          ))}
                         </Select>
                       </div>
                       <div className={classes.flex2}>
@@ -499,12 +527,35 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
                         </TextField>
                       </div>
                       <ListItemText className={classes.flex2} />
+                      <div className={classes.flex1}>
+                        <TextField
+                          id="standard-select-currency"
+                          name="currency"
+                          select
+                          value={formState.currency}
+                          onChange={handleChangeForm}
+                        >
+                          {currencies.map((option) => (
+                            <MenuItem key={option.value} value={option.value}>
+                              <div style={{ display: 'flex' }}>
+                                <ListItemIcon>
+                                  <FontAwesomeIcon icon={option.icon} />
+                                </ListItemIcon>
+                                <Typography>{option.value}</Typography>
+                              </div>
+                            </MenuItem>
+                          ))}
+                        </TextField>
+                      </div>
                       <ListItemText className={classes.flex2} />
                       <div className={classes.actionsWrapper}>
                         <div className={classes.buttonWrapper}>
                           <IconButton
                             className={classes.actionsButton}
-                            style={{ marginRight: 15, backgroundColor: '#37c566' }}
+                            style={{
+                              marginRight: 15,
+                              backgroundColor: '#37c566'
+                            }}
                             onClick={() => onRowUpdate(credential)}
                           >
                             <CheckIcon className={classes.actionsIcon} />
@@ -523,16 +574,34 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
                 }
 
                 return (
-                  <ListItem key={credential.id} className={classes.listItem} style={{ opacity: updating ? 0.3 : 1 }}>
+                  <ListItem
+                    key={credential.id}
+                    className={classes.listItem}
+                    style={{ opacity: updating ? 0.3 : 1 }}
+                  >
                     <div className={clsx(classes.bookmaker, classes.text)}>
-                      <Avatar className={classes.avatar} alt="user" src={credential.imageUrl}>
+                      <Avatar
+                        className={classes.avatar}
+                        alt="user"
+                        src={credential.imageUrl}
+                      >
                         <SportsSoccerIcon />
                       </Avatar>
                       {credential.bookmaker}
                     </div>
-                    <ListItemText classes={{ root: classes.flex2, primary: classes.text }}>{constants.countryList[credential.country]}</ListItemText>
-                    <ListItemText classes={{ root: classes.flex2, primary: classes.text }}>{credential.bookmakerUsername}</ListItemText>
-                    <ListItemText classes={{ root: classes.flex2, primary: classes.text }}>
+                    <ListItemText
+                      classes={{ root: classes.flex2, primary: classes.text }}
+                    >
+                      {constants.countryList[credential.country]}
+                    </ListItemText>
+                    <ListItemText
+                      classes={{ root: classes.flex2, primary: classes.text }}
+                    >
+                      {credential.bookmakerUsername}
+                    </ListItemText>
+                    <ListItemText
+                      classes={{ root: classes.flex2, primary: classes.text }}
+                    >
                       <TextField
                         style={{ width: 176 }}
                         name="password"
@@ -549,24 +618,38 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
                                 onClick={() => handleClickShowPassword(credential.id)}
                                 onMouseDown={handleMouseDownPassword}
                               >
-                                {
-                                credential.showPassword
-                                  ? <Visibility className={classes.visibility} />
-                                  : <VisibilityOff className={classes.visibility} />
-                              }
+                                {credential.showPassword ? (
+                                  <Visibility className={classes.visibility} />
+                                ) : (
+                                  <VisibilityOff
+                                    className={classes.visibility}
+                                  />
+                                )}
                               </IconButton>
                             </InputAdornment>
-                          ),
+                          )
                         }}
                       />
                     </ListItemText>
-                    <ListItemText classes={{ root: classes.flex2, primary: classes.total }}>{credential.balance}</ListItemText>
-                    <ListItemText classes={{ root: classes.flex2, primary: classes.text }}>{credential.actions}</ListItemText>
+                    <ListItemText
+                      classes={{ root: classes.flex2, primary: classes.total }}
+                    >
+                      {credential.balance}
+                    </ListItemText>
+                    <ListItemText className={classes.flex1} />
+                    <ListItemText
+                      classes={{ root: classes.flex2, primary: classes.text }}
+                    >
+                      {credential.actions}
+                    </ListItemText>
                     <div className={classes.actionsWrapper}>
                       <div className={classes.buttonWrapper}>
                         <IconButton
                           className={classes.actionsButton}
-                          style={{ marginRight: 15, backgroundColor: '#00bff3' }}
+                          style={{
+                            marginRight: 15,
+                            backgroundColor: '#00bff3'
+                          }}
                           disabled={updating}
                           onClick={() => handleClickUpdate(credential)}
                         >

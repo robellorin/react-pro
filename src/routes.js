@@ -10,7 +10,13 @@ export default [
   {
     path: '/',
     exact: true,
-    component: () => <Redirect to={localStorage.getItem('user') ? "/dashboards/analytics" : "/auth/login"} />
+    component: () => (
+      <Redirect
+        to={
+          localStorage.getItem('user') ? '/dashboards/analytics' : '/auth/login'
+        }
+      />
+    )
   },
   {
     path: '/auth',
@@ -116,8 +122,7 @@ export default [
       },
       {
         component: () => <Redirect to="/errors/error-404" />
-      },
-      
+      }
     ]
   }
 ];

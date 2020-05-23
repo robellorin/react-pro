@@ -17,15 +17,18 @@ export const PAYMENT_INVOICE_SUCCESS = 'PAYMENT_INVOICE_SUCCESS';
 export const PAYMENT_INVOICE_FAILED = 'PAYMENT_INVOICE_FAILED';
 
 export const BETTING_HISTORY_REQUEST = 'BETTING_HISTORY_REQUEST';
-export const BETTING_HISTORY_REQUEST_SUCCESS = 'BETTING_HISTORY_REQUEST_SUCCESS';
+export const BETTING_HISTORY_REQUEST_SUCCESS =
+  'BETTING_HISTORY_REQUEST_SUCCESS';
 export const BETTING_HISTORY_REQUEST_FAILED = 'BETTING_HISTORY_REQUEST_FAILED';
 export const CHECKING_NEWS = 'CHECKING_NEWS';
 
 export const CREDENTIAL_REQUEST = 'CREDENTIAL_REQUEST';
 export const CREDENTIAL_GET_REQUEST_SUCCESS = 'CREDENTIAL_GET_REQUEST_SUCCESS';
 export const CREDENTIAL_ADD_REQUEST_SUCCESS = 'CREDENTIAL_ADD_REQUEST_SUCCESS';
-export const CREDENTIAL_UPDATE_REQUEST_SUCCESS = 'CREDENTIAL_UPDATE_REQUEST_SUCCESS';
-export const CREDENTIAL_DELETE_REQUEST_SUCCESS = 'CREDENTIAL_DELETE_REQUEST_SUCCESS';
+export const CREDENTIAL_UPDATE_REQUEST_SUCCESS =
+  'CREDENTIAL_UPDATE_REQUEST_SUCCESS';
+export const CREDENTIAL_DELETE_REQUEST_SUCCESS =
+  'CREDENTIAL_DELETE_REQUEST_SUCCESS';
 export const CREDENTIAL_REQUEST_FAILED = 'CREDENTIAL_REQUEST_FAILED';
 
 export const NEWS_REQUEST = 'NEWS_REQUEST';
@@ -57,40 +60,40 @@ export const GET_NOTIFICATION = 'GET_NOTIFICATION';
 export const DELETE_NOTIFICATION = 'DELETE_NOTIFICATION';
 
 export const countryList = {
-  "AL": "Albania",
-  "AR": "Argentina",
-  "AU": "Australia",
-  "AT": "Austria",
-  "BE": "Belgium",
-  "BR": "Brazil",
-  "BD": "Bangladesh",
-  "CL": "Chile",
-  "HR": "Croatia",
-  "DK": "Denmark",
-  "EG": "Egypt",
-  "FR": "France",
-  "UK": "United Kingdom",
-  "DE": "Germany",
-  "GR": "Greece",
-  "IN": "India",
-  "IT": "Italy",
-  "MX": "Mexico",
-  "NL": "Netherlands",
-  "PE": "Peru",
-  "RU": "Russia",
-  "SI": "Slovenia",
-  "ZA": "South Africa",
-  "ES": "Spain",
-  "UA": "Ukraine"
+  AL: 'Albania',
+  AR: 'Argentina',
+  AU: 'Australia',
+  AT: 'Austria',
+  BE: 'Belgium',
+  BR: 'Brazil',
+  BD: 'Bangladesh',
+  CL: 'Chile',
+  HR: 'Croatia',
+  DK: 'Denmark',
+  EG: 'Egypt',
+  FR: 'France',
+  UK: 'United Kingdom',
+  DE: 'Germany',
+  GR: 'Greece',
+  IN: 'India',
+  IT: 'Italy',
+  MX: 'Mexico',
+  NL: 'Netherlands',
+  PE: 'Peru',
+  RU: 'Russia',
+  SI: 'Slovenia',
+  ZA: 'South Africa',
+  ES: 'Spain',
+  UA: 'Ukraine'
 };
 
 export const teamList = [
-  "DEFAULT",
-  "Balmers Team",
-  "Dines Team",
-  "Kapousouzis Team",
-  "Mansos Team",
-  "Rosss Team",
-  "Solo Team",
-  "Wilkinsons Team"
-]
+  'DEFAULT',
+  'Balmers Team',
+  'Dines Team',
+  'Kapousouzis Team',
+  'Mansos Team',
+  'Rosss Team',
+  'Solo Team',
+  'Wilkinsons Team'
+];

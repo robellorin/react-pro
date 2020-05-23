@@ -13,6 +13,9 @@
         }
     }
   },
+  "plugins": [
+		"autofix"
+	],
   "rules": {
     "comma-dangle": "off",
     "no-plusplus": "off",
@@ -24,6 +27,38 @@
     "jsx-a11y/click-events-have-key-events": "off",
     "jsx-a11y/no-static-element-interactions": "off",
     "jsx-a11y/control-has-associated-label": "off",
-    "jsx-a11y/anchor-is-valid": "off"
+    "jsx-a11y/anchor-is-valid": "off",
+    "autofix/padding-line-between-statements": [
+			"error",
+			{
+				"blankLine": "always",
+				"prev": "*",
+				"next": [
+					"block",
+					"block-like",
+					"cjs-export",
+					"class",
+					"continue",
+					"debugger",
+					"directive",
+					"do",
+					"for",
+					"function",
+					"if",
+					"iife",
+					"return",
+					"switch",
+					"throw",
+					"try",
+					"while",
+					"with"
+				]
+			},
+			{
+				"blankLine": "always",
+				"prev": "break",
+				"next": ["case", "default"]
+			}
+		]
   }
 }

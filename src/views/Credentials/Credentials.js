@@ -12,7 +12,7 @@ import {
   FormControl,
   TextField,
   InputAdornment,
-   Button,
+  Button,
   IconButton,
   Select,
   MenuItem,
@@ -27,7 +27,9 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
-import { getCredentials, addCredential, deleteCredential, updateCredential } from 'src/actions';
+import {
+  getCredentials, addCredential, deleteCredential, updateCredential
+} from 'src/actions';
 import * as constants from 'src/constant';
 import DeleteModal from './DeleteModal';
 
@@ -38,7 +40,7 @@ const logUrls = {
   betfair: '/images/logos/betfair.png',
   williamhill: '/images/logos/williamhill.png',
   betfred: '/images/logos/betfred.jpeg',
-}
+};
 
 const bookmakers = {
   bet365: 'bet365',
@@ -47,7 +49,7 @@ const bookmakers = {
   betfair: 'betfair',
   williamhill: 'williamhill',
   betfred: 'betfred'
-}
+};
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -137,11 +139,11 @@ const useStyles = makeStyles((theme) => ({
     background: 'transparent'
   },
   underline: {
-    "&&&:before": {
-      borderBottom: "none"
+    '&&&:before': {
+      borderBottom: 'none'
     },
-    "&&:after": {
-      borderBottom: "none"
+    '&&:after': {
+      borderBottom: 'none'
     }
   },
   text: {
@@ -233,7 +235,7 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: 'TT Hoves',
     fontWeight: 500,
     textTransform: 'capitalize',
-    boxShadow: `0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)`,
+    boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)',
     '&:hover': {
       backgroundColor: '#19d285',
     },
@@ -250,7 +252,7 @@ const useStyles = makeStyles((theme) => ({
     borderWidth: 2,
     borderStyle: 'solid',
     marginRight: 10,
-    boxShadow: `0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)`
+    boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)'
   },
   visibility: {
     fontSize: 20,
@@ -259,13 +261,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const headers = ['Bookmaker', 'Country', 'Username', 'Password', 'Balance', 'Notes', 'Actions'];
+
 function CredentialsForm({ className, selectedUser, ...rest }) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const listEnd = useRef(null);
-  const credentials = useSelector(state => state.credentials);
-  const session = useSelector(state => state.session);
-  const notification = useSelector(state => state.notification);
+  const credentials = useSelector((state) => state.credentials);
+  const session = useSelector((state) => state.session);
+  const notification = useSelector((state) => state.notification);
   const [data, setData] = useState(credentials.credentials);
   const [loading, setLoading] = useState(credentials.loading);
   const [page, setPage] = useState(1);
@@ -281,7 +284,8 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
   });
   const totalPages = Math.floor(data.length / rowsPerPage) + 1;
   const pageList = [];
-  for (let i = 0; i < totalPages; i ++) {
+
+  for (let i = 0; i < totalPages; i++) {
     pageList.push(i + 1);
   }
   useEffect(() => {
@@ -290,10 +294,11 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
 
   useEffect(() => {
     if (loading && !credentials.loading && credentials.status === 'success') {
-      const credentialsData = credentials.credentials.map(item => {
+      const credentialsData = credentials.credentials.map((item) => {
         item.imageUrl = logUrls[item.bookmaker];
         item.showPassword = false;
         item.updating = false;
+
         return item;
       });
       setData(credentialsData);
@@ -308,14 +313,14 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
       dispatch(updateCredential(formState.bookmaker, formState.country, formState.username, formState.password, row.id));
     }
     setUpdating(false);
-  }
+  };
 
   const onRowDelete = (isCancel) => {
     if (!isCancel) {
       dispatch(deleteCredential(curRow.id));
     }
     setOpenDelete(false);
-  }
+  };
 
   const onRowCancel = (row) => {
     setFormState({
@@ -324,25 +329,27 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
       username: '',
       password: ''
     });
+
     if (row.isNew) {
       setData((prevData) => prevData.slice(0, prevData.length - 1));
     } else {
-      setData((prevData) => (prevData.map(item => {
+      setData((prevData) => (prevData.map((item) => {
         if (item.id === row.id) item.updating = false;
+
         return item;
       })));
     }
     setUpdating(false);
-  }
+  };
 
   const addClickHandle = () => {
-    const newId = data.length > 0 ? Math.max(...data.map(item => item.id)) + 1 : 1;
-    const newRow = {id: newId, updating: true, isNew: true};
+    const newId = data.length > 0 ? Math.max(...data.map((item) => item.id)) + 1 : 1;
+    const newRow = { id: newId, updating: true, isNew: true };
     setData((prevData) => [...prevData, newRow]);
     setPage(totalPages);
     setUpdating(true);
-    gotoBottom();    
-  }
+    gotoBottom();
+  };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(event.target.value);
@@ -356,16 +363,17 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
   const handleChangePage = (type) => {
     const newPage = type === 0 ? page - 1 : page + 1;
     setPage(newPage);
-  }
+  };
 
   const handleClickDelete = (row) => {
     setCurRow(row);
     setOpenDelete(true);
-  }
+  };
 
   const handleClickUpdate = (row) => {
-    setData((prevData) => (prevData.map(item => {
+    setData((prevData) => (prevData.map((item) => {
       if (item.id === row.id) item.updating = true;
+
       return item;
     })));
     setUpdating(true);
@@ -374,32 +382,33 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
       country: row.country,
       username: row.bookmakerUsername,
       password: row.password
-    })
-  }
+    });
+  };
 
   const handleClickShowPassword = (id) => {
-   setData((prevData) => (prevData.map(item => {
+    setData((prevData) => (prevData.map((item) => {
       if (item.id === id) item.showPassword = !item.showPassword;
+
       return item;
     })));
   };
 
-  const handleMouseDownPassword = event => {
+  const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
 
   const handleChangeForm = (event) => {
     event.persist();
-    setFormState((prevState) => ({...prevState, [event.target.name]: event.target.value}));
+    setFormState((prevState) => ({ ...prevState, [event.target.name]: event.target.value }));
   };
 
   const gotoBottom = () => {
     setTimeout(() => {
       if (listEnd.current) {
-        listEnd.current.scrollIntoView({ behavior: "smooth" });
+        listEnd.current.scrollIntoView({ behavior: 'smooth' });
       }
     }, 300);
-  }
+  };
 
   return (
     <div
@@ -418,7 +427,7 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
                 headers.map((item, index) => (
                   <ListItemText
                     key={item}
-                    classes={{ root: index < 6 ? classes.flex2  : classes.actionsWrapper, primary: index < 6 ? classes.headers : classes.actionsHeader }}
+                    classes={{ root: index < 6 ? classes.flex2 : classes.actionsWrapper, primary: index < 6 ? classes.headers : classes.actionsHeader }}
                   >
                     {item}
                   </ListItemText>
@@ -430,23 +439,23 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
                 ? data.slice((page - 1) * rowsPerPage, page * rowsPerPage)
                 : data
               ).map((credential) => {
-                if (credential.updating)
+                if (credential.updating) {
                   return (
                     <ListItem key={credential.id} className={classes.listItem}>
                       <div className={clsx(classes.bookmaker, classes.text)}>
-                        <Avatar className={classes.avatar} alt='user' src={logUrls[formState.bookmaker]}>
-                          <SportsSoccerIcon/>
+                        <Avatar className={classes.avatar} alt="user" src={logUrls[formState.bookmaker]}>
+                          <SportsSoccerIcon />
                         </Avatar>
                         <Select
                           labelId="bookmakers"
                           id="bookmakers-select"
-                          name='bookmaker'
+                          name="bookmaker"
                           value={formState.bookmaker}
                           onChange={handleChangeForm}
                         >
-                        {
-                          Object.keys(bookmakers).map(key => (
-                            <MenuItem key={key} value={key}>{bookmakers[key]}</MenuItem>  
+                          {
+                          Object.keys(bookmakers).map((key) => (
+                            <MenuItem key={key} value={key}>{bookmakers[key]}</MenuItem>
                           ))
                         }
                         </Select>
@@ -455,23 +464,23 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
                         <Select
                           labelId="countris"
                           id="country-select"
-                          name='country'
+                          name="country"
                           style={{ width: '95%' }}
                           value={formState.country}
                           onChange={handleChangeForm}
                         >
-                        {
-                          Object.keys(constants.countryList).map(key => (
-                            <MenuItem key={key} value={key}>{constants.countryList[key]}</MenuItem>  
+                          {
+                          Object.keys(constants.countryList).map((key) => (
+                            <MenuItem key={key} value={key}>{constants.countryList[key]}</MenuItem>
                           ))
                         }
                         </Select>
                       </div>
                       <div className={classes.flex2}>
                         <TextField
-                          name='username'
-                          autoComplete='off'
-                          placeholder='Username'
+                          name="username"
+                          autoComplete="off"
+                          placeholder="Username"
                           value={formState.username}
                           onChange={handleChangeForm}
                         >
@@ -480,102 +489,104 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
                       </div>
                       <div className={classes.flex2}>
                         <TextField
-                          autoComplete='off'
-                          name='password'
-                          placeholder='Password'
+                          autoComplete="off"
+                          name="password"
+                          placeholder="Password"
                           value={formState.password}
                           onChange={handleChangeForm}
                         >
                           {formState.password}
                         </TextField>
                       </div>
-                      <ListItemText className={classes.flex2}></ListItemText>
-                      <ListItemText className={classes.flex2}></ListItemText>
+                      <ListItemText className={classes.flex2} />
+                      <ListItemText className={classes.flex2} />
                       <div className={classes.actionsWrapper}>
                         <div className={classes.buttonWrapper}>
                           <IconButton
                             className={classes.actionsButton}
-                            style={{ marginRight: 15, backgroundColor: '#37c566'}}
+                            style={{ marginRight: 15, backgroundColor: '#37c566' }}
                             onClick={() => onRowUpdate(credential)}
                           >
-                            <CheckIcon className={classes.actionsIcon}/>
+                            <CheckIcon className={classes.actionsIcon} />
                           </IconButton>
-                          <IconButton 
+                          <IconButton
                             className={classes.actionsButton}
                             style={{ backgroundColor: '#df5157' }}
-                            onClick={() => onRowCancel(credential)}>
+                            onClick={() => onRowCancel(credential)}
+                          >
                             <CloseIcon className={classes.actionsIcon} />
                           </IconButton>
                         </div>
                       </div>
                     </ListItem>
-                  )
-                else
-                  return (
-                    <ListItem key={credential.id} className={classes.listItem} style={{ opacity: updating ? 0.3 : 1 }}>
-                      <div className={clsx(classes.bookmaker, classes.text)}>
-                        <Avatar className={classes.avatar} alt='user' src={credential.imageUrl}>
-                          <SportsSoccerIcon/>
-                        </Avatar>
-                        {credential.bookmaker}
-                      </div>
-                      <ListItemText classes={{ root:classes.flex2, primary: classes.text }}>{constants.countryList[credential.country]}</ListItemText>
-                      <ListItemText classes={{ root:classes.flex2, primary: classes.text }}>{credential.bookmakerUsername}</ListItemText>
-                      <ListItemText classes={{ root:classes.flex2, primary: classes.text }}>
-                        <TextField
-                          style={{width: 176 }}
-                          name="password"
-                          type={credential.showPassword ? 'text' : 'password'}
-                          value={credential.password}
-                          InputProps={{
-                            classes: {underline: classes.underline},
-                            readOnly: true,
-                            // maxLength: 16,
-                            endAdornment: (
-                              <InputAdornment position="start">
-                                <IconButton
-                                  aria-label="toggle password visibility"
-                                  onClick={() => handleClickShowPassword(credential.id)}
-                                  onMouseDown={handleMouseDownPassword}
-                                >
+                  );
+                }
+
+                return (
+                  <ListItem key={credential.id} className={classes.listItem} style={{ opacity: updating ? 0.3 : 1 }}>
+                    <div className={clsx(classes.bookmaker, classes.text)}>
+                      <Avatar className={classes.avatar} alt="user" src={credential.imageUrl}>
+                        <SportsSoccerIcon />
+                      </Avatar>
+                      {credential.bookmaker}
+                    </div>
+                    <ListItemText classes={{ root: classes.flex2, primary: classes.text }}>{constants.countryList[credential.country]}</ListItemText>
+                    <ListItemText classes={{ root: classes.flex2, primary: classes.text }}>{credential.bookmakerUsername}</ListItemText>
+                    <ListItemText classes={{ root: classes.flex2, primary: classes.text }}>
+                      <TextField
+                        style={{ width: 176 }}
+                        name="password"
+                        type={credential.showPassword ? 'text' : 'password'}
+                        value={credential.password}
+                        InputProps={{
+                          classes: { underline: classes.underline },
+                          readOnly: true,
+                          // maxLength: 16,
+                          endAdornment: (
+                            <InputAdornment position="start">
+                              <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={() => handleClickShowPassword(credential.id)}
+                                onMouseDown={handleMouseDownPassword}
+                              >
                                 {
-                                  credential.showPassword
-                                    ? <Visibility className={classes.visibility} />
-                                    : <VisibilityOff className={classes.visibility} />
-                                }
-                                </IconButton>
-                              </InputAdornment>
-                            ),
-                          }}
-                        />
-                      </ListItemText>
-                      <ListItemText classes={{ root:classes.flex2, primary: classes.total }}>{credential.balance}</ListItemText>
-                      <ListItemText classes={{ root:classes.flex2, primary: classes.text }}>{credential.actions}</ListItemText>
-                      <div className={classes.actionsWrapper}>
-                        <div className={classes.buttonWrapper}>
-                          <IconButton
-                            className={classes.actionsButton}
-                            style={{ marginRight: 15, backgroundColor: '#00bff3'}}
-                            disabled={updating}
-                            onClick={() => handleClickUpdate(credential)}
-                          >
-                            <EditIcon className={classes.actionsIcon}/>
-                          </IconButton>
-                          <IconButton
-                            className={classes.actionsButton}
-                            style={{ backgroundColor: '#df5157' }}
-                            onClick={() => handleClickDelete(credential)}
-                            disabled={updating}
-                          >
-                            <DeleteIcon className={classes.actionsIcon} />
-                          </IconButton>
-                        </div>
+                                credential.showPassword
+                                  ? <Visibility className={classes.visibility} />
+                                  : <VisibilityOff className={classes.visibility} />
+                              }
+                              </IconButton>
+                            </InputAdornment>
+                          ),
+                        }}
+                      />
+                    </ListItemText>
+                    <ListItemText classes={{ root: classes.flex2, primary: classes.total }}>{credential.balance}</ListItemText>
+                    <ListItemText classes={{ root: classes.flex2, primary: classes.text }}>{credential.actions}</ListItemText>
+                    <div className={classes.actionsWrapper}>
+                      <div className={classes.buttonWrapper}>
+                        <IconButton
+                          className={classes.actionsButton}
+                          style={{ marginRight: 15, backgroundColor: '#00bff3' }}
+                          disabled={updating}
+                          onClick={() => handleClickUpdate(credential)}
+                        >
+                          <EditIcon className={classes.actionsIcon} />
+                        </IconButton>
+                        <IconButton
+                          className={classes.actionsButton}
+                          style={{ backgroundColor: '#df5157' }}
+                          onClick={() => handleClickDelete(credential)}
+                          disabled={updating}
+                        >
+                          <DeleteIcon className={classes.actionsIcon} />
+                        </IconButton>
                       </div>
-                    </ListItem>
-                )
+                    </div>
+                  </ListItem>
+                );
               })
             }
-            <div style={{ float:"left", clear: "both" }} ref={listEnd} />
+            <div style={{ float: 'left', clear: 'both' }} ref={listEnd} />
           </List>
         </CardContent>
         <div>
@@ -593,7 +604,7 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
                   classes={{ root: classes.rowsSelect, icon: classes.selIcon }}
                   value={rowsPerPage}
                   onChange={handleChangeRowsPerPage}
-                  
+
                 >
                   <MenuItem value={4}>4</MenuItem>
                   <MenuItem value={8}>8</MenuItem>
@@ -616,11 +627,11 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
                   value={page}
                   onChange={handleSelectPage}
                 >
-                {
-                  pageList.map(curPage => (
-                    <MenuItem key={curPage} value={curPage}>{curPage}</MenuItem>  
-                  ))
-                }
+                  {
+                    pageList.map((curPage) => (
+                      <MenuItem key={curPage} value={curPage}>{curPage}</MenuItem>
+                    ))
+                  }
                 </Select>
               </FormControl>
               <p>{`of ${totalPages}`}</p>
@@ -628,7 +639,7 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
                 <ArrowRightIcon />
               </IconButton>
             </div>
-            <div/>
+            <div />
           </div>
         </div>
         <DeleteModal

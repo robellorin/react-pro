@@ -1,0 +1,36 @@
+{
+	"[javascript]": {
+		"editor.formatOnSave": false
+	},
+	"[typescript]": {
+		"editor.formatOnSave": false
+	},
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": true
+	},
+	// "editor.codeActionsOnSaveTimeout": 2000,
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"editor.detectIndentation": false,
+	"editor.formatOnPaste": true,
+	"editor.formatOnSave": true,
+	"editor.insertSpaces": false,
+	"editor.tabSize": 2,
+	"files.exclude": {
+		"**/bower_components": true,
+		"**/coverage": true,
+		"**/dist": true,
+		"**/logs": true,
+		"**/node_modules": true
+	},
+	"files.trimTrailingWhitespace": true,
+	"javascript.updateImportsOnFileMove.enabled": "always",
+	"javascript.validate.enable": false,
+	"typescript.implementationsCodeLens.enabled": true,
+	"typescript.referencesCodeLens.enabled": true,
+	"typescript.referencesCodeLens.showOnAllFunctions": true,
+	// "typescript.validate.enable": false,
+	"workbench.settings.useSplitJSON": true,
+	"workbench.settings.editor": "json",
+	"workbench.tree.indent": 24,
+	"cSpell.words": ["Twilio", "asynchronize", "autofix", "camelcase", "nameof", "readonly", "sonarjs"]
+}

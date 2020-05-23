@@ -1,0 +1,20 @@
+{
+	"recommendations": [
+		"nicoespeon.abracadabra",
+		"aaron-bond.better-comments",
+		"coenraads.bracket-pair-colorizer",
+		"streetsidesoftware.code-spell-checker",
+		"dbaeumer.vscode-eslint",
+		"oderwat.indent-rainbow",
+		"atlassian.atlascode",
+		"pkief.material-icon-theme",
+		"eg2.vscode-npm-script",
+		"christian-kohler.npm-intellisense",
+		"christian-kohler.path-intellisense",
+		"esbenp.prettier-vscode",
+		"mikaelkristiansson87.react-theme-vscode",
+		"wix.vscode-import-cost",
+		"wayou.vscode-todo-highlight",
+		"visualstudioexptteam.vscodeintellicode"
+	]
+}

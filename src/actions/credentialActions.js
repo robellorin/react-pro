@@ -31,7 +31,7 @@ export const getCredentials = (userId) => async (dispatch) => {
     });
 };
 
-export const addCredential = (bookmaker, country, bookmakerUsername, password) => async (dispatch) => {
+export const addCredential = (bookmaker, country, bookmakerUsername, password, currency) => async (dispatch) => {
   const userData = JSON.parse(localStorage.getItem('user'));
   dispatch({
     type: constant.CREDENTIAL_REQUEST
@@ -40,7 +40,8 @@ export const addCredential = (bookmaker, country, bookmakerUsername, password) =
     bookmaker,
     country,
     bookmakerUsername,
-    password
+    password,
+    currency
   };
   await axios.post(`${constant.API_URL}/credential`, data, {
     headers: {
@@ -69,7 +70,7 @@ export const addCredential = (bookmaker, country, bookmakerUsername, password) =
     });
 };
 
-export const updateCredential = (bookmaker, country, bookmakerUsername, password, id) => async (dispatch) => {
+export const updateCredential = (bookmaker, country, bookmakerUsername, password, currency, id) => async (dispatch) => {
   const userData = JSON.parse(localStorage.getItem('user'));
   dispatch({
     type: constant.CREDENTIAL_REQUEST
@@ -78,7 +79,8 @@ export const updateCredential = (bookmaker, country, bookmakerUsername, password
     bookmaker,
     country,
     bookmakerUsername,
-    password
+    password,
+    currency
   };
   await axios.put(`${constant.API_URL}/credential/${id}`, data, {
     headers: {

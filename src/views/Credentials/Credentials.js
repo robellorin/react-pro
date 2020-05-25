@@ -332,9 +332,9 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
 
   const onRowUpdate = (row) => {
     if (row.isNew) {
-      dispatch(addCredential(formState.bookmaker, formState.country, formState.username, formState.password));
+      dispatch(addCredential(formState.bookmaker, formState.country, formState.username, formState.password, formState.currency));
     } else {
-      dispatch(updateCredential(formState.bookmaker, formState.country, formState.username, formState.password, row.id));
+      dispatch(updateCredential(formState.bookmaker, formState.country, formState.username, formState.password, formState.currency, row.id));
     }
     setUpdating(false);
   };
@@ -351,7 +351,8 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
       bookmaker: '',
       country: '',
       username: '',
-      password: ''
+      password: '',
+      currency: 'EUR'
     });
 
     if (row.isNew) {
@@ -405,7 +406,8 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
       bookmaker: row.bookmaker,
       country: row.country,
       username: row.bookmakerUsername,
-      password: row.password
+      password: row.password,
+      currency: row.currency
     });
   };
 
@@ -636,7 +638,9 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
                     >
                       {credential.balance}
                     </ListItemText>
-                    <ListItemText className={classes.flex1} />
+                    <ListItemText className={classes.flex1}>
+                      {credential.currency}
+                    </ListItemText>
                     <ListItemText
                       classes={{ root: classes.flex2, primary: classes.text }}
                     >

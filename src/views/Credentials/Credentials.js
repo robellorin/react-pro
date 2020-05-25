@@ -210,7 +210,10 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 5,
     padding: 4,
     flex: 1,
-    height: 35
+    height: 35,
+    '&.Mui-disabled': {
+      opacity: 0.5
+    }
   },
   actionsIcon: {
     fontSize: 20,
@@ -283,7 +286,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const headers = ['Bookmaker', 'Country', 'Username', 'Password', 'Balance', '$$', 'Notes', 'Actions'];
+const headers = ['Bookmaker', 'Country', 'Username', 'Password', 'Balance', 'Currency', 'Notes', 'Actions'];
 
 function CredentialsForm({ className, selectedUser, ...rest }) {
   const classes = useStyles();
@@ -304,7 +307,7 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
     country: '',
     username: '',
     password: '',
-    currency: 'EUR'
+    currency: ''
   });
   const totalPages = Math.floor(data.length / rowsPerPage) + 1;
   const pageList = [];
@@ -352,7 +355,7 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
       country: '',
       username: '',
       password: '',
-      currency: 'EUR'
+      currency: ''
     });
 
     if (row.isNew) {
@@ -559,6 +562,11 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
                               backgroundColor: '#37c566'
                             }}
                             onClick={() => onRowUpdate(credential)}
+                            disabled={
+                              !formState.bookmaker
+                              || !formState.currency
+                              || !formState.country
+                            }
                           >
                             <CheckIcon className={classes.actionsIcon} />
                           </IconButton>

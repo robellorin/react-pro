@@ -4,11 +4,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import Page from 'src/components/Page';
+import {
+  getTickets, createTicket, updateTicket, getMessages, createMessage
+} from 'src/actions';
+import socket from 'src/components/Socket';
 import ConversationList from './ConversationList';
 import ConversationDetails from './ConversationDetails';
 import ConversationPlaceholder from './ConversationPlaceholder';
-import { getTickets, createTicket, updateTicket, getMessages, createMessage } from 'src/actions';
-import socket from 'src/components/Socket';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -61,42 +63,43 @@ function Ticket() {
   const params = useParams();
   const history = useHistory();
   const dispatch = useDispatch();
-  const ticketsData = useSelector(state => state.tickets);
-  const session = useSelector(state => state.session);
-    const [conversations, setConversations] = useState(ticketsData.tickets);
+  const ticketsData = useSelector((state) => state.tickets);
+  const session = useSelector((state) => state.session);
+  const [conversations, setConversations] = useState(ticketsData.tickets);
   const [ticketsLoading, setTicketsLoading] = useState(false);
   const [messages, setMessages] = useState(ticketsData.messages);
 
   let selectedConversation;
-        
+
   useEffect(() => {
     dispatch(getTickets());
   }, [dispatch, params, session]);
 
   useEffect(() => {
-    if (params.id && params.id !== 'new-create')
-      window.$client.joinRoom(params.id, session.user.id);
-    return() => {
-      if (params.id && params.id !== 'new-create')
-        window.$client.leaveRoom(params.id, session.user.id);
-    }
+    if (params.id && params.id !== 'new-create') { window.$client.joinRoom(params.id, session.user.id); }
+
+    return () => {
+      if (params.id && params.id !== 'new-create') { window.$client.leaveRoom(params.id, session.user.id); }
+    };
   }, [params.id, session.user.id]);
-  
+
   useEffect(() => {
     if (ticketsLoading && !ticketsData.ticketsLoading) {
-      const sortTickets = ticketsData.tickets.sort((a,b) => (a.createdAt < b.createdAt) ? 1 : ((b.createdAt < a.createdAt) ? -1 : 0));
+      const sortTickets = ticketsData.tickets.sort((a, b) => ((a.createdAt < b.createdAt) ? 1 : ((b.createdAt < a.createdAt) ? -1 : 0)));
       setConversations(sortTickets);
+
       if (ticketsData.status === 'ticket_create_success') {
         history.push(`/ticket/${ticketsData.newTicket.id}`);
         window.$client.ticket(ticketsData.newTicket);
-
       }
+
       if (params.id && params.id !== 'new-create') dispatch(getMessages(params.id));
+
       if (!params.id && sortTickets && sortTickets.length > 0) {
         for (const ticket of sortTickets) {
           if (ticket.status) continue;
-            history.push(`/ticket/${ticket.id}`);
-            break;
+          history.push(`/ticket/${ticket.id}`);
+          break;
         }
       }
     }
@@ -104,8 +107,8 @@ function Ticket() {
   }, [ticketsData, ticketsLoading, params.id, dispatch, history]);
   useEffect(() => {
     // if (messagesLoading && !ticketsData.messagesLoading) {
-      const sortMessages = ticketsData.messages.sort((a,b) => (a.createdAt > b.createdAt) ? 1 : ((b.createdAt > a.createdAt) ? -1 : 0));
-      setMessages(sortMessages);
+    const sortMessages = ticketsData.messages.sort((a, b) => ((a.createdAt > b.createdAt) ? 1 : ((b.createdAt > a.createdAt) ? -1 : 0)));
+    setMessages(sortMessages);
     // }
   }, [ticketsData.messages]);
 
@@ -113,7 +116,7 @@ function Ticket() {
     if (params.id === 'new-create') {
       selectedConversation = {
         id: params.id
-      }
+      };
     } else {
       selectedConversation = conversations.find(
         (c) => c.id.toString() === params.id
@@ -124,32 +127,33 @@ function Ticket() {
   const createNewTicket = () => {
     dispatch(getMessages('new-create'));
     history.push('/ticket/new-create');
-  }
+  };
 
   const clickItemHandle = (selectedId) => {
     dispatch(getMessages(selectedId));
     history.push(`/ticket/${selectedId}`);
-  }
+  };
 
   const sendMessage = (content) => {
     if (params.id === 'new-create') {
       dispatch(createTicket(content));
     } else {
-      if(!window.$client) window.$client = socket(session.user);
+      if (!window.$client) window.$client = socket(session.user);
       window.$client.message(selectedConversation, session.user.role);
       dispatch(createMessage(params.id, content));
-    };
-  }
+    }
+  };
 
   const clickSolveHandle = (id) => {
     dispatch(updateTicket(id));
     const closedConversation = conversations.find(
       (c) => c.id.toString() === params.id
     );
-    if(!window.$client) window.$client = socket(session.user);
+
+    if (!window.$client) window.$client = socket(session.user);
     window.$client.closeTicket(closedConversation);
-  }
-  
+  };
+
   return (
     <Page
       id="ticketPane"

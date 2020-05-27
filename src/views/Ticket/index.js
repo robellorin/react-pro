@@ -76,10 +76,10 @@ function Ticket() {
   }, [dispatch, params, session]);
 
   useEffect(() => {
-    if (params.id && params.id !== 'new-create') { window.$client.joinRoom(params.id, session.user.id); }
+    if (params.id) { window.$client.joinRoom(params.id, session.user.id); }
 
     return () => {
-      if (params.id && params.id !== 'new-create') { window.$client.leaveRoom(params.id, session.user.id); }
+      if (params.id) { window.$client.leaveRoom(params.id, session.user.id); }
     };
   }, [params.id, session.user.id]);
 
@@ -93,7 +93,7 @@ function Ticket() {
         window.$client.ticket(ticketsData.newTicket);
       }
 
-      if (params.id && params.id !== 'new-create') dispatch(getMessages(params.id));
+      if (params.id) dispatch(getMessages(params.id));
 
       if (!params.id && sortTickets && sortTickets.length > 0) {
         for (const ticket of sortTickets) {
@@ -124,9 +124,8 @@ function Ticket() {
     }
   }
 
-  const createNewTicket = () => {
-    dispatch(getMessages('new-create'));
-    history.push('/ticket/new-create');
+  const createNewTicket = (title) => {
+    dispatch(createTicket(title));
   };
 
   const clickItemHandle = (selectedId) => {
@@ -135,13 +134,9 @@ function Ticket() {
   };
 
   const sendMessage = (content) => {
-    if (params.id === 'new-create') {
-      dispatch(createTicket(content));
-    } else {
-      if (!window.$client) window.$client = socket(session.user);
-      window.$client.message(selectedConversation, session.user.role);
-      dispatch(createMessage(params.id, content));
-    }
+    if (!window.$client) window.$client = socket(session.user);
+    window.$client.message(selectedConversation, session.user.role);
+    dispatch(createMessage(params.id, content));
   };
 
   const clickSolveHandle = (id) => {

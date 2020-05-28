@@ -37,7 +37,9 @@ export const fetchInvoices = (userId) => async (dispatch) => {
   dispatch({
     type: constant.PAYMENT_REQUEST
   });
-  const params = userId >= 0 ? `?userId=${userId}` : '';
+  let params = userId ? `?userId=${userId}` : '';
+
+  if (userId === 0) params = `?userId=${userId}`;
   await axios.get(`${constant.API_URL}/invoice${params}`, {
     headers: {
       Authorization: `Bearer ${userData.token}`,

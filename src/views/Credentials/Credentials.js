@@ -481,6 +481,8 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
                   isLoggedIn = false;
                 } else if (credential.pingDiff > 10) isLoggedIn = false;
 
+                if (session.user.role === 'player') isLoggedIn = true;
+
                 if (credential.updating) {
                   return (
                     <ListItem

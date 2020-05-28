@@ -122,7 +122,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const StyledBadge = withStyles(theme => ({
+const StyledBadge = withStyles((theme) => ({
   badge: {
     backgroundColor: '#44b700',
     color: '#44b700',
@@ -174,68 +174,83 @@ function TopBar({
   const [filteredUsers, setUsers] = useState(users);
   let headerData = {};
   let showUsers = false;
+
   if (history.location.pathname.indexOf('analytics') >= 0) {
     headerData = {
       icon: EqualizerIcon,
-      title: 'Analytics Overview' 
-    }
+      title: 'Analytics Overview'
+    };
     showUsers = true;
   }
+
   if (history.location.pathname.indexOf('credentials') >= 0) {
     headerData = {
       icon: LockIcon,
-      title: 'Bookmaker Accounts' 
-    }
+      title: 'Bookmaker Accounts'
+    };
     showUsers = true;
   }
+
   if (history.location.pathname.indexOf('payment') >= 0) {
     headerData = {
       icon: PaymentIcon,
-      title: 'Payments' 
-    }
+      title: 'Payments'
+    };
     showUsers = true;
   }
+
   if (history.location.pathname.indexOf('ticket') >= 0) {
     headerData = {
       icon: SmsIcon,
-      title: 'Support' 
-    }
+      title: 'Support'
+    };
     showUsers = false;
   }
+
   if (history.location.pathname.indexOf('support') >= 0) {
     headerData = {
       icon: SettingsIcon,
-      title: 'Setting' 
-    }
+      title: 'Setting'
+    };
     showUsers = false;
   }
 
   useEffect(() => {
     setUsers(users);
   }, [users]);
-    
+
   const handleLogout = () => {
     const client = socket(session.user);
     history.push('/auth/login');
     client.leave(session.user.id);
-    dispatch({type: constant.CHECKING_NEWS, payload: false});
+    dispatch({ type: constant.CHECKING_NEWS, payload: false });
     dispatch(logout());
   };
- 
+
   const handleNotificationsOpen = () => {
     setOpenNotifications(true);
   };
 
-  const handleNotificationsClose = (event, id) => {
-    if (id > 0) dispatch(deleteNotification(id));
-    setOpenNotifications(false);
+  const handleSelectUser = (userItem) => {
+    setUser(`${userItem.surname} ${userItem.firstname}`);
+    setOpenUserList(false);
+    selectUser(userItem);
   };
 
-  const handleSelectUser = (user) => {
-    setUser(`${user.surname} ${user.firstname}`);
-    setOpenUserList(false);
-    selectUser(user);
-  }
+  const handleNotificationsClose = (notificationItem) => {
+    if (notificationItem) {
+      if (notificationItem.type === 'ticket') {
+        history.push(`/ticket/${notificationItem.typeId}`);
+      } else if (notificationItem.type === 'credentials') {
+        const useItem = users.find((item) => item.id === notificationItem.typeId);
+
+        if (useItem) handleSelectUser(useItem);
+        history.push('/credentials');
+      }
+      dispatch(deleteNotification(notificationItem.id));
+    }
+    setOpenNotifications(false);
+  };
 
   const handleFilter = (event) => {
     event.stopPropagation();
@@ -244,12 +259,12 @@ function TopBar({
     const tempUsers = users.filter((item) => (`${item.firstname} ${item.surname}`.toLowerCase().includes(keywords)));
     setUsers(tempUsers);
     setOpenUserList(true);
-  }
+  };
 
   const handleClickIcon = (event) => {
     event.stopPropagation();
     setOpenUserList((prev) => !prev);
-  }
+  };
 
   return (
     <AppBar
@@ -268,18 +283,19 @@ function TopBar({
           </IconButton>
         </Hidden>
         <RouterLink to="/">
-        <div style={{ padding: '8px 20px' }}>
-          <img
-            alt="Logo"
-            src="/images/logos/logo.png"
-          />
-        </div>
-      </RouterLink>
+          <div style={{ padding: '8px 20px' }}>
+            <img
+              alt="Logo"
+              src="/images/logos/logo.png"
+            />
+          </div>
+        </RouterLink>
         <div className={classes.flexGrow} />
         <Hidden mdDown>
           <Button onClick={handleNotificationsOpen} ref={notificationsRef}>
-            { 
-              notification && notification.isNotification &&
+            {
+              notification && notification.isNotification
+                && (
                 <StyledBadge
                   overlap="circle"
                   anchorOrigin={{
@@ -288,13 +304,14 @@ function TopBar({
                   }}
                   variant="dot"
                 >
-                <Avatar className={classes.avatar} role={session.user.role} />
+                  <Avatar className={classes.avatar} role={session.user.role} />
                 </StyledBadge>
+                )
             }
-            { 
-              (!notification || !notification.isNotification) &&
-              <Avatar className={classes.avatar} role={session.user.role} />
-            }              
+            {
+              (!notification || !notification.isNotification)
+              && <Avatar className={classes.avatar} role={session.user.role} />
+            }
             <Typography style={{ marginLeft: 10 }}>{`${session.user.firstname} ${session.user.surname}`}</Typography>
             <ArrowDropDownIcon />
           </Button>
@@ -310,12 +327,13 @@ function TopBar({
       </Toolbar>
       <div className={classes.titleWrapper}>
         <div style={{ display: 'flex' }}>
-          {<headerData.icon />}
+          <headerData.icon />
           <Typography className={classes.headerTitle}>{headerData.title}</Typography>
         </div>
         <div>
           {
-            (session.user.role === 'support' || session.user.role === 'admin') &&  showUsers &&
+            (session.user.role === 'support' || session.user.role === 'admin') && showUsers
+            && (
             <TextField
               ref={userListRef}
               inputRef={inputRef}
@@ -337,8 +355,9 @@ function TopBar({
                   </InputAdornment>
                 )
               }}
-              variant='outlined'
+              variant="outlined"
             />
+            )
           }
         </div>
       </div>
@@ -350,11 +369,13 @@ function TopBar({
         open={openNotifications}
       />
       {
-        openUserList &&
+        openUserList
+          && (
           <UserListPopover
             users={filteredUsers}
             handleSelectUser={handleSelectUser}
           />
+          )
       }
     </AppBar>
   );

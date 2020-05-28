@@ -24,10 +24,12 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-function NotificationsPopover({ notifications, anchorEl, handleNotificationsClose, ...rest }) {
+function NotificationsPopover({
+  notifications, anchorEl, handleNotificationsClose, ...rest
+}) {
   const classes = useStyles();
   const notificationList = notifications.length > 0 ? notifications.slice(0, 10) : [{ id: 0, notification: 'No notifications to show' }];
-  
+
   return (
     <Popover
       {...rest}
@@ -42,25 +44,20 @@ function NotificationsPopover({ notifications, anchorEl, handleNotificationsClos
         <Divider />
         <List>
           {
-            notificationList.map((notification) => {
-              let link = '#';
-              if (notification.id > 0) link = notification.notification.includes('bookieaccount') ? '/credentials' : '/ticket';
-              return (
-                <ListItem
-                  key={notification.id}
-                  className={classes.listItem}
-                  component={RouterLink}
-                  to={link}
-                  onClick={(event) => handleNotificationsClose(event, notification.id)}
-                >
-                  <ListItemText
-                    primary={notification.notification}
-                    primaryTypographyProps={{ variant: 'body1' }}
-                  />
-                  <ArrowForwardIcon className={classes.arrowForwardIcon} />
-                </ListItem>
-              )
-            })
+            notificationList.map((notification) => (
+              <ListItem
+                key={notification.id}
+                className={classes.listItem}
+                button
+                onClick={() => handleNotificationsClose(notification)}
+              >
+                <ListItemText
+                  primary={notification.notification}
+                  primaryTypographyProps={{ variant: 'body1' }}
+                />
+                <ArrowForwardIcon className={classes.arrowForwardIcon} />
+              </ListItem>
+            ))
           }
         </List>
         <Divider />

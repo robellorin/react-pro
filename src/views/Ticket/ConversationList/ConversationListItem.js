@@ -19,12 +19,12 @@ const useStyles = makeStyles((theme) => ({
     padding: 16
   },
   active: {
-    boxShadow: `0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)`,
+    boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)',
     backgroundColor: '#512dd9',
     '&:hover': {
       backgroundColor: '#4404e0c4'
     },
-    '& $primary, $secondary' : {
+    '& $primary, $secondary': {
       color: '#ffffff'
     }
   },
@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   primary: {
     fontSize: 20,
     color: '#161e33'
-    
+
   },
   secondary: {
     fontSize: 15,
@@ -57,11 +57,15 @@ function ConversationListItem({
   active, session, conversation, className, clickHandle, clickSolveHandle, ...rest
 }) {
   const classes = useStyles();
-  const playerName = `${conversation.playerFirstname ? conversation.playerFirstname : ''} ${conversation.playerSurname ? conversation.playerSurname: ''}`;
+  const playerName = `${
+    conversation.playerSurname ? conversation.playerSurname : ''
+  } ${conversation.playerFirstname ? conversation.playerFirstname : ''}`;
   const supportName = conversation.supportId === 0
     ? 'Support'
-    : `${conversation.supportFirstname ? conversation.supportFirstname : ''} ${conversation.supportSurname ? conversation.supportSurname: ''}`;
-  
+    : `${conversation.supportSurname ? conversation.supportSurname : ''} ${
+      conversation.supportFirstname ? conversation.supportFirstname : ''
+    }`;
+
   return (
     <ListItem
       {...rest}
@@ -77,13 +81,13 @@ function ConversationListItem({
       onClick={() => clickHandle(conversation.id)}
     >
       <ListItemAvatar>
-        <Avatar className={classes.avatar} role={session.user.role === 'player' ? 'support' : 'player' }  />
+        <Avatar className={classes.avatar} role={session.user.role === 'player' ? 'support' : 'player'} />
       </ListItemAvatar>
       <ListItemText
         classes={{ root: classes.listItemText, primary: classes.primary, secondary: classes.secondary }}
         primary={session.user.role === 'player' ? supportName : playerName}
-        secondary={
-          <React.Fragment>
+        secondary={(
+          <>
             <span
               component="span"
               variant="body2"
@@ -91,22 +95,26 @@ function ConversationListItem({
             >
               {conversation.title}
             </span>
-          </React.Fragment>
-        }
+          </>
+        )}
       />
       {
-        conversation.status &&
+        conversation.status
+          && (
           <ListItemSecondaryAction>
             <DoneOutlineIcon style={{ color: colors.green[500] }} />
           </ListItemSecondaryAction>
+          )
       }
       {
-        (session.user.role === 'admin' || session.user.role === 'support') && !conversation.status &&
+        (session.user.role === 'admin' || session.user.role === 'support') && !conversation.status
+          && (
           <ListItemSecondaryAction>
-            <IconButton edge="end" aria-label="toSolve" onClick={() =>clickSolveHandle(conversation.id)}>
+            <IconButton edge="end" aria-label="toSolve" onClick={() => clickSolveHandle(conversation.id)}>
               <CheckCircleOutlineIcon />
             </IconButton>
           </ListItemSecondaryAction>
+          )
       }
     </ListItem>
   );

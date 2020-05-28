@@ -5,11 +5,11 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { LinearProgress } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import NavBar from './NavBar';
-import TopBar from './TopBar';
 import * as constant from 'src/constant';
 import socket from 'src/components/Socket';
 import { getNotifications, getAllUsers } from 'src/actions';
+import TopBar from './TopBar';
+import NavBar from './NavBar';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,12 +45,12 @@ const useStyles = makeStyles((theme) => ({
 function Dashboard({ route }) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const session = useSelector(state => state.session);
-  const supportData = useSelector(state => state.supportData);
-  const notification = useSelector(state => state.notification);
+  const session = useSelector((state) => state.session);
+  const supportData = useSelector((state) => state.supportData);
+  const notification = useSelector((state) => state.notification);
   const userData = localStorage.getItem('user');
   const [user, setUser] = useState('');
-  
+
   useEffect(() => {
     dispatch(getNotifications());
   }, [dispatch]);
@@ -58,7 +58,7 @@ function Dashboard({ route }) {
     const receivedMessage = () => {
       dispatch(getNotifications());
     };
-    
+
     if (session.user.id) {
       window.$client = socket(session.user);
       window.$client.registerHandler(receivedMessage);
@@ -69,7 +69,7 @@ function Dashboard({ route }) {
       dispatch({
         type: constant.SET_USER_DATA,
         data: JSON.parse(userData)
-      })
+      });
     }
   }, [session, dispatch, userData]);
 
@@ -79,38 +79,40 @@ function Dashboard({ route }) {
 
   const selectUser = (selectedUser) => {
     setUser(selectedUser);
-  }
+  };
 
   const [openNavBarMobile, setOpenNavBarMobile] = useState(false);
-   
+
   return (
     userData
-    ? <div className={classes.root}>
-        <NavBar
-          onMobileClose={() => setOpenNavBarMobile(false)}
-          openMobile={openNavBarMobile}
-          role={session.user.role}
-        />
-        <div className={classes.rightWrapper}>
-          <TopBar
-            className={classes.topBar}
-            position="sticky"
-            session={session}
-            notification={notification}
-            users={supportData.users}
-            selectUser={selectUser}
-            onOpenNavBarMobile={() => setOpenNavBarMobile(true)}
+      ? (
+        <div className={classes.root}>
+          <NavBar
+            onMobileClose={() => setOpenNavBarMobile(false)}
+            openMobile={openNavBarMobile}
+            role={session.user.role}
           />
-          <div className={classes.container}>
-            <div className={classes.content}>
-              <Suspense fallback={<LinearProgress />}>
-                {renderRoutes(route.routes, { selectedUser: user })}
-              </Suspense>
+          <div className={classes.rightWrapper}>
+            <TopBar
+              className={classes.topBar}
+              position="sticky"
+              session={session}
+              notification={notification}
+              users={supportData.users}
+              selectUser={selectUser}
+              onOpenNavBarMobile={() => setOpenNavBarMobile(true)}
+            />
+            <div className={classes.container}>
+              <div className={classes.content}>
+                <Suspense fallback={<LinearProgress />}>
+                  {renderRoutes(route.routes, { selectedUser: user })}
+                </Suspense>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    : <Redirect to="/auth/login" />
+      )
+      : <Redirect to="/auth/login" />
   );
 }
 

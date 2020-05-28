@@ -1,9 +1,9 @@
-const io = require('socket.io-client')
+const io = require('socket.io-client');
 
 export default function (user) {
   const socket = io(process.env.REACT_APP_SOCKET_URL,
     {
-      transports: [ 'websocket', 'polling' ],
+      transports: ['websocket', 'polling'],
       query: `userId=${user.id}&role=${user.role}`,
     });
 
@@ -14,35 +14,34 @@ export default function (user) {
   function unregisterHandler() {
     socket.off('message');
   }
-  
-  socket.on('error', function (err) {
+
+  socket.on('error', (err) => {
     console.log('received socket error:');
-    console.log(err)
-  })
+    console.log(err);
+  });
 
   function leave(id, cb) {
     socket.emit('leave', id, cb);
   }
-    
-  function message(msg, role, cb) {
-    socket.emit('add-message', msg, role, cb);
+
+  function message(data, role, cb) {
+    socket.emit('add-message', data, role, cb);
   }
 
-  function ticket(msg) {
-    console.log(msg);
-    socket.emit('add-ticket', msg);
+  function ticket(data) {
+    socket.emit('add-ticket', data);
   }
 
-  function closeTicket(msg) {
-    socket.emit('close-ticket', msg);
+  function closeTicket(data) {
+    socket.emit('close-ticket', data);
   }
 
-  function updateBookieaccount(msg) {
-    socket.emit('update-bookieaccount', msg);
+  function updateBookieaccount(data) {
+    socket.emit('update-bookieaccount', data);
   }
 
-  function userRegister(msg) {
-    socket.emit('user-register', msg);
+  function userRegister(data) {
+    socket.emit('user-register', data);
   }
 
   function joinRoom(ticketId, userId) {
@@ -54,8 +53,8 @@ export default function (user) {
     console.log('leave room', ticketId);
     socket.emit('leave-room', userId);
   }
-  
-  
+
+
   return {
     registerHandler,
     unregisterHandler,
@@ -67,5 +66,5 @@ export default function (user) {
     joinRoom,
     leaveRoom,
     leave
-  }
+  };
 }

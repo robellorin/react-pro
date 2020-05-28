@@ -6,7 +6,7 @@ export const getCredentials = (userId) => async (dispatch) => {
   dispatch({
     type: constant.CREDENTIAL_REQUEST
   });
-  const params = userId ? `?userId=${userId}` : '';
+  const params = userId >= 0 ? `?userId=${userId}` : '';
   await axios.get(`${constant.API_URL}/credential${params}`, {
     headers: {
       Authorization: `Bearer ${userData.token}`

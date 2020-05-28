@@ -16,7 +16,7 @@ const useStyles = makeStyles(() => ({
     position: 'absolute',
     top: 156,
     right: 45,
-    boxShadow: `0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)`
+    boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)'
   },
   list: {
     maxHeight: 'calc(100vh - 165px)',
@@ -29,12 +29,15 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-function UserListPopover({ users, anchorEl, handleSelectUser, ...rest }) {
+function UserListPopover({
+  users, anchorEl, handleSelectUser, ...rest
+}) {
   const classes = useStyles();
+  console.log(users);
   const sortusers = users.sort((a, b) => (
     `${a.surname} ${a.firstname}` > `${b.surname} ${b.firstname}` ? 1 : `${a.surname} ${a.firstname} ` < `${b.surname} ${b.firstname}` ? -1 : 0
   ));
-  
+
   return (
     <Paper
       {...rest}

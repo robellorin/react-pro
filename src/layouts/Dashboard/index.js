@@ -83,36 +83,37 @@ function Dashboard({ route }) {
 
   const [openNavBarMobile, setOpenNavBarMobile] = useState(false);
 
-  return (
-    userData
-      ? (
-        <div className={classes.root}>
-          <NavBar
-            onMobileClose={() => setOpenNavBarMobile(false)}
-            openMobile={openNavBarMobile}
-            role={session.user.role}
-          />
-          <div className={classes.rightWrapper}>
-            <TopBar
-              className={classes.topBar}
-              position="sticky"
-              session={session}
-              notification={notification}
-              users={supportData.users}
-              selectUser={selectUser}
-              onOpenNavBarMobile={() => setOpenNavBarMobile(true)}
-            />
-            <div className={classes.container}>
-              <div className={classes.content}>
-                <Suspense fallback={<LinearProgress />}>
-                  {renderRoutes(route.routes, { selectedUser: user })}
-                </Suspense>
-              </div>
-            </div>
+  return userData ? (
+    <div className={classes.root}>
+      <NavBar
+        onMobileClose={() => setOpenNavBarMobile(false)}
+        openMobile={openNavBarMobile}
+        role={session.user.role}
+      />
+      <div className={classes.rightWrapper}>
+        <TopBar
+          className={classes.topBar}
+          position="sticky"
+          session={session}
+          notification={notification}
+          users={[
+            { id: 0, surname: 'ALL', firstname: '' },
+            ...supportData.users
+          ]}
+          selectUser={selectUser}
+          onOpenNavBarMobile={() => setOpenNavBarMobile(true)}
+        />
+        <div className={classes.container}>
+          <div className={classes.content}>
+            <Suspense fallback={<LinearProgress />}>
+              {renderRoutes(route.routes, { selectedUser: user })}
+            </Suspense>
           </div>
         </div>
-      )
-      : <Redirect to="/auth/login" />
+      </div>
+    </div>
+  ) : (
+    <Redirect to="/auth/login" />
   );
 }
 

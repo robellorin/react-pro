@@ -321,7 +321,6 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
   useEffect(() => {
     dispatch(getCredentials(selectedUser ? selectedUser.id : null));
   }, [dispatch, selectedUser, notification]);
-
   useEffect(() => {
     if (loading && !credentials.loading && credentials.status === 'success') {
       const credentialsData = credentials.credentials.map((item) => {
@@ -676,7 +675,13 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
                       />
                     </ListItemText>
                     <ListItemText
-                      classes={{ root: classes.flex2, primary: clsx({ [classes.total]: true, [classes.logoutTotal]: !isLoggedIn }) }}
+                      classes={{
+                        root: classes.flex2,
+                        primary: clsx({
+                          [classes.total]: true,
+                          [classes.logoutTotal]: !isLoggedIn
+                        })
+                      }}
                     >
                       {credential.balance}
                     </ListItemText>
@@ -689,27 +694,32 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
                       {credential.actions}
                     </ListItemText>
                     <div className={classes.actionsWrapper}>
-                      <div className={classes.buttonWrapper}>
-                        <IconButton
-                          className={classes.actionsButton}
-                          style={{
-                            marginRight: 15,
-                            backgroundColor: '#00bff3'
-                          }}
-                          disabled={updating}
-                          onClick={() => handleClickUpdate(credential)}
-                        >
-                          <EditIcon className={classes.actionsIcon} />
-                        </IconButton>
-                        <IconButton
-                          className={classes.actionsButton}
-                          style={{ backgroundColor: '#df5157' }}
-                          onClick={() => handleClickDelete(credential)}
-                          disabled={updating}
-                        >
-                          <DeleteIcon className={classes.actionsIcon} />
-                        </IconButton>
-                      </div>
+                      {selectedUser.id === 0 && (
+                        <Typography className={classes.text}>{credential.username}</Typography>
+                      )}
+                      {selectedUser.id !== 0 && (
+                        <div className={classes.buttonWrapper}>
+                          <IconButton
+                            className={classes.actionsButton}
+                            style={{
+                              marginRight: 15,
+                              backgroundColor: '#00bff3'
+                            }}
+                            disabled={updating}
+                            onClick={() => handleClickUpdate(credential)}
+                          >
+                            <EditIcon className={classes.actionsIcon} />
+                          </IconButton>
+                          <IconButton
+                            className={classes.actionsButton}
+                            style={{ backgroundColor: '#df5157' }}
+                            onClick={() => handleClickDelete(credential)}
+                            disabled={updating}
+                          >
+                            <DeleteIcon className={classes.actionsIcon} />
+                          </IconButton>
+                        </div>
+                      )}
                     </div>
                   </ListItem>
                 );

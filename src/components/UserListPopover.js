@@ -33,7 +33,6 @@ function UserListPopover({
   users, anchorEl, handleSelectUser, ...rest
 }) {
   const classes = useStyles();
-  console.log(users);
   const sortusers = users.sort((a, b) => (
     `${a.surname} ${a.firstname}` > `${b.surname} ${b.firstname}` ? 1 : `${a.surname} ${a.firstname} ` < `${b.surname} ${b.firstname}` ? -1 : 0
   ));

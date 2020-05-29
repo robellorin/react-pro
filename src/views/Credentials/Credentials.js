@@ -695,7 +695,20 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
                     </ListItemText>
                     <div className={classes.actionsWrapper}>
                       {selectedUser.id === 0 && (
-                        <Typography className={classes.text}>{credential.username}</Typography>
+                        <div>
+                          <Typography
+                            variant="h4"
+                            style={{ textAlign: 'right' }}
+                          >
+                            {credential.tags}
+                          </Typography>
+                          <Typography
+                            className={classes.text}
+                            style={{ textAlign: 'right' }}
+                          >
+                            {`${credential.surname} ${credential.firstname}`}
+                          </Typography>
+                        </div>
                       )}
                       {selectedUser.id !== 0 && (
                         <div className={classes.buttonWrapper}>

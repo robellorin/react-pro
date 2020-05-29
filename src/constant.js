@@ -93,5 +93,5 @@ export const teamList = [
   'Mansos Team',
   'Rosss Team',
   'Solo Team',
-  'Wilkinsons Team'
+  'Udevia Team'
 ];

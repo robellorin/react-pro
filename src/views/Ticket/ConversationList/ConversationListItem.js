@@ -41,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
   secondary: {
     fontSize: 15,
     color: '#6f889d',
+    paddingRight: 20
   },
   details: {
     marginLeft: theme.spacing(2),
@@ -65,6 +66,7 @@ function ConversationListItem({
     : `${conversation.supportSurname ? conversation.supportSurname : ''} ${
       conversation.supportFirstname ? conversation.supportFirstname : ''
     }`;
+  const title = conversation.title.length < 30 ? conversation.title : `${conversation.title.substr(0, 30)}...`;
 
   return (
     <ListItem
@@ -77,45 +79,51 @@ function ConversationListItem({
         },
         className
       )}
-      disabled={session.user.role !== 'admin' && session.user.role !== 'support' && conversation.status}
+      disabled={
+        session.user.role !== 'admin'
+        && session.user.role !== 'support'
+        && conversation.status
+      }
       onClick={() => clickHandle(conversation.id)}
     >
       <ListItemAvatar>
-        <Avatar className={classes.avatar} role={session.user.role === 'player' ? 'support' : 'player'} />
+        <Avatar
+          className={classes.avatar}
+          role={session.user.role === 'player' ? 'support' : 'player'}
+        />
       </ListItemAvatar>
       <ListItemText
-        classes={{ root: classes.listItemText, primary: classes.primary, secondary: classes.secondary }}
+        classes={{
+          root: classes.listItemText,
+          primary: classes.primary,
+          secondary: classes.secondary
+        }}
         primary={session.user.role === 'player' ? supportName : playerName}
         secondary={(
           <>
-            <span
-              component="span"
-              variant="body2"
-              color="textPrimary"
-            >
-              {conversation.title}
+            <span component="span" variant="body2" color="textPrimary">
+              {title}
             </span>
           </>
         )}
       />
-      {
-        conversation.status
-          && (
+      {conversation.status && (
+        <ListItemSecondaryAction>
+          <DoneOutlineIcon style={{ color: colors.green[500] }} />
+        </ListItemSecondaryAction>
+      )}
+      {(session.user.role === 'admin' || session.user.role === 'support')
+        && !conversation.status && (
           <ListItemSecondaryAction>
-            <DoneOutlineIcon style={{ color: colors.green[500] }} />
-          </ListItemSecondaryAction>
-          )
-      }
-      {
-        (session.user.role === 'admin' || session.user.role === 'support') && !conversation.status
-          && (
-          <ListItemSecondaryAction>
-            <IconButton edge="end" aria-label="toSolve" onClick={() => clickSolveHandle(conversation.id)}>
+            <IconButton
+              edge="end"
+              aria-label="toSolve"
+              onClick={() => clickSolveHandle(conversation.id)}
+            >
               <CheckCircleOutlineIcon />
             </IconButton>
           </ListItemSecondaryAction>
-          )
-      }
+      )}
     </ListItem>
   );
 }

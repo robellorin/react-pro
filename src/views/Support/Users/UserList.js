@@ -13,9 +13,10 @@ import {
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import EditIcon from '@material-ui/icons/Edit';
 import EditModal from './EditModal';
+
 const copy = require('clipboard-copy');
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 650,
   },
@@ -31,23 +32,29 @@ function UserList({ users, team, saveUserData }) {
   const [open, setOpen] = useState(false);
   const [selectedUser, setUser] = useState(null);
 
+  const sortusers = users.sort((a, b) => (`${a.surname} ${a.firstname}` > `${b.surname} ${b.firstname}`
+    ? 1
+    : `${a.surname} ${a.firstname} ` < `${b.surname} ${b.firstname}`
+      ? -1
+      : 0));
+
   const handleCopyKey = (value) => {
     copy(value);
-  }
+  };
 
   const handleEdit = (user) => {
     setUser(user);
     setOpen(true);
-  }
+  };
 
   const onClose = () => {
     setOpen(false);
-  }
+  };
 
   const onSave = (data) => {
     setOpen(false);
     saveUserData(selectedUser.id, data);
-  }
+  };
 
   return (
     <TableContainer component={Paper}>
@@ -56,20 +63,24 @@ function UserList({ users, team, saveUserData }) {
           <TableRow>
             <TableCell>Full Name</TableCell>
             <TableCell>Email</TableCell>
-            <TableCell>{team.toLowerCase() === 'default' ? 'Referred By' : 'Team'}</TableCell>
+            <TableCell>
+              {team.toLowerCase() === 'default' ? 'Referred By' : 'Team'}
+            </TableCell>
             <TableCell>Key</TableCell>
             <TableCell align="right">Cut Off</TableCell>
-            <TableCell align="right"></TableCell>
+            <TableCell align="right" />
           </TableRow>
         </TableHead>
         <TableBody>
-          {users.map(user => (
+          {sortusers.map((user) => (
             <TableRow key={user.id}>
               <TableCell component="th" scope="row">
                 {`${user.surname} ${user.firstname}`}
               </TableCell>
               <TableCell>{user.username}</TableCell>
-              <TableCell>{team.toLowerCase() === 'default' ? user.referredBy : user.tags}</TableCell>
+              <TableCell>
+                {team.toLowerCase() === 'default' ? user.referredBy : user.tags}
+              </TableCell>
               <TableCell>
                 <div className={classes.keyWrapper}>
                   <span>{user.key}</span>

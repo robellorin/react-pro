@@ -13,10 +13,10 @@ import {
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { getAllUsers, updateUser } from 'src/actions';
 import * as constants from 'src/constant';
-import UserList from './UserList';
 import LoadingComponent from 'src/components/Loading';
+import UserList from './UserList';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     height: '100%',
     border: 'none',
@@ -40,21 +40,21 @@ const useStyles = makeStyles(theme => ({
 function Users({ className, ...rest }) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const supportData = useSelector(state => state.supportData);
+  const supportData = useSelector((state) => state.supportData);
   const [expanded, setExpanded] = useState([true]);
-  
+
   useEffect(() => {
     dispatch(getAllUsers());
   }, [dispatch]);
 
   const saveUserData = (userId, data) => {
     dispatch(updateUser(userId, data));
-  }
+  };
 
   const handleClick = (index) => {
-    setExpanded((prevValue) => prevValue.map((item, i) => i === index ? !item : item));
-  }
-      
+    setExpanded((prevValue) => prevValue.map((item, i) => (i === index ? !item : item)));
+  };
+
   return (
     <Card
       {...rest}
@@ -63,7 +63,8 @@ function Users({ className, ...rest }) {
       <CardContent className={classes.content}>
         {
           constants.teamList.map((team, index) => {
-            const filteredUsers = supportData.users.filter(item => item.tags.toLowerCase() === team.toLowerCase());
+            const filteredUsers = supportData.users.filter((item) => item.tags.toLowerCase() === team.toLowerCase() && (item.role === 'player' || item.role === 'support'));
+
             return (
               <ExpansionPanel key={team} expanded={expanded[index]} onChange={() => handleClick(index)}>
                 <ExpansionPanelSummary
@@ -71,7 +72,7 @@ function Users({ className, ...rest }) {
                   aria-controls={`${team}-panel`}
                   id={`${team}-panel`}
                 >
-                  <Typography className={classes.heading} style={{ color: index === 0 ? 'green' : '#000000'}}>
+                  <Typography className={classes.heading} style={{ color: index === 0 ? 'green' : '#000000' }}>
                     {team.toLowerCase() === 'default' ? 'New Users' : team}
                   </Typography>
                 </ExpansionPanelSummary>
@@ -79,13 +80,13 @@ function Users({ className, ...rest }) {
                   <UserList users={filteredUsers} team={team} saveUserData={saveUserData} />
                 </ExpansionPanelDetails>
               </ExpansionPanel>
-            )
+            );
           })
         }
       </CardContent>
       {
-        supportData.loading &&
-          <LoadingComponent />
+        supportData.loading
+          && <LoadingComponent />
       }
     </Card>
   );

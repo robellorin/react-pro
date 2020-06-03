@@ -320,6 +320,7 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
   }
   useEffect(() => {
     dispatch(getCredentials(selectedUser ? selectedUser.id : null));
+    setPage(1);
   }, [dispatch, selectedUser, notification]);
   useEffect(() => {
     if (loading && !credentials.loading && credentials.status === 'success') {

@@ -1,15 +1,15 @@
-import React, {useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
 import { Container, Grid } from '@material-ui/core';
 import Page from 'src/components/Page';
+import { getProfit, getNews } from 'src/actions';
+import * as constant from 'src/constant';
+import LoadingComponent from 'src/components/Loading';
 import Overview from './Overview';
 import MonthOverview from './MonthOverview';
 import FinancialStats from './FinancialStats';
 import NewArea from './NewArea';
-import { getProfit, getNews } from 'src/actions';
-import * as constant from 'src/constant';
-import LoadingComponent from 'src/components/Loading';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,8 +31,8 @@ function DashboardAnalytics(props) {
   const now = new Date();
   const year = now.getFullYear();
   const month = now.getMonth();
-  const dashboardData = useSelector(state => state.dashboard);
-  const newsData = useSelector(state => state.news);
+  const dashboardData = useSelector((state) => state.dashboard);
+  const newsData = useSelector((state) => state.news);
   const [loading, setLoading] = useState(dashboardData.loading);
   const [betData, setBetData] = useState({});
   const [monthData, setMonthData] = useState({});
@@ -49,42 +49,31 @@ function DashboardAnalytics(props) {
 
   useEffect(() => {
     const { bets } = betData;
-    let data = {
+    const data = {
       pl: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       rollover: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       roi: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     };
+
     if (bets) {
       for (const bet of bets) {
         const date = new Date(bet.betTime);
         const month = date.getMonth();
         // if (!bet.checked) continue;
         // if (!bet.placedOdds || !bet.placedStake) continue;
-        let profit = 0;
-        const { won, totalReturns, placedStake } = bet;
-        const stake = parseFloat(placedStake);
-        if (won === 0 || totalReturns === null) continue;
-        else if (won === 1) {
-          profit =  Math.round((totalReturns - stake) * 100) / 100;
-        } else if (won === -1) {
-          profit =  Math.round(-stake * 100) / 100;
-        } else if (won === 2) {
-          profit =  Math.round((totalReturns - 2 * stake) * 100) / 100;
-        } else if (won === -2) {
-          profit =  Math.round(-stake * 2 * 100) / 100;
-        } else if (won === 3) {
-          profit =  Math.round((totalReturns - 2 * stake) * 100) / 100;
-        }
-        data.pl[month] += profit;
-        data.rollover[month] += parseFloat(stake);
+        const { pl, rollover } = bet;
+        data.pl[month] += parseFloat(pl);
+        data.rollover[month] += parseFloat(rollover);
       }
     }
-    data.pl = data.pl.map(item => Math.round(item * 100) / 100);
-    data.rollover = data.rollover.map(item => Math.round(item * 100) / 100);
+    data.pl = data.pl.map((item) => Math.round(item * 100) / 100);
+    data.rollover = data.rollover.map((item) => Math.round(item * 100) / 100);
     data.roi = data.pl.map((item, index) => {
       const rollover = data.rollover[index];
+
       if (rollover !== 0) return Math.round(item / rollover * 10000) / 100;
-      else return 0;
+
+      return 0;
     });
     setMonthData(data);
   }, [betData]);
@@ -107,11 +96,12 @@ function DashboardAnalytics(props) {
       const curMonth = data[0]._index;
       setSelectMonth(curMonth);
     }
-  }
+  };
 
   const onCheckHandle = () => {
-    dispatch({type: constant.CHECKING_NEWS, payload: true});
-  }
+    dispatch({ type: constant.CHECKING_NEWS, payload: true });
+  };
+
   return (
     <Page
       className={classes.root}
@@ -149,8 +139,8 @@ function DashboardAnalytics(props) {
         </Grid>
       </Container>
       {
-        loading &&
-        <LoadingComponent />
+        loading
+        && <LoadingComponent />
       }
     </Page>
   );

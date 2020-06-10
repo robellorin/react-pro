@@ -20,8 +20,8 @@ const useStyles = makeStyles((theme) => ({
 function Overview({ data }) {
   const { userProfit } = data;
   const profitData = userProfit ? userProfit[0] : {};
-  let pl = profitData && profitData.pl ? profitData.pl : 0;
-  let rollover = profitData && profitData.rollover ? profitData.rollover : 0;
+  const pl = profitData && profitData.pl ? profitData.pl : 0;
+  const rollover = profitData && profitData.rollover ? profitData.rollover : 0;
   const roi = rollover === 0 ? 0 : Math.round(pl / rollover * 10000) / 100;
   const stateList = [
     {
@@ -33,7 +33,7 @@ function Overview({ data }) {
     },
     {
       title: 'Profit/Loss',
-      value: `${pl} €`,
+      value: `${Math.round(pl * 100) / 100} €`,
       icon: EuroSymbolIcon,
       subIcon: CallMadeIcon,
       backgroundColor: 'rgba(55, 197, 102, 0.2)',
@@ -41,7 +41,7 @@ function Overview({ data }) {
     },
     {
       title: 'Rollover',
-      value: `${rollover} €`,
+      value: `${Math.round(rollover * 100) / 100} €`,
       icon: AutorenewIcon,
       subIcon: CallReceivedIcon,
       subIconColor: '#ff724f',
@@ -59,25 +59,25 @@ function Overview({ data }) {
   const classes = useStyles();
 
   return (
-      <Grid
-        container
-        spacing={3}
-        className={classes.grid}
-      >
-        {
+    <Grid
+      container
+      spacing={3}
+      className={classes.grid}
+    >
+      {
           stateList.map((item, index) => (
             <Grid
               item
               lg={3}
               sm={6}
               xs={12}
-              key={index} 
+              key={index}
             >
               <DisplayItem data={item} />
             </Grid>
           ))
         }
-      </Grid>
+    </Grid>
   );
 }
 

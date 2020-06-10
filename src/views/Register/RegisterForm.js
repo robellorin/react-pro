@@ -10,13 +10,22 @@ import {
   InputAdornment,
   Checkbox,
   Typography,
-  FormHelperText
+  FormHelperText,
+  MenuItem,
+  ListItemIcon,
+  Box
 } from '@material-ui/core';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import PermContactCalendarOutlinedIcon from '@material-ui/icons/PermContactCalendarOutlined';
 import GroupOutlinedIcon from '@material-ui/icons/GroupOutlined';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { register } from 'src/actions';
+import {
+  faEuroSign,
+  faPoundSign,
+  faDollarSign
+} from '@fortawesome/free-solid-svg-icons';
 
 const schema = {
   userName: {
@@ -61,6 +70,21 @@ const schema = {
   }
 };
 
+const currencies = [
+  {
+    value: 'USD',
+    icon: faDollarSign
+  },
+  {
+    value: 'EUR',
+    icon: faEuroSign
+  },
+  {
+    value: 'GBP',
+    icon: faPoundSign
+  }
+];
+
 const useStyles = makeStyles((theme) => ({
   root: {},
   fields: {
@@ -87,8 +111,8 @@ const useStyles = makeStyles((theme) => ({
     '&::placeholder': {
       color: '#bdbdbd',
     },
-    "&:-webkit-autofill": {
-      WebkitBoxShadow: "0 0 0 1000px #f5f9f9 inset"
+    '&:-webkit-autofill': {
+      WebkitBoxShadow: '0 0 0 1000px #f5f9f9 inset'
     }
   },
 
@@ -123,6 +147,13 @@ const useStyles = makeStyles((theme) => ({
   policyCheckbox: {
     marginLeft: '-14px'
   },
+  boxWrapper: {
+    display: 'flex',
+    flexDirection: 'row'
+  },
+  currency: {
+    marginLeft: 20
+  }
 }));
 
 function RegisterForm({ className, showTerms, ...rest }) {
@@ -130,7 +161,9 @@ function RegisterForm({ className, showTerms, ...rest }) {
   const dispatch = useDispatch();
   const [formState, setFormState] = useState({
     isValid: false,
-    values: {},
+    values: {
+      currency: 'EUR'
+    },
     touched: {},
     errors: {}
   });
@@ -157,23 +190,26 @@ function RegisterForm({ className, showTerms, ...rest }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     event.persist();
+
     if (event.target.password.value !== event.target.confirmPassword.value) {
       setFormState((prevFormState) => ({
         ...prevFormState,
-        errors: {confirmPassword: ['Confirm password is not matched with password.']},
+        errors: { confirmPassword: ['Confirm password is not matched with password.'] },
       }));
+
       return;
-    };
+    }
     localStorage.setItem('verifyUser', event.target.userName.value);
-    dispatch(register(
-      {
+    dispatch(
+      register({
         username: event.target.userName.value,
         firstname: event.target.firstName.value,
         surname: event.target.lastName.value,
         referredBy: event.target.referredBy.value,
-        password: event.target.password.value
-      }
-    ));
+        password: event.target.password.value,
+        currency: event.target.currency.value
+      })
+    );
   };
 
   const hasError = (field) => !!(formState.touched[field] && formState.errors[field]);
@@ -187,7 +223,7 @@ function RegisterForm({ className, showTerms, ...rest }) {
       errors: errors || {}
     }));
   }, [formState.values]);
-  
+
   return (
     <form
       {...rest}
@@ -196,31 +232,31 @@ function RegisterForm({ className, showTerms, ...rest }) {
     >
       <div className={classes.fields}>
         <TextField
-          classes={{ root: classes.textField}}
-          autoComplete='off'
+          classes={{ root: classes.textField }}
+          autoComplete="off"
           error={hasError('userName')}
           helperText={
             hasError('userName') ? formState.errors.userName[0] : null
           }
           placeholder="Email"
           name="userName"
-          type='email'
+          type="email"
           onChange={handleChange}
           value={formState.values.userName || ''}
           fullWidth
           InputProps={{
-            classes: {input: classes.input},
+            classes: { input: classes.input },
             startAdornment: (
               <InputAdornment position="start">
                 <MailOutlineIcon className={classes.icon} />
               </InputAdornment>
-            ),
+            )
           }}
           variant="outlined"
         />
         <TextField
-          classes={{ root: classes.textField}}
-          autoComplete='off'
+          classes={{ root: classes.textField }}
+          autoComplete="off"
           error={hasError('firstName')}
           helperText={
             hasError('firstName') ? formState.errors.lastName[0] : null
@@ -231,18 +267,18 @@ function RegisterForm({ className, showTerms, ...rest }) {
           value={formState.values.firstName || ''}
           fullWidth
           InputProps={{
-            classes: {input: classes.input},
+            classes: { input: classes.input },
             startAdornment: (
               <InputAdornment position="start">
                 <PermContactCalendarOutlinedIcon className={classes.icon} />
               </InputAdornment>
-            ),
+            )
           }}
           variant="outlined"
         />
         <TextField
-          classes={{ root: classes.textField}}
-          autoComplete='off'
+          classes={{ root: classes.textField }}
+          autoComplete="off"
           error={hasError('lastName')}
           helperText={
             hasError('lastName') ? formState.errors.lastName[0] : null
@@ -253,37 +289,61 @@ function RegisterForm({ className, showTerms, ...rest }) {
           value={formState.values.lastName || ''}
           fullWidth
           InputProps={{
-            classes: {input: classes.input},
+            classes: { input: classes.input },
             startAdornment: (
               <InputAdornment position="start">
                 <PermContactCalendarOutlinedIcon className={classes.icon} />
               </InputAdornment>
-            ),
+            )
           }}
           variant="outlined"
         />
+        <Box className={classes.boxWrapper}>
+          <TextField
+            classes={{ root: classes.textField }}
+            autoComplete="off"
+            error={hasError('referredBy')}
+            fullWidth
+            helperText={
+              hasError('referredBy') ? formState.errors.referredBy[0] : null
+            }
+            placeholder="ReferredBy"
+            name="referredBy"
+            onChange={handleChange}
+            value={formState.values.referredBy || ''}
+            InputProps={{
+              classes: { input: classes.input },
+              startAdornment: (
+                <InputAdornment position="start">
+                  <GroupOutlinedIcon className={classes.icon} />
+                </InputAdornment>
+              )
+            }}
+            variant="outlined"
+          />
+          <TextField
+            id="standard-select-currency"
+            classes={{ root: clsx(classes.textField, classes.currency) }}
+            name="currency"
+            select
+            value={formState.values.currency}
+            onChange={handleChange}
+            helperText="Please select currency"
+          >
+            {currencies.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                <div style={{ display: 'flex' }}>
+                  <ListItemIcon>
+                    <FontAwesomeIcon icon={option.icon} />
+                  </ListItemIcon>
+                  <Typography>{option.value}</Typography>
+                </div>
+              </MenuItem>
+            ))}
+          </TextField>
+        </Box>
         <TextField
-          classes={{ root: classes.textField}}
-          autoComplete='off'
-          error={hasError('referredBy')}
-          fullWidth
-          helperText={hasError('referredBy') ? formState.errors.referredBy[0] : null}
-          placeholder="ReferredBy"
-          name="referredBy"
-          onChange={handleChange}
-          value={formState.values.referredBy || ''}
-          InputProps={{
-            classes: {input: classes.input},
-            startAdornment: (
-              <InputAdornment position="start">
-                <GroupOutlinedIcon className={classes.icon} />
-              </InputAdornment>
-            ),
-          }}
-          variant="outlined"
-        />
-        <TextField
-          classes={{ root: classes.textField}}
+          classes={{ root: classes.textField }}
           autoComplete="off"
           error={hasError('password')}
           fullWidth
@@ -296,22 +356,24 @@ function RegisterForm({ className, showTerms, ...rest }) {
           type="password"
           value={formState.values.password || ''}
           InputProps={{
-            classes: {input: classes.input},
+            classes: { input: classes.input },
             startAdornment: (
               <InputAdornment position="start">
                 <LockOutlinedIcon className={classes.icon} />
               </InputAdornment>
-            ),
+            )
           }}
           variant="outlined"
         />
         <TextField
-          classes={{ root: classes.textField}}
-          autoComplete='off'
+          classes={{ root: classes.textField }}
+          autoComplete="off"
           error={hasError('confirmPassword')}
           fullWidth
           helperText={
-            hasError('confirmPassword') ? formState.errors.confirmPassword[0] : null
+            hasError('confirmPassword')
+              ? formState.errors.confirmPassword[0]
+              : null
           }
           placeholder="Confirm Password"
           name="confirmPassword"
@@ -319,12 +381,12 @@ function RegisterForm({ className, showTerms, ...rest }) {
           type="password"
           value={formState.values.confirmPassword || ''}
           InputProps={{
-            classes: {input: classes.input},
+            classes: { input: classes.input },
             startAdornment: (
               <InputAdornment position="start">
                 <LockOutlinedIcon className={classes.icon} />
               </InputAdornment>
-            ),
+            )
           }}
           variant="outlined"
         />
@@ -338,10 +400,7 @@ function RegisterForm({ className, showTerms, ...rest }) {
             name="policy"
             onChange={handleChange}
           />
-          <Typography
-            color="textSecondary"
-            variant="h4"
-          >
+          <Typography color="textSecondary" variant="h4">
             I have read and agree the
             {' '}
             <Button

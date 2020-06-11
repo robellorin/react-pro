@@ -6,6 +6,7 @@ import Page from 'src/components/Page';
 import { getProfit, getNews } from 'src/actions';
 import * as constant from 'src/constant';
 import LoadingComponent from 'src/components/Loading';
+import moment from 'moment';
 import Overview from './Overview';
 import MonthOverview from './MonthOverview';
 import FinancialStats from './FinancialStats';
@@ -65,10 +66,7 @@ function DashboardAnalytics(props) {
 
     if (bets) {
       for (const bet of bets) {
-        const date = new Date(bet.betTime);
-        const month = date.getMonth();
-        // if (!bet.checked) continue;
-        // if (!bet.placedOdds || !bet.placedStake) continue;
+        const month = moment(bet.betTime, 'YYYY/MM/DD').format('M') - 1;
         const { pl, rollover } = bet;
         data.pl[month] += parseFloat(pl);
         data.rollover[month] += parseFloat(rollover);

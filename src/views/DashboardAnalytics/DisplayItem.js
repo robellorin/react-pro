@@ -49,29 +49,34 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: 'TT Hoves',
     fontWeight: 'bold',
     padding: '10px 0',
-    whiteSpace: 'nowrap',
+    whiteSpace: 'nowrap'
   },
   subIcon: {
     paddingLeft: 5,
     fontSize: 20,
     marginTop: 2
+  },
+  symbol: {
+    fontFamily: 'TT Hoves',
+    fontSize: 25
   }
 }));
 
 function DisplayItem({ className, data, ...rest }) {
   const classes = useStyles();
-  const style = { backgroundColor: data.backgroundColor, color: data.color }
+  const style = { backgroundColor: data.backgroundColor, color: data.color };
+
   return (
     <Card
       {...rest}
       className={clsx(classes.root, className)}
     >
       <div style={{ width: '100%' }}>
-        <div className={classes.title} >
+        <div className={classes.title}>
           {data.title}
           {
-            data.subIcon && 
-              <data.subIcon className={classes.subIcon} style={{ color: data.subIconColor ? data.subIconColor : data.color }} />
+            data.subIcon
+              && <data.subIcon className={classes.subIcon} style={{ color: data.subIconColor ? data.subIconColor : data.color }} />
           }
         </div>
         <div className={classes.details}>
@@ -82,12 +87,12 @@ function DisplayItem({ className, data, ...rest }) {
       </div>
       <div className={classes.iconWrapper} style={style}>
         {
-          data.icon &&
-            <data.icon style={{ color: data.color }} />
+          data.icon
+            && <data.icon style={{ color: data.color }} />
         }
         {
-          data.symbol &&
-            <div style={{ color: data.color, fontSize: 20 }}>{data.symbol}</div>
+          data.symbol
+            && <div className={classes.symbol} style={{ color: data.color }}>{data.symbol}</div>
         }
       </div>
     </Card>

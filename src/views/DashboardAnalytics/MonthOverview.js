@@ -4,7 +4,6 @@ import { makeStyles } from '@material-ui/styles';
 import {
   Grid
 } from '@material-ui/core';
-import EuroSymbolIcon from '@material-ui/icons/EuroSymbol';
 import TodayIcon from '@material-ui/icons/Today';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
 import CallMadeIcon from '@material-ui/icons/CallMade';
@@ -25,6 +24,11 @@ const months = [
   'Nov',
   'Dec'
 ];
+const currencies = {
+  USD: '$',
+  EUR: '€',
+  GBP: '£'
+};
 const useStyles = makeStyles((theme) => ({
   root: {},
   content: {
@@ -61,8 +65,11 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function Overview({ className, monthData, month, ...rest }) {
+function Overview({
+  className, monthData, month, currency = 'EUR', ...rest
+}) {
   const classes = useStyles();
+
   if (!monthData.pl) return null;
   const data = {
     pl: month > -1 ? monthData.pl[month] : 0,
@@ -79,15 +86,15 @@ function Overview({ className, monthData, month, ...rest }) {
     },
     {
       title: 'Profit/Loss',
-      value: `${data.pl} €`,
-      icon: EuroSymbolIcon,
+      value: `${data.pl} ${currencies[currency]}`,
+      symbol: currencies[currency],
       subIcon: CallMadeIcon,
       backgroundColor: 'rgba(55, 197, 102, 0.2)',
       color: '#37c566'
     },
     {
       title: 'Rollover',
-      value: `${data.rollover} €`,
+      value: `${data.rollover} ${currencies[currency]}`,
       icon: AutorenewIcon,
       subIcon: CallReceivedIcon,
       subIconColor: '#ff724f',
@@ -116,7 +123,7 @@ function Overview({ className, monthData, month, ...rest }) {
             lg={3}
             sm={6}
             xs={12}
-            key={index} 
+            key={index}
           >
             <DisplayItem data={item} />
           </Grid>

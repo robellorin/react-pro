@@ -32,6 +32,7 @@ function DashboardAnalytics(props) {
   const year = now.getFullYear();
   const month = now.getMonth();
   const dashboardData = useSelector((state) => state.dashboard);
+  const session = useSelector((state) => state.session);
   const newsData = useSelector((state) => state.news);
   const [loading, setLoading] = useState(dashboardData.loading);
   const [betData, setBetData] = useState({});
@@ -43,7 +44,14 @@ function DashboardAnalytics(props) {
   useEffect(() => {
     const from = Date.parse(new Date(`${year}-01-01`));
     const to = Date.now();
-    dispatch(getProfit(from, to, props.selectedUser ? props.selectedUser.id : null));
+    dispatch(
+      getProfit(
+        from,
+        to,
+        props.selectedUser ? props.selectedUser.id : null,
+        props.selectedUser ? props.selectedUser.currency : null
+      )
+    );
     dispatch(getNews());
   }, [year, dispatch, props.selectedUser]);
 
@@ -103,45 +111,45 @@ function DashboardAnalytics(props) {
   };
 
   return (
-    <Page
-      className={classes.root}
-      title="Analytics Dashboard"
-    >
+    <Page className={classes.root} title="Analytics Dashboard">
       <Container maxWidth={false} className={classes.container}>
-        <NewArea data={news} isChecked={dashboardData.checkNews} onCheckHandle={onCheckHandle} />
+        <NewArea
+          data={news}
+          isChecked={dashboardData.checkNews}
+          onCheckHandle={onCheckHandle}
+        />
         <Grid
           container
           spacing={3}
           style={{ width: '100%', height: '100%', margin: '0 -12px' }}
         >
-          <Grid
-            item
-            xs={12}
-            style={{ paddingTop: 0 }}
-          >
-            <Overview data={betData} />
+          <Grid item xs={12} style={{ paddingTop: 0 }}>
+            <Overview
+              data={betData}
+              currency={
+                props.selectedUser
+                  ? props.selectedUser.currency
+                  : session.user.currency
+              }
+            />
           </Grid>
-          <Grid
-            item
-            xs={12}
-          >
-            <MonthOverview monthData={monthData} month={selectedMonth} />
+          <Grid item xs={12}>
+            <MonthOverview
+              monthData={monthData}
+              month={selectedMonth}
+              currency={
+                props.selectedUser
+                  ? props.selectedUser.currency
+                  : session.user.currency
+              }
+            />
           </Grid>
-          <Grid
-            item
-            lg={12}
-            xl={12}
-            xs={12}
-            style={{ paddingBottom: 0 }}
-          >
+          <Grid item lg={12} xl={12} xs={12} style={{ paddingBottom: 0 }}>
             <FinancialStats data={monthData} clickHandle={clickHandle} />
           </Grid>
         </Grid>
       </Container>
-      {
-        loading
-        && <LoadingComponent />
-      }
+      {loading && <LoadingComponent />}
     </Page>
   );
 }

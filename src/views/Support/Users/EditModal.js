@@ -13,9 +13,15 @@ import {
   Divider,
   Button,
   Typography,
-  MenuItem
+  MenuItem,
+  ListItemIcon
 } from '@material-ui/core';
-
+import {
+  faEuroSign,
+  faPoundSign,
+  faDollarSign
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as constants from 'src/constant';
 
 const useStyles = makeStyles((theme) => ({
@@ -43,8 +49,26 @@ const useStyles = makeStyles((theme) => ({
     '& input, .MuiOutlinedInput-input': {
       padding: 15
     }
+  },
+  currency: {
+    width: 300
   }
 }));
+
+const currencies = [
+  {
+    value: 'USD',
+    icon: faDollarSign
+  },
+  {
+    value: 'EUR',
+    icon: faEuroSign
+  },
+  {
+    value: 'GBP',
+    icon: faPoundSign
+  }
+];
 
 function EditModal({
   open, onClose, className, user, onSave, ...rest
@@ -56,15 +80,16 @@ function EditModal({
     surname: '',
     cutOff: '',
     tags: ''
-  })
-  
+  });
+
   useEffect(() => {
     setFormState({
-      firstname: user?.firstname ? user.firstname: '',
-      surname: user?.surname ? user.surname: '',
-      username: user?.username ? user.username: '',
+      firstname: user?.firstname ? user.firstname : '',
+      surname: user?.surname ? user.surname : '',
+      username: user?.username ? user.username : '',
       cutOff: user ? parseFloat(user.cutOff) : '',
-      tags: user ? user.tags : ''
+      tags: user ? user.tags : '',
+      currency: user ? user.currency : ''
     });
   }, [user]);
 
@@ -74,28 +99,22 @@ function EditModal({
 
   const handleChange = (event) => {
     event.persist();
-    setFormState((prevState) => ({...prevState, [event.target.name]: event.target.value}))
-  }
+    setFormState((prevState) => ({ ...prevState, [event.target.name]: event.target.value }));
+  };
 
   return (
-    <Modal
-      onClose={onClose}
-      open={open}
-    >
-      <Card
-        {...rest}
-        className={clsx(classes.root, className)}
-      >
-        <CardHeader title='Edit User' />
+    <Modal onClose={onClose} open={open}>
+      <Card {...rest} className={clsx(classes.root, className)}>
+        <CardHeader title="Edit User" />
         <Divider />
         <CardContent className={classes.content}>
           <Box className={classes.box}>
             <TextField
               className={classes.textField}
-              id='first-name'
-              label='First Name'
-              name='firstname'
-              variant='outlined'
+              id="first-name"
+              label="First Name"
+              name="firstname"
+              variant="outlined"
               value={formState.firstname}
               onChange={handleChange}
               fullWidth
@@ -103,20 +122,20 @@ function EditModal({
             <TextField
               className={classes.textField}
               fullWidth
-              id='last-name'
-              label='Last Name'
-              name='surname'
-              variant='outlined'
+              id="last-name"
+              label="Last Name"
+              name="surname"
+              variant="outlined"
               value={formState.surname}
               onChange={handleChange}
             />
             <TextField
               className={classes.textField}
               fullWidth
-              id='email'
-              label='Email'
-              name='username'
-              variant='outlined'
+              id="email"
+              label="Email"
+              name="username"
+              variant="outlined"
               value={formState.username}
               onChange={handleChange}
             />
@@ -124,14 +143,37 @@ function EditModal({
           <Box className={classes.box}>
             <TextField
               className={classes.textField}
-              id='cut-off'
-              label='CutOff'
-              name='cutOff'
-              type='number'
-              variant='outlined'
+              id="cut-off"
+              label="CutOff"
+              name="cutOff"
+              type="number"
+              variant="outlined"
               value={formState.cutOff}
               onChange={handleChange}
             />
+            <TextField
+              id="standard-currency"
+              className={clsx(classes.textField, classes.currency)}
+              name="currency"
+              label="currency"
+              select
+              value={formState.currency}
+              onChange={handleChange}
+              helperText="Please select currency"
+              variant="outlined"
+              fullWidth
+            >
+              {currencies.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  <div style={{ display: 'flex' }}>
+                    <ListItemIcon>
+                      <FontAwesomeIcon icon={option.icon} />
+                    </ListItemIcon>
+                    <Typography>{option.value}</Typography>
+                  </div>
+                </MenuItem>
+              ))}
+            </TextField>
             <TextField
               id="standard-select-team"
               className={classes.textField}
@@ -141,10 +183,10 @@ function EditModal({
               value={formState.tags}
               onChange={handleChange}
               helperText="Please select team"
-              variant='outlined'
+              variant="outlined"
               fullWidth
             >
-              {constants.teamList.map(option => (
+              {constants.teamList.map((option) => (
                 <MenuItem key={option} value={option}>
                   <Typography>{option}</Typography>
                 </MenuItem>
@@ -154,9 +196,7 @@ function EditModal({
         </CardContent>
         <Divider />
         <CardActions className={classes.actions}>
-          <Button onClick={() => onClose()}>
-            Cancel
-          </Button>
+          <Button onClick={() => onClose()}>Cancel</Button>
           <Button
             color="primary"
             onClick={() => onSave(formState)}

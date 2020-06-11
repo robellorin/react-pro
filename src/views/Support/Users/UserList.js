@@ -68,6 +68,7 @@ function UserList({ users, team, saveUserData }) {
             </TableCell>
             <TableCell>Key</TableCell>
             <TableCell align="right">Cut Off</TableCell>
+            <TableCell align="center">Currency</TableCell>
             <TableCell align="right" />
           </TableRow>
         </TableHead>
@@ -90,6 +91,7 @@ function UserList({ users, team, saveUserData }) {
                 </div>
               </TableCell>
               <TableCell align="right">{user.cutOff}</TableCell>
+              <TableCell align="center">{user.currency}</TableCell>
               <TableCell align="right">
                 <IconButton onClick={() => handleEdit(user)}>
                   <EditIcon />

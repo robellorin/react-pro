@@ -539,8 +539,12 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
                         <TextField
                           autoComplete="off"
                           name="password"
-                          type={formState.bookmaker === 'skybet' ? 'number' : 'text'}
-                          placeholder="Password"
+                          type={
+                            formState.bookmaker === 'skybet' ? 'number' : 'text'
+                          }
+                          placeholder={
+                            formState.bookmaker === 'skybet' ? 'PIN(4-6 numbers)' : 'Password'
+                          }
                           value={formState.password}
                           onChange={handleChangeForm}
                         >

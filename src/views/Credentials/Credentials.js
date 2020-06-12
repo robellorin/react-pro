@@ -485,16 +485,8 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
 
                 if (credential.updating) {
                   return (
-                    <ListItem
-                      key={credential.id}
-                      className={classes.listItem}
-                    >
-                      <div
-                        className={clsx(
-                          classes.bookmaker,
-                          classes.text
-                        )}
-                      >
+                    <ListItem key={credential.id} className={classes.listItem}>
+                      <div className={clsx(classes.bookmaker, classes.text)}>
                         <Avatar
                           className={classes.avatar}
                           alt="user"
@@ -525,13 +517,11 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
                           value={formState.country}
                           onChange={handleChangeForm}
                         >
-                          {Object.keys(constants.countryList).map(
-                            (key) => (
-                              <MenuItem key={key} value={key}>
-                                {constants.countryList[key]}
-                              </MenuItem>
-                            )
-                          )}
+                          {Object.keys(constants.countryList).map((key) => (
+                            <MenuItem key={key} value={key}>
+                              {constants.countryList[key]}
+                            </MenuItem>
+                          ))}
                         </Select>
                       </div>
                       <div className={classes.flex2}>
@@ -549,6 +539,7 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
                         <TextField
                           autoComplete="off"
                           name="password"
+                          type={formState.bookmaker === 'skybet' ? 'number' : 'text'}
                           placeholder="Password"
                           value={formState.password}
                           onChange={handleChangeForm}
@@ -566,15 +557,10 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
                           onChange={handleChangeForm}
                         >
                           {currencies.map((option) => (
-                            <MenuItem
-                              key={option.value}
-                              value={option.value}
-                            >
+                            <MenuItem key={option.value} value={option.value}>
                               <div style={{ display: 'flex' }}>
                                 <ListItemIcon>
-                                  <FontAwesomeIcon
-                                    icon={option.icon}
-                                  />
+                                  <FontAwesomeIcon icon={option.icon} />
                                 </ListItemIcon>
                                 <Typography>{option.value}</Typography>
                               </div>
@@ -593,23 +579,19 @@ function CredentialsForm({ className, selectedUser, ...rest }) {
                             }}
                             onClick={() => onRowUpdate(credential)}
                             disabled={
-                                       !formState.bookmaker
-                                       || !formState.currency
-                                       || !formState.country
-                                     }
+                              !formState.bookmaker
+                              || !formState.currency
+                              || !formState.country
+                            }
                           >
-                            <CheckIcon
-                              className={classes.actionsIcon}
-                            />
+                            <CheckIcon className={classes.actionsIcon} />
                           </IconButton>
                           <IconButton
                             className={classes.actionsButton}
                             style={{ backgroundColor: '#df5157' }}
                             onClick={() => onRowCancel(credential)}
                           >
-                            <CloseIcon
-                              className={classes.actionsIcon}
-                            />
+                            <CloseIcon className={classes.actionsIcon} />
                           </IconButton>
                         </div>
                       </div>

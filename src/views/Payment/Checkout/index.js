@@ -97,7 +97,7 @@ const ENV = process.env.NODE_ENV === 'production'
 function OrderPayment({ isModal, onClose, invoice }) {
   const classes = useStyles();
   const [method, setMethod] = React.useState('paypal');
-  const [currency, setCurrency] = React.useState('EUR');
+  const [currency, setCurrency] = React.useState((invoice.currency) ?? 'EUR');
   const [amount, setAmount] = React.useState((invoice && invoice.amount) ?? 0);
   const paymentData = useSelector((state) => state.payment);
   const [loading, setLoading] = useState(paymentData.payLoading);

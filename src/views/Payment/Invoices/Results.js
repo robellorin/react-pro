@@ -23,7 +23,7 @@ import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    
+
   },
   card: {
     height: '100%',
@@ -197,16 +197,19 @@ const paymentStatusColors = {
 
 const headers = ['Ref', 'Total', 'Status', 'Date', 'Actions'];
 
-function Results({ className, invoices, onView, onPay, payDisabled, ...rest }) {
+function Results({
+  className, invoices, onView, onPay, payDisabled, ...rest
+}) {
   const classes = useStyles();
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(4);
   const totalPages = Math.floor(invoices.length / rowsPerPage) + 1;
   const pageList = [];
-  for (let i = 0; i < totalPages; i ++) {
+
+  for (let i = 0; i < totalPages; i++) {
     pageList.push(i + 1);
   }
-  
+
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(event.target.value);
   };
@@ -218,12 +221,12 @@ function Results({ className, invoices, onView, onPay, payDisabled, ...rest }) {
   const handleChangePage = (type) => {
     const newPage = type === 0 ? page - 1 : page + 1;
     setPage(newPage);
-  }
+  };
 
   const handleClick = (invoice) => {
     if (invoice.state === 'created') onPay(invoice);
     else onView(invoice);
-  }
+  };
 
   return (
     <div
@@ -255,21 +258,21 @@ function Results({ className, invoices, onView, onPay, payDisabled, ...rest }) {
                 : invoices
               ).map((invoice) => (
                 <ListItem key={invoice.id} className={clsx(classes.listItem, classes.tableText)}>
-                  <ListItemText classes={{ root:classes.listItemText, primary: classes.text }}>{invoice.id}</ListItemText>
-                  <ListItemText classes={{ root:classes.alignCenter, primary: classes.total }}>&euro;{` ${invoice.amount}`}</ListItemText>
-                  <ListItemText classes={{ root:classes.alignCenter }}>
+                  <ListItemText classes={{ root: classes.listItemText, primary: classes.text }}>{invoice.id}</ListItemText>
+                  <ListItemText classes={{ root: classes.alignCenter, primary: classes.total }}>{`${invoice.currency} ${invoice.amount}`}</ListItemText>
+                  <ListItemText classes={{ root: classes.alignCenter }}>
                     <Typography className={clsx(classes.state, classes.rowButton)} style={{ color: paymentStatusColors[invoice.state], borderColor: paymentStatusColors[invoice.state] }}>
                       {invoice.state}
                     </Typography>
                   </ListItemText>
-                  <ListItemText classes={{ root:classes.alignCenter, primary: classes.text }}>
+                  <ListItemText classes={{ root: classes.alignCenter, primary: classes.text }}>
                     {moment(invoice.updatedAt).format('DD MMM YYYY')}
                   </ListItemText>
                   <div className={classes.actionsWrapper}>
                     <Button
                       className={clsx(classes.button, classes.rowButton)}
                       style={{ backgroundColor: invoice.state === 'created' ? '#37c565' : '#2f38e7' }}
-                      disabled={(payDisabled && invoice.state === 'created') ? true : false}
+                      disabled={!!((payDisabled && invoice.state === 'created'))}
                       onClick={() => handleClick(invoice)}
                       size="small"
                       variant="contained"
@@ -293,7 +296,7 @@ function Results({ className, invoices, onView, onPay, payDisabled, ...rest }) {
                 classes={{ root: classes.rowsSelect, icon: classes.selIcon }}
                 value={rowsPerPage}
                 onChange={handleChangeRowsPerPage}
-                
+
               >
                 <MenuItem value={4}>4</MenuItem>
                 <MenuItem value={8}>8</MenuItem>
@@ -316,9 +319,9 @@ function Results({ className, invoices, onView, onPay, payDisabled, ...rest }) {
                 value={page}
                 onChange={handleSelectPage}
               >
-              {
-                pageList.map(curPage => (
-                  <MenuItem key={curPage} value={curPage}>{curPage}</MenuItem>  
+                {
+                pageList.map((curPage) => (
+                  <MenuItem key={curPage} value={curPage}>{curPage}</MenuItem>
                 ))
               }
               </Select>

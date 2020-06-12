@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import moment from 'moment';
 import domtoimage from 'dom-to-image';
-import jsPDF from "jspdf";
+import jsPDF from 'jspdf';
 import { makeStyles } from '@material-ui/styles';
 import {
   Card,
@@ -40,27 +40,31 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function Details({ invoice, className, onClose, ...rest }) {
+function Details({
+  invoice, className, onClose, ...rest
+}) {
   const classes = useStyles();
+
   const onDownload = () => {
     const content = document.getElementById('invoice-content');
     domtoimage.toPng(content)
-    .then(function (dataUrl) {
-      const img = new Image();
-      img.src = dataUrl;
-      img.onload = () => {
-        const pdf = new jsPDF({ unit: 'pt', format: [img.width * 0.75, img.height * 0.75] });
-        const canvas = document.createElement("canvas");
-        canvas.width = img.width;
-        canvas.height = img.height;
-        const ctx = canvas.getContext("2d");
-        ctx.drawImage(img,0,0);
-        const imgData = canvas.toDataURL('image/png', 0.95);
-        pdf.addImage(imgData, 'image/png', 0, 0);
-        pdf.save(`${moment(invoice.updatedAt).format('DD-MM-YYYY')}-invoice.pdf`);
-       }
-    });
-  }
+      .then((dataUrl) => {
+        const img = new Image();
+        img.src = dataUrl;
+
+        img.onload = () => {
+          const pdf = new jsPDF({ unit: 'pt', format: [img.width * 0.75, img.height * 0.75] });
+          const canvas = document.createElement('canvas');
+          canvas.width = img.width;
+          canvas.height = img.height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0);
+          const imgData = canvas.toDataURL('image/png', 0.95);
+          pdf.addImage(imgData, 'image/png', 0, 0);
+          pdf.save(`${moment(invoice.updatedAt).format('DD-MM-YYYY')}-invoice.pdf`);
+        };
+      });
+  };
 
   return (
     <Card
@@ -141,7 +145,7 @@ function Details({ invoice, className, onClose, ...rest }) {
             Billed to
           </Typography>
           <Typography>
-            Udevia    
+            Udevia
             <br />
           </Typography>
         </div>
@@ -158,7 +162,7 @@ function Details({ invoice, className, onClose, ...rest }) {
               <TableCell>{`Fee of ${moment(invoice.created_at).format('MMM YYYY')}`}</TableCell>
               <TableCell />
               <TableCell align="right">
-              €{invoice.amount}
+                {`${invoice.currency}${invoice.amount}`}
               </TableCell>
             </TableRow>
           </TableBody>
@@ -178,23 +182,23 @@ function Details({ invoice, className, onClose, ...rest }) {
         </div>
       </CardContent>
       <Divider />
-        <CardActions className={classes.actions}>
-          <Button
-            color="primary"
-            onClick={onClose}
-            variant="contained"
-          >
-            Close
-          </Button>
-          <Button
-            color="primary"
-            onClick={onDownload}
-            variant="contained"
-          >
-            <GetAppIcon />
-            Download
-          </Button>
-        </CardActions>
+      <CardActions className={classes.actions}>
+        <Button
+          color="primary"
+          onClick={onClose}
+          variant="contained"
+        >
+          Close
+        </Button>
+        <Button
+          color="primary"
+          onClick={onDownload}
+          variant="contained"
+        >
+          <GetAppIcon />
+          Download
+        </Button>
+      </CardActions>
     </Card>
   );
 }

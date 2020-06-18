@@ -66,7 +66,7 @@ function ConversationListItem({
     : `${conversation.supportSurname ? conversation.supportSurname : ''} ${
       conversation.supportFirstname ? conversation.supportFirstname : ''
     }`;
-  const title = conversation.title.length < 30 ? conversation.title : `${conversation.title.substr(0, 30)}...`;
+  const title = conversation.title.length < 20 ? conversation.title : `${conversation.title.substr(2, 20)}...`;
 
   return (
     <ListItem

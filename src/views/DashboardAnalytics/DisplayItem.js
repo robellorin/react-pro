@@ -8,7 +8,7 @@ import {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: theme.spacing(3),
+    padding: '15px 24px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -20,7 +20,6 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     flexWrap: 'wrap',
-    padding: '5px 0',
     overflowX: 'hidden'
   },
   iconWrapper: {
@@ -36,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     display: 'flex',
-    fontSize: 20,
+    fontSize: 16,
     paddingBottom: 10,
     color: '#6f889d',
     fontFamily: 'TT Hoves',
@@ -44,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 500
   },
   value: {
-    fontSize: 45,
+    fontSize: 35,
     color: '#232e36',
     fontFamily: 'TT Hoves',
     fontWeight: 'bold',

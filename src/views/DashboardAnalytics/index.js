@@ -9,19 +9,20 @@ import LoadingComponent from 'src/components/Loading';
 import moment from 'moment';
 import Overview from './Overview';
 import MonthOverview from './MonthOverview';
+import WeekOverview from './WeekOverview';
 import FinancialStats from './FinancialStats';
 import NewArea from './NewArea';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    paddingTop: theme.spacing(1),
+    paddingTop: 10,
     paddingBottom: 36,
     position: 'relative',
     height: 'calc(100vh - 165px)',
   },
   container: {
     paddingRight: 0,
-    paddingTop: 24,
+    paddingTop: 20,
     height: '100%',
     overflow: 'auto'
   }
@@ -38,6 +39,7 @@ function DashboardAnalytics(props) {
   const [loading, setLoading] = useState(dashboardData.loading);
   const [betData, setBetData] = useState({});
   const [monthData, setMonthData] = useState({});
+  const [weekData, setWeekData] = useState({});
   const [news, setNews] = useState(newsData.news);
   const [selectedMonth, setSelectMonth] = useState(month);
   const classes = useStyles();
@@ -63,17 +65,32 @@ function DashboardAnalytics(props) {
       rollover: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       roi: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     };
+    const tempWeekData = {
+      pl: 0,
+      rollover: 0
+    };
+    const monday = `${moment()
+      .isoWeekday(1)
+      .utc()
+      .format('YYYY-MM-DD')}T10:00:00+00:00`;
 
     if (bets) {
       for (const bet of bets) {
-        const month = moment(bet.betTime, 'YYYY/MM/DD').format('M') - 1;
+        const betMonth = moment(bet.betTime, 'YYYY/MM/DD').format('M') - 1;
         const { pl, rollover } = bet;
-        data.pl[month] += parseFloat(pl);
-        data.rollover[month] += parseFloat(rollover);
+        data.pl[betMonth] += pl ? parseFloat(pl) : 0;
+        data.rollover[betMonth] += rollover ? parseFloat(rollover) : 0;
+
+        if (moment(bet.betTime).utc().format() > monday) {
+          tempWeekData.pl += pl ? parseFloat(pl) : 0;
+          tempWeekData.rollover += rollover ? parseFloat(rollover) : 0;
+        }
       }
     }
     data.pl = data.pl.map((item) => Math.round(item * 100) / 100);
     data.rollover = data.rollover.map((item) => Math.round(item * 100) / 100);
+    tempWeekData.pl = Math.round(tempWeekData.pl * 100) / 100;
+    tempWeekData.rollover = Math.round(tempWeekData.rollover * 100) / 100;
     data.roi = data.pl.map((item, index) => {
       const rollover = data.rollover[index];
 
@@ -82,7 +99,8 @@ function DashboardAnalytics(props) {
       return 0;
     });
     setMonthData(data);
-  }, [betData]);
+    setWeekData(tempWeekData);
+  }, [betData, month]);
 
   useEffect(() => {
     if (loading && !dashboardData.loading) {
@@ -118,7 +136,7 @@ function DashboardAnalytics(props) {
         />
         <Grid
           container
-          spacing={3}
+          spacing={1}
           style={{ width: '100%', height: '100%', margin: '0 -12px' }}
         >
           <Grid item xs={12} style={{ paddingTop: 0 }}>
@@ -142,7 +160,24 @@ function DashboardAnalytics(props) {
               }
             />
           </Grid>
-          <Grid item lg={12} xl={12} xs={12} style={{ paddingBottom: 0 }}>
+          <Grid item xs={12}>
+            <WeekOverview
+              weekData={weekData}
+              month={selectedMonth}
+              currency={
+                props.selectedUser
+                  ? props.selectedUser.currency
+                  : session.user.currency
+              }
+            />
+          </Grid>
+          <Grid
+            item
+            lg={12}
+            xl={12}
+            xs={12}
+            style={{ paddingBottom: 0, paddingTop: 20 }}
+          >
             <FinancialStats data={monthData} clickHandle={clickHandle} />
           </Grid>
         </Grid>

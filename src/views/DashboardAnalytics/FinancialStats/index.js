@@ -3,10 +3,12 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { makeStyles } from '@material-ui/styles';
-import { Card, CardHeader, CardContent, Divider } from '@material-ui/core';
+import {
+  Card, CardHeader, CardContent, Divider
+} from '@material-ui/core';
 import Chart from './Chart';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     height: '100%',
     borderRadius: 20,
@@ -21,11 +23,13 @@ const useStyles = makeStyles(theme => ({
   },
   chart: {
     padding: theme.spacing(4, 2, 0, 2),
-    height: 319
+    height: 289
   }
 }));
 
-function FinancialStats({ className, data, clickHandle, ...rest }) {
+function FinancialStats({
+  className, data, clickHandle, ...rest
+}) {
   const classes = useStyles();
   const labels = [
     'Jan',

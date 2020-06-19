@@ -4,7 +4,6 @@ import { makeStyles } from '@material-ui/styles';
 import {
   Card,
   CardContent,
-  Divider,
   CardHeader,
   IconButton,
   FormControlLabel,
@@ -73,16 +72,68 @@ const useStyles = makeStyles((theme) => ({
       width: '100%'
     }
   },
+  cardHeader: {
+    textAlign: 'center',
+    fontSize: 26,
+    fontWeight: 700
+  },
+  cardAction: {
+    '& .MuiIconButton-label': {
+      color: '#5b33d4'
+    }
+  },
   content: {
-    padding: theme.spacing(8, 4, 3, 4)
+    padding: theme.spacing(3, 4, 3, 4)
+  },
+  contentTitle: {
+    fontSize: 18,
+    fontWeight: 500,
+    paddingBottom: 20
   },
   amountWrapper: {
     display: 'flex',
-    justifyContent: 'space-around',
-    marginBottom: 20
+    justifyContent: 'space-between',
+    marginBottom: 25
+  },
+  textFieldWrapper: {
+    flex: 1,
+    '& p:first-child': {
+      fontSize: 12,
+      paddingBottom: 5
+    },
+    '&:first-child': {
+      marginRight: 10
+    },
+    '&:last-child': {
+      marginLeft: 10
+    }
+  },
+  textField: {
+    width: '100%',
+    '& p': {
+      fontSize: 12,
+      lineHeight: 1.2
+    },
+    '& .MuiInputBase-input': {
+      paddingTop: 10,
+      paddingBottom: 10,
+      fontSize: 12
+    }
   },
   text: {
     marginBottom: 20
+  },
+  generalBorder: {
+    boxShadow: '0 0 0 1px rgba(63,63,68,0.05), 0 1px 3px 0 rgba(63,63,68,0.15)'
+  },
+  activeBorder: {
+    boxShadow: '0 0 0 1.5px #5b33d4, 0 1px 2px 0 #5b33d4'
+  },
+  radio: {
+    color: '#5b33d4 !important'
+  },
+  currencyIcon: {
+    fontSize: 12
   }
 }));
 
@@ -153,14 +204,11 @@ function OrderPayment({ isModal, onClose, invoice }) {
   };
 
   return (
-    <Page
-      className={classes.root}
-      title="Order Payment"
-    >
+    <Page className={classes.root} title="Order Payment">
       <Snackbar
         anchorOrigin={{
           vertical: 'top',
-          horizontal: 'right',
+          horizontal: 'right'
         }}
         open={open}
         autoHideDuration={3000}
@@ -169,104 +217,139 @@ function OrderPayment({ isModal, onClose, invoice }) {
         <Alert variant={paymentStatus} message={message} />
       </Snackbar>
       <Card className={classes.card}>
-        {isModal
-          && (
+        {isModal && (
           <div>
             <CardHeader
+              classes={{
+                title: classes.cardHeader,
+                action: classes.cardAction
+              }}
               action={(
                 <IconButton onClick={closeHandle}>
                   <CloseIcon />
                 </IconButton>
               )}
+              title="Payment"
             />
-            <Divider />
           </div>
-          )}
+        )}
         <CardContent className={classes.content}>
           <div className={classes.amountWrapper}>
-            <TextField
-              id="standard-select-currency"
-              name="currency"
-              label="Currency"
-              select
-              value={currency}
-              onChange={handleCurrencyChange}
-              helperText="Please select your currency"
-            >
-              {currencies.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  <div style={{ display: 'flex' }}>
-                    <ListItemIcon>
-                      <FontAwesomeIcon icon={option.icon} />
-                    </ListItemIcon>
-                    <Typography>{option.value}</Typography>
-                  </div>
-                </MenuItem>
-              ))}
-            </TextField>
-            <TextField
-              id="amount-textfield"
-              label="Amount"
-              type="number"
-              value={amount}
-              helperText="Please input amount"
-              InputProps={{
-                style: { fontSize: 18 },
-                inputProps: {
-                  min: 0
-                },
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <FontAwesomeIcon icon={currencies.find((item) => item.value === currency).icon} />
-                  </InputAdornment>
-                )
-              }}
-              onChange={handleAmountChange}
-            />
+            <div className={classes.textFieldWrapper}>
+              <Typography>Currency</Typography>
+              <TextField
+                id="standard-select-currency"
+                name="currency"
+                className={classes.textField}
+                select
+                value={currency}
+                onChange={handleCurrencyChange}
+                variant="outlined"
+                disabled
+              >
+                {currencies.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    <div style={{ display: 'flex' }}>
+                      <ListItemIcon>
+                        <FontAwesomeIcon
+                          icon={option.icon}
+                          className={classes.currencyIcon}
+                        />
+                      </ListItemIcon>
+                      <Typography>{option.value}</Typography>
+                    </div>
+                  </MenuItem>
+                ))}
+              </TextField>
+            </div>
+            <div className={classes.textFieldWrapper}>
+              <Typography>Amount</Typography>
+              <TextField
+                id="amount-textfield"
+                type="number"
+                className={classes.textField}
+                value={amount}
+                variant="outlined"
+                disabled
+                InputProps={{
+                  style: { fontSize: 18 },
+                  inputProps: {
+                    min: 0
+                  },
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <FontAwesomeIcon
+                        className={classes.currencyIcon}
+                        icon={
+                          currencies.find((item) => item.value === currency).icon
+                        }
+                      />
+                    </InputAdornment>
+                  )
+                }}
+                onChange={handleAmountChange}
+              />
+            </div>
           </div>
-
+          <Typography classes={{ root: classes.contentTitle }}>
+            Choose your payment method
+          </Typography>
           <RadioGroup
             name="methodStatus"
-            onChange={(event) => handleMethodChange(
-              event,
-              event.target.value
-            )}
+            onChange={(event) => handleMethodChange(event, event.target.value)}
             value={method}
           >
-            <ExpansionPanel expanded={method === 'paypal'} onChange={handleChange('paypal')}>
+            <ExpansionPanel
+              className={
+                method === 'paypal'
+                  ? classes.activeBorder
+                  : classes.generalBorder
+              }
+              expanded
+              onChange={handleChange('paypal')}
+            >
               <ExpansionPanelSummary>
                 <FormControlLabel
-                  control={<Radio color="primary" />}
+                  control={<Radio className={classes.radio} />}
                   label="Paypal"
                   value="paypal"
                 />
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
                 <div>
-                  <Typography className={classes.text}>Pay via PayPal</Typography>
-                  {
-                    parseFloat(amount) > 0
-                      && (
-                      <PaypalBtn
-                        env={ENV}
-                        client={CLIENT}
-                        currency={currency}
-                        total={parseFloat(amount)}
-                        style={style}
-                        onError={onError}
-                        onSuccess={onSuccess}
-                        onCancel={onCancel}
-                        invoice={invoice}
-                      />
-                      )
-                  }
+                  <Typography className={classes.text}>
+                    {`Pay your order using the most know and secure platform for online\n
+                      money transfers. You will redirected to PayPal to finish complete your purchase.
+                    `}
+                  </Typography>
+                  {parseFloat(amount) > 0 && (
+                    <PaypalBtn
+                      env={ENV}
+                      client={CLIENT}
+                      currency={currency}
+                      total={parseFloat(amount)}
+                      style={style}
+                      onError={onError}
+                      onSuccess={onSuccess}
+                      onCancel={onCancel}
+                      invoice={invoice}
+                    />
+                  )}
                 </div>
               </ExpansionPanelDetails>
             </ExpansionPanel>
-            <ExpansionPanel expanded={method === 'stripe'} onChange={handleChange('stripe')}>
+            <ExpansionPanel
+              className={
+                method === 'stripe'
+                  ? classes.activeBorder
+                  : classes.generalBorder
+              }
+              expanded
+              onChange={handleChange('stripe')}
+            >
               <ExpansionPanelSummary>
                 <FormControlLabel
-                  control={<Radio color="primary" />}
+                  control={<Radio className={classes.radio} />}
                   label="Credit Card"
                   value="stripe"
                 />

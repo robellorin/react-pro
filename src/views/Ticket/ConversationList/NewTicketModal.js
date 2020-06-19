@@ -11,6 +11,16 @@ import {
   Divider,
   Button,
 } from '@material-ui/core';
+import validate from 'validate.js';
+
+const schema = {
+  title: {
+    presence: { allowEmpty: false, message: 'cannot be empty or more than 20 characters.' },
+    length: {
+      maximum: 20
+    }
+  }
+};
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,10 +55,16 @@ function NewTicketModal({
 }) {
   const classes = useStyles();
   const [title, setTitle] = useState('');
+  const [errors, setErrors] = useState('');
 
   useEffect(() => {
     setTitle('');
   }, [open]);
+
+  useEffect(() => {
+    const error = validate({ title }, schema);
+    setErrors(error || null);
+  }, [title]);
 
   if (!open) {
     return null;
@@ -74,6 +90,10 @@ function NewTicketModal({
             value={title}
             onChange={handleChange}
             fullWidth
+            error={errors && errors.title.length > 0}
+            helperText={
+                 errors && errors.title.length > 0 ? errors.title : null
+               }
           />
         </CardContent>
         <Divider />
@@ -83,7 +103,7 @@ function NewTicketModal({
             color="primary"
             onClick={() => onSave(title)}
             variant="contained"
-            disabled={!title}
+            disabled={errors && errors.title}
           >
             Save
           </Button>

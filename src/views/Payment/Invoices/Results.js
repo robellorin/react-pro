@@ -196,6 +196,11 @@ const paymentStatusColors = {
 };
 
 const headers = ['Ref', 'Total', 'Status', 'Date', 'Actions'];
+const currencies = {
+  USD: '$',
+  EUR: '€',
+  GBP: '£'
+};
 
 function Results({
   className, invoices, onView, onPay, payDisabled, ...rest
@@ -229,60 +234,90 @@ function Results({
   };
 
   return (
-    <div
-      {...rest}
-      className={clsx(classes.root, className)}
-    >
+    <div {...rest} className={clsx(classes.root, className)}>
       <Card className={classes.card}>
-        <CardHeader
-          classes={{ title: classes.headerTitle }}
-          title="Invoices"
-        />
+        <CardHeader classes={{ title: classes.headerTitle }} title="Invoices" />
         <CardContent className={classes.content}>
           <List style={{ height: '100%' }}>
-            <ListItem className={classes.listItem} style={{ border: 'none', paddingBottom: 0 }}>
-              {
-                headers.map((item, index) => (
-                  <ListItemText
-                    key={item}
-                    classes={{ root: index === 0 ? classes.listItemText : index === 4 ? classes.ActionHeaderWrapper : classes.alignCenter, primary: index < 4 ? classes.headers : classes.actionsHeader }}
-                  >
-                    {item}
-                  </ListItemText>
-                ))
-              }
+            <ListItem
+              className={classes.listItem}
+              style={{ border: 'none', paddingBottom: 0 }}
+            >
+              {headers.map((item, index) => (
+                <ListItemText
+                  key={item}
+                  classes={{
+                    root:
+                      index === 0
+                        ? classes.listItemText
+                        : index === 4
+                          ? classes.ActionHeaderWrapper
+                          : classes.alignCenter,
+                    primary: index < 4 ? classes.headers : classes.actionsHeader
+                  }}
+                >
+                  {item}
+                </ListItemText>
+              ))}
             </ListItem>
-            {
-              (rowsPerPage > 0
-                ? invoices.slice((page - 1) * rowsPerPage, page * rowsPerPage)
-                : invoices
-              ).map((invoice) => (
-                <ListItem key={invoice.id} className={clsx(classes.listItem, classes.tableText)}>
-                  <ListItemText classes={{ root: classes.listItemText, primary: classes.text }}>{invoice.id}</ListItemText>
-                  <ListItemText classes={{ root: classes.alignCenter, primary: classes.total }}>{`${invoice.currency} ${invoice.amount}`}</ListItemText>
-                  <ListItemText classes={{ root: classes.alignCenter }}>
-                    <Typography className={clsx(classes.state, classes.rowButton)} style={{ color: paymentStatusColors[invoice.state], borderColor: paymentStatusColors[invoice.state] }}>
-                      {invoice.state}
-                    </Typography>
-                  </ListItemText>
-                  <ListItemText classes={{ root: classes.alignCenter, primary: classes.text }}>
-                    {moment(invoice.updatedAt).format('DD MMM YYYY')}
-                  </ListItemText>
-                  <div className={classes.actionsWrapper}>
-                    <Button
-                      className={clsx(classes.button, classes.rowButton)}
-                      style={{ backgroundColor: invoice.state === 'created' ? '#37c565' : '#2f38e7' }}
-                      disabled={!!((payDisabled && invoice.state === 'created'))}
-                      onClick={() => handleClick(invoice)}
-                      size="small"
-                      variant="contained"
-                    >
-                      {invoice.state === 'created' ? 'Pay' : 'View'}
-                    </Button>
-                  </div>
-                </ListItem>
-              ))
-            }
+            {(rowsPerPage > 0
+              ? invoices.slice((page - 1) * rowsPerPage, page * rowsPerPage)
+              : invoices
+            ).map((invoice) => (
+              <ListItem
+                key={invoice.id}
+                className={clsx(classes.listItem, classes.tableText)}
+              >
+                <ListItemText
+                  classes={{
+                    root: classes.listItemText,
+                    primary: classes.text
+                  }}
+                >
+                  {invoice.id}
+                </ListItemText>
+                <ListItemText
+                  classes={{
+                    root: classes.alignCenter,
+                    primary: classes.total
+                  }}
+                >
+                  {`${currencies[invoice.currency]} ${invoice.amount}`}
+
+                </ListItemText>
+                <ListItemText classes={{ root: classes.alignCenter }}>
+                  <Typography
+                    className={clsx(classes.state, classes.rowButton)}
+                    style={{
+                      color: paymentStatusColors[invoice.state],
+                      borderColor: paymentStatusColors[invoice.state]
+                    }}
+                  >
+                    {invoice.state}
+                  </Typography>
+                </ListItemText>
+                <ListItemText
+                  classes={{ root: classes.alignCenter, primary: classes.text }}
+                >
+                  {moment(invoice.updatedAt).format('DD MMM YYYY')}
+                </ListItemText>
+                <div className={classes.actionsWrapper}>
+                  <Button
+                    className={clsx(classes.button, classes.rowButton)}
+                    style={{
+                      backgroundColor:
+                        invoice.state === 'created' ? '#37c565' : '#2f38e7'
+                    }}
+                    disabled={!!(payDisabled && invoice.state === 'created')}
+                    onClick={() => handleClick(invoice)}
+                    size="small"
+                    variant="contained"
+                  >
+                    {invoice.state === 'created' ? 'Pay' : 'View'}
+                  </Button>
+                </div>
+              </ListItem>
+            ))}
           </List>
         </CardContent>
         <div className={classes.pagination}>
@@ -296,7 +331,6 @@ function Results({
                 classes={{ root: classes.rowsSelect, icon: classes.selIcon }}
                 value={rowsPerPage}
                 onChange={handleChangeRowsPerPage}
-
               >
                 <MenuItem value={4}>4</MenuItem>
                 <MenuItem value={8}>8</MenuItem>
@@ -306,7 +340,12 @@ function Results({
             <p>Records</p>
           </div>
           <div className={classes.rowsPerPage}>
-            <IconButton edge="start" aria-label="back" onClick={() => handleChangePage(0)} disabled={page < 2}>
+            <IconButton
+              edge="start"
+              aria-label="back"
+              onClick={() => handleChangePage(0)}
+              disabled={page < 2}
+            >
               <ArrowLeftIcon />
             </IconButton>
             <p>Page</p>
@@ -319,21 +358,24 @@ function Results({
                 value={page}
                 onChange={handleSelectPage}
               >
-                {
-                pageList.map((curPage) => (
-                  <MenuItem key={curPage} value={curPage}>{curPage}</MenuItem>
-                ))
-              }
+                {pageList.map((curPage) => (
+                  <MenuItem key={curPage} value={curPage}>
+                    {curPage}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
             <p>{`of ${totalPages}`}</p>
-            <IconButton edge="end" aria-label="next" onClick={() => handleChangePage(1)} disabled={page >= totalPages}>
+            <IconButton
+              edge="end"
+              aria-label="next"
+              onClick={() => handleChangePage(1)}
+              disabled={page >= totalPages}
+            >
               <ArrowRightIcon />
             </IconButton>
           </div>
-          <p>
-            {`${invoices.length} Records`}
-          </p>
+          <p>{`${invoices.length} Records`}</p>
         </div>
       </Card>
     </div>

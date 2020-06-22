@@ -1,5 +1,5 @@
 import React from 'react';
-import {useStripe, useElements, CardElement} from '@stripe/react-stripe-js';
+import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
 import { makeStyles } from '@material-ui/styles';
 import { Button } from '@material-ui/core';
 
@@ -20,6 +20,7 @@ export default function CheckoutForm(props) {
   const classes = useStyles();
   const stripe = useStripe();
   const elements = useElements();
+
   const handleSubmit = async (event) => {
     // We don't want to let default form submission happen here,
     // which would refresh the page.

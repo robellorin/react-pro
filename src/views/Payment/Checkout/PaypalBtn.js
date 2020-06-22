@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import scriptLoader from 'react-async-script-loader';
 import { useDispatch } from 'react-redux';
@@ -7,6 +7,7 @@ import { executePayment } from 'src/actions';
 
 window.React = React;
 window.ReactDOM = ReactDOM;
+
 function PaypalButton(props) {
   const dispatch = useDispatch();
   const [showButton, setShowButton] = React.useState(false);
@@ -14,41 +15,50 @@ function PaypalButton(props) {
   useEffect(() => {
     if (!isScriptLoaded && props.isScriptLoaded) {
       if (props.isScriptLoadSucceed) {
-          setShowButton(true);
+        setShowButton(true);
       } else {
-          console.log('Cannot load Paypal script!');
-          props.onError();
+        console.log('Cannot load Paypal script!');
+        props.onError();
       }
     }
     setIsScriptLoaded(props.isScriptLoaded);
   }, [isScriptLoaded, props]);
 
-  let payment = (data) => {
-    return props.invoice.paymentId;
-  }
+  const payment = (data) => props.invoice.paymentId;
 
   const onAuthorize = (data, actions) => {
-    return dispatch(executePayment(props.invoice.id, data.paymentID, data.payerID));
-  }
+    console.log(props.invoice);
+
+    return dispatch(
+      executePayment(
+        props.invoice.id,
+        data.paymentID,
+        data.payerID,
+        props.invoice.currency
+      )
+    );
+  };
 
   let ppbtn = '';
+
   if (showButton) {
     // eslint-disable-next-line
       ppbtn = <paypal.Button.react
-          env={props.env}
-          client={props.client}
-          locale={props.locale}
-          style={props.style}
-          payment={payment}
-          commit={true}
-          onAuthorize={onAuthorize}
-          onCancel={props.onCancel}
-          onError={props.onError}
+        env={props.env}
+        client={props.client}
+        locale={props.locale}
+        style={props.style}
+        payment={payment}
+        commit
+        onAuthorize={onAuthorize}
+        onCancel={props.onCancel}
+        onError={props.onError}
           // "Error: Unrecognized prop: shipping" was caused by the next line
           // shipping={this.props.shipping}
-      />
+      />;
   }
+
   return (<div>{ppbtn}</div>);
 }
 
-export default scriptLoader('https://www.paypalobjects.com/api/checkout.js') (PaypalButton);
+export default scriptLoader('https://www.paypalobjects.com/api/checkout.js')(PaypalButton);

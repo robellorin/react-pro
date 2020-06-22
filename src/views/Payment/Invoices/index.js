@@ -3,11 +3,11 @@ import { makeStyles } from '@material-ui/styles';
 import { Container, Modal } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import Page from 'src/components/Page';
+import LoadingComponent from 'src/components/Loading';
+import { fetchInvoices } from 'src/actions';
 import Results from './Results';
 import Checkout from '../Checkout';
 import InvoiceModal from '../InvoiceDetails';
-import LoadingComponent from 'src/components/Loading';
-import { fetchInvoices } from 'src/actions';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -31,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
     left: '50%',
     transform: 'translate(-50%, -50%)',
     outline: 'none',
-    width: 700,
     maxHeight: '100%',
     overflowY: 'auto',
     maxWidth: '100%'
@@ -41,8 +40,8 @@ const useStyles = makeStyles((theme) => ({
 function InvoicesList(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const paymentData = useSelector(state => state.payment);
-  const session = useSelector(state => state.session);
+  const paymentData = useSelector((state) => state.payment);
+  const session = useSelector((state) => state.session);
   const [invoices, setInvoices] = useState(paymentData.invoices);
   const [openCheckout, setOpenCheckout] = useState(false);
   const [openView, setOpenView] = useState(false);
@@ -63,21 +62,21 @@ function InvoicesList(props) {
   const viewInvoice = (invoice) => {
     setSelectedInvoice(invoice);
     setOpenView(true);
-  }
+  };
 
   const onViewClose = () => {
-    setOpenView(false);  
-  }
+    setOpenView(false);
+  };
 
   const pay = (invoice) => {
     setSelectedInvoice(invoice);
     setOpenCheckout(true);
-  }
+  };
 
   const onCheckoutClose = (status) => {
     if (status === 'success') dispatch(fetchInvoices());
-    setOpenCheckout(false);  
-  }
+    setOpenCheckout(false);
+  };
 
   return (
     <Page
@@ -100,14 +99,14 @@ function InvoicesList(props) {
             maxWidth={false}
             className={classes.modalContainer}
           >
-            <Checkout isModal={true} onClose={onCheckoutClose} invoice={selectedInvoice} />
+            <Checkout isModal onClose={onCheckoutClose} invoice={selectedInvoice} />
           </Container>
         </Modal>
         <InvoiceModal invoice={selectedInvoice} isOpen={openView} onClose={onViewClose} />
       </Container>
       {
-        paymentData.loading &&
-          <LoadingComponent />
+        paymentData.loading
+          && <LoadingComponent />
       }
     </Page>
   );

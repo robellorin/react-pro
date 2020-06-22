@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
 import {
   Card,
+  Button,
   CardContent,
   CardHeader,
   IconButton,
@@ -24,8 +25,11 @@ import { faEuroSign, faPoundSign, faDollarSign } from '@fortawesome/free-solid-s
 import CloseIcon from '@material-ui/icons/Close';
 import Page from 'src/components/Page';
 import Alert from 'src/components/Alert';
-import StripeForm from './StripeForm';
+import clsx from 'clsx';
+// import StripeForm from './StripeForm';
 import PaypalBtn from './PaypalBtn';
+
+const copy = require('clipboard-copy');
 
 const currencies = [
   {
@@ -45,7 +49,7 @@ const currencies = [
 const style = {
   label: 'paypal',
   tagline: false,
-  size: 'large',
+  size: 'medium',
   shape: 'pill',
   color: 'blue',
 };
@@ -62,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100%'
   },
   card: {
-    width: theme.breakpoints.values.sm,
+    width: 780,
     maxWidth: '100%',
     overflow: 'visible',
     position: 'relative',
@@ -121,7 +125,9 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   text: {
-    marginBottom: 20
+    whiteSpace: 'pre-line',
+    fontSize: 12,
+    lineHeight: 1.5
   },
   generalBorder: {
     boxShadow: '0 0 0 1px rgba(63,63,68,0.05), 0 1px 3px 0 rgba(63,63,68,0.15)'
@@ -132,8 +138,70 @@ const useStyles = makeStyles((theme) => ({
   radio: {
     color: '#5b33d4 !important'
   },
+  label: {
+    fontSize: 14,
+    lineHeight: 1.42,
+    fontWeight: 500
+  },
   currencyIcon: {
     fontSize: 12
+  },
+  expansionPanelSummary: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    '& .MuiExpansionPanelSummary-content': {
+      margin: '10px 0px'
+    }
+  },
+  logoWrapper: {
+    flex: 1,
+    paddingTop: 10,
+    display: 'flex',
+    justifyContent: 'flex-end',
+    height: 'fit-content'
+  },
+  paypalLogoContainer: {
+    backgroundColor: '#f6f6f6',
+    padding: '10px 5px',
+    borderRadius: 3,
+    '& span': {
+      fontStyle: 'italic',
+      fontWeight: 'bold',
+      fontSize: 20,
+      fontFamily: 'sans-serif'
+    }
+  },
+  payText: {
+    color: '#265697'
+  },
+  palText: {
+    color: '#306FC5'
+  },
+  btcIcon: {
+    width: 40,
+    height: 40
+  },
+  btcButton: {
+    color: '#ffffff',
+    backgroundColor: '#5b33d4',
+    '&:hover': {
+      backgroundColor: '#5b33d4',
+      opacity: 0.8
+    }
+  },
+  btcDetail: {
+    flexDirection: 'column'
+  },
+  btcWrapper: {
+    display: 'flex'
+  },
+  paidButton: {
+    width: 150
+  },
+  btcDescription: {
+    fontSize: 12,
+    padding: '20px 0 10px'
   }
 }));
 
@@ -145,6 +213,15 @@ const ENV = process.env.NODE_ENV === 'production'
   ? 'production'
   : 'sandbox';
 
+const paypalTitle = [
+  'Pay your order using the most know and secure platform for online\nmoney transfers. You will redirected to PayPal to finish complete your purchase.',
+  'Click "PAY" to pay via PayPal\nYou\'ll be redirected to PayPal to complete the payment, and then return to this page.'
+];
+const btcTitle = [
+  'Pay your order using Bitcoin',
+  'To pay, please send exact amount of BTC to the given address'
+];
+
 function OrderPayment({ isModal, onClose, invoice }) {
   const classes = useStyles();
   const [method, setMethod] = React.useState('paypal');
@@ -155,6 +232,8 @@ function OrderPayment({ isModal, onClose, invoice }) {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
   const [paymentStatus, setPaymentStatus] = useState('error');
+  const [btcAddress, setBtcAddress] = React.useState('3BjcdQQXTP9JdhqCdW8WivnPcr4pFyepmK');
+  const [btcAmount, setBtcAmount] = React.useState('0.0013447');
 
   useEffect(() => {
     if (loading && !paymentData.payLoading) {
@@ -182,6 +261,17 @@ function OrderPayment({ isModal, onClose, invoice }) {
       event.persist();
     }
     setMethod(value);
+  };
+
+  const handleCopyClick = (event, value) => {
+    if (event) {
+      event.persist();
+      copy(value);
+    }
+  };
+
+  const handlePaidClick = () => {
+    console.log('click paid');
   };
 
   const onSuccess = (payment) => console.log('Successful payment!', payment);
@@ -305,23 +395,30 @@ function OrderPayment({ isModal, onClose, invoice }) {
                   ? classes.activeBorder
                   : classes.generalBorder
               }
-              expanded
+              expanded={method === 'paypal'}
               onChange={handleChange('paypal')}
             >
-              <ExpansionPanelSummary>
-                <FormControlLabel
-                  control={<Radio className={classes.radio} />}
-                  label="Paypal"
-                  value="paypal"
-                />
+              <ExpansionPanelSummary className={classes.expansionPanelSummary}>
+                <div>
+                  <FormControlLabel
+                    classes={{ label: classes.label }}
+                    control={<Radio className={classes.radio} />}
+                    label="Paypal"
+                    value="paypal"
+                  />
+                  <Typography className={classes.text}>
+                    {method === 'paypal' ? paypalTitle[1] : paypalTitle[0]}
+                  </Typography>
+                </div>
+                <div className={classes.logoWrapper}>
+                  <div className={classes.paypalLogoContainer}>
+                    <span className={classes.payText}>Pay</span>
+                    <span className={classes.palText}>Pal</span>
+                  </div>
+                </div>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
                 <div>
-                  <Typography className={classes.text}>
-                    {`Pay your order using the most know and secure platform for online\n
-                      money transfers. You will redirected to PayPal to finish complete your purchase.
-                    `}
-                  </Typography>
                   {parseFloat(amount) > 0 && (
                     <PaypalBtn
                       env={ENV}
@@ -340,22 +437,97 @@ function OrderPayment({ isModal, onClose, invoice }) {
             </ExpansionPanel>
             <ExpansionPanel
               className={
-                method === 'stripe'
-                  ? classes.activeBorder
-                  : classes.generalBorder
+                method === 'btc' ? classes.activeBorder : classes.generalBorder
               }
-              expanded
-              onChange={handleChange('stripe')}
+              expanded={method === 'btc'}
+              onChange={handleChange('btc')}
             >
-              <ExpansionPanelSummary>
-                <FormControlLabel
-                  control={<Radio className={classes.radio} />}
-                  label="Credit Card"
-                  value="stripe"
-                />
+              <ExpansionPanelSummary className={classes.expansionPanelSummary}>
+                <div>
+                  <FormControlLabel
+                    classes={{ label: classes.label }}
+                    control={<Radio className={classes.radio} />}
+                    label="BTC"
+                    value="btc"
+                  />
+                  <Typography className={classes.text}>
+                    {method === 'btc' ? btcTitle[1] : btcTitle[0]}
+                  </Typography>
+                </div>
+                <div className={classes.logoWrapper}>
+                  <img
+                    className={classes.btcIcon}
+                    alt="Cookies"
+                    src="/images/logos/btc.png"
+                  />
+                </div>
               </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
-                <StripeForm className={classes.stripeForm} />
+              <ExpansionPanelDetails className={classes.btcDetail}>
+                {/* <StripeForm className={classes.stripeForm} /> */}
+                <div className={classes.btcWrapper}>
+                  <div className={classes.textFieldWrapper} style={{ flex: 2 }}>
+                    <Typography>BTC address:</Typography>
+                    <TextField
+                      id="address-textfield"
+                      className={classes.textField}
+                      value={btcAddress}
+                      variant="outlined"
+                      disabled
+                      InputProps={{
+                        style: { fontSize: 18, padding: 0 },
+                        inputProps: {
+                          min: 0
+                        },
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <Button
+                              className={classes.btcButton}
+                              onClick={(event) => handleCopyClick(event, btcAddress)}
+                            >
+                              Copy
+                            </Button>
+                          </InputAdornment>
+                        )
+                      }}
+                    />
+                  </div>
+                  <div className={classes.textFieldWrapper}>
+                    <Typography>BTC amount:</Typography>
+                    <TextField
+                      id="btc-amount-textfield"
+                      className={classes.textField}
+                      value={btcAmount}
+                      variant="outlined"
+                      disabled
+                      InputProps={{
+                        style: { fontSize: 18, padding: 0 },
+                        inputProps: {
+                          min: 0
+                        },
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <Button
+                              className={classes.btcButton}
+                              onClick={(event) => handleCopyClick(event, btcAmount)}
+                            >
+                              Copy
+                            </Button>
+                          </InputAdornment>
+                        )
+                      }}
+                    />
+                  </div>
+                </div>
+                <Typography className={classes.btcDescription}>
+                  Please click "Paid" as soon as you send your BTC
+                </Typography>
+                <Button
+                  className={clsx(classes.paidButton, classes.btcButton)}
+                  fullWidth={false}
+                  onClick={handlePaidClick}
+                >
+                  Paid
+                </Button>
               </ExpansionPanelDetails>
             </ExpansionPanel>
           </RadioGroup>

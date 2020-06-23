@@ -40,6 +40,10 @@ export default function (user) {
     socket.emit('update-bookieaccount', data);
   }
 
+  function updateNews(data) {
+    socket.emit('update-news', data);
+  }
+
   function userRegister(data) {
     socket.emit('user-register', data);
   }
@@ -65,6 +69,7 @@ export default function (user) {
     userRegister,
     joinRoom,
     leaveRoom,
-    leave
+    leave,
+    updateNews
   };
 }

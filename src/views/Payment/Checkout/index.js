@@ -52,6 +52,7 @@ const style = {
   size: 'medium',
   shape: 'pill',
   color: 'blue',
+  layout: 'horizontal'
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -232,8 +233,8 @@ function OrderPayment({ isModal, onClose, invoice }) {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
   const [paymentStatus, setPaymentStatus] = useState('error');
-  const [btcAddress, setBtcAddress] = React.useState('3BjcdQQXTP9JdhqCdW8WivnPcr4pFyepmK');
-  const [btcAmount, setBtcAmount] = React.useState('0.0013447');
+  const [btcAddress, setBtcAddress] = React.useState('wallet address');
+  const [btcAmount, setBtcAmount] = React.useState('btc amount');
 
   useEffect(() => {
     if (loading && !paymentData.payLoading) {

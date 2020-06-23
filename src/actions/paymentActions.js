@@ -1,16 +1,17 @@
 import axios from 'axios';
 import * as constant from 'src/constant';
 
-export const executePayment = (id, paymentID, payerID, currency) => async (dispatch) => {
+export const executePayment = (id, orderId) => async (dispatch) => {
   const userData = JSON.parse(localStorage.getItem('user'));
   dispatch({
     type: constant.PAYMENT_EXECUTE_REQUEST
   });
-  await axios.get(`${constant.API_URL}/invoice/pay?id=${id}&paymentId=${paymentID}&payerId=${payerID}&currency=${currency}`, {
-    headers: {
-      Authorization: `Bearer ${userData.token}`
-    }
-  })
+  await axios
+    .get(`${constant.API_URL}/invoice/pay?id=${id}&orderId=${orderId}`, {
+      headers: {
+        Authorization: `Bearer ${userData.token}`
+      }
+    })
     .then((res) => {
       if (res.data) {
         dispatch({

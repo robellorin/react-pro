@@ -1,64 +1,36 @@
-import React, { useEffect } from 'react';
-import ReactDOM from 'react-dom';
-import scriptLoader from 'react-async-script-loader';
+import React from 'react';
+import { PayPalButton } from 'react-paypal-button-v2';
 import { useDispatch } from 'react-redux';
 
 import { executePayment } from 'src/actions';
 
-window.React = React;
-window.ReactDOM = ReactDOM;
-
 function PaypalButton(props) {
   const dispatch = useDispatch();
-  const [showButton, setShowButton] = React.useState(false);
-  const [isScriptLoaded, setIsScriptLoaded] = React.useState(props.isScriptLoaded);
-  useEffect(() => {
-    if (!isScriptLoaded && props.isScriptLoaded) {
-      if (props.isScriptLoadSucceed) {
-        setShowButton(true);
-      } else {
-        console.log('Cannot load Paypal script!');
-        props.onError();
-      }
-    }
-    setIsScriptLoaded(props.isScriptLoaded);
-  }, [isScriptLoaded, props]);
 
-  const payment = (data) => props.invoice.paymentId;
+  const createOrder = (data) => props.invoice.paymentId;
 
-  const onAuthorize = (data, actions) => {
+  const onApprove = (data, actions) => {
     console.log(props.invoice);
 
     return dispatch(
       executePayment(
         props.invoice.id,
-        data.paymentID,
-        data.payerID,
-        props.invoice.currency
+        data.orderID
       )
     );
   };
 
-  let ppbtn = '';
-
-  if (showButton) {
-    // eslint-disable-next-line
-      ppbtn = <paypal.Button.react
-        env={props.env}
-        client={props.client}
-        locale={props.locale}
-        style={props.style}
-        payment={payment}
-        commit
-        onAuthorize={onAuthorize}
-        onCancel={props.onCancel}
-        onError={props.onError}
-          // "Error: Unrecognized prop: shipping" was caused by the next line
-          // shipping={this.props.shipping}
-      />;
-  }
-
-  return (<div>{ppbtn}</div>);
+  return (
+    <PayPalButton
+      createOrder={createOrder}
+      onApprove={onApprove}
+      style={props.style}
+      options={{
+        clientId: process.env.REACT_APP_PAYPAL_CLIENT_ID_PRODUCTION,
+        currency: props.invoice.currency
+      }}
+    />
+  );
 }
 
-export default scriptLoader('https://www.paypalobjects.com/api/checkout.js')(PaypalButton);
+export default PaypalButton;

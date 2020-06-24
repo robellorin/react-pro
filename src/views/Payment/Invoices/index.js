@@ -93,6 +93,7 @@ function InvoicesList(props) {
           onView={viewInvoice}
           onPay={pay}
           payDisabled={payDisabled}
+          selectedUserId={props.selectedUser.id}
         />
         <Modal open={openCheckout}>
           <Container

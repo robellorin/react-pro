@@ -7,7 +7,15 @@ import { executePayment } from 'src/actions';
 function PaypalButton(props) {
   const dispatch = useDispatch();
 
-  const createOrder = (data) => props.invoice.paymentId;
+  const createOrder = (data, actions) => actions.order.create({
+    purchase_units: [
+      {
+        amount: {
+          value: props.invoice.amount.toString()
+        }
+      }
+    ]
+  });
 
   const onApprove = (data, actions) => {
     console.log(props.invoice);

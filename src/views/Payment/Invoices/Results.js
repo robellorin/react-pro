@@ -191,11 +191,11 @@ const useStyles = makeStyles((theme) => ({
 const paymentStatusColors = {
   created: '#2f38e7',
   approved: '#37c565',
+  completed: '#37c565',
   refunded: colors.red[600],
   idle: '#ffc90d'
 };
 
-const headers = ['Ref', 'Total', 'Status', 'Date', 'Actions'];
 const currencies = {
   USD: '$',
   EUR: '€',
@@ -203,13 +203,16 @@ const currencies = {
 };
 
 function Results({
-  className, invoices, onView, onPay, payDisabled, ...rest
+  className, invoices, onView, onPay, payDisabled, selectedUserId, ...rest
 }) {
   const classes = useStyles();
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(4);
   const totalPages = Math.floor(invoices.length / rowsPerPage) + 1;
   const pageList = [];
+  const headers = selectedUserId === 0
+    ? ['Ref', 'Total', 'Status', 'Date', 'name', 'Actions']
+    : ['Ref', 'Total', 'Status', 'Date', 'Actions'];
 
   for (let i = 0; i < totalPages; i++) {
     pageList.push(i + 1);
@@ -250,7 +253,7 @@ function Results({
                     root:
                       index === 0
                         ? classes.listItemText
-                        : index === 4
+                        : index === 5
                           ? classes.ActionHeaderWrapper
                           : classes.alignCenter,
                     primary: index < 4 ? classes.headers : classes.actionsHeader
@@ -283,7 +286,6 @@ function Results({
                   }}
                 >
                   {`${currencies[invoice.currency]} ${invoice.amount}`}
-
                 </ListItemText>
                 <ListItemText classes={{ root: classes.alignCenter }}>
                   <Typography
@@ -301,6 +303,16 @@ function Results({
                 >
                   {moment(invoice.updatedAt).format('DD MMM YYYY')}
                 </ListItemText>
+                {
+                  selectedUserId === 0
+                  && (
+                  <ListItemText
+                    classes={{ root: classes.alignCenter, primary: classes.text }}
+                  >
+                    {`${invoice.surname ?? ''} ${invoice.firstname ?? ''}`}
+                  </ListItemText>
+                  )
+                }
                 <div className={classes.actionsWrapper}>
                   <Button
                     className={clsx(classes.button, classes.rowButton)}

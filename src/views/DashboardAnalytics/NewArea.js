@@ -1,128 +1,270 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import {
-  Paper, Typography, Button, Avatar
+  Paper, Typography, IconButton, ListItem, Button
 } from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import moment from 'moment';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    display: 'flex',
+    flexDirection: 'column',
     maxWidth: 420,
     position: 'fixed',
-    bottom: 14,
-    right: 16,
+    bottom: 82,
     margin: theme.spacing(3),
     outline: 'none',
-    zIndex: 2000
+    zIndex: 2000,
+    width: 287,
+    height: 412,
+    boxShadow: '-8px 3px 32px rgba(67, 67, 67, 0.06)',
+    backgroundColor: '#ffffff'
   },
-  media: {
-    padding: theme.spacing(2, 3),
-    height: 180,
-    textAlign: 'center',
-    '& > img': {
-      height: '100%',
-      width: 'auto'
+  open: {
+    right: 7,
+    transition: theme.transitions.create('right', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen
+    })
+  },
+  close: {
+    right: -315,
+    transition: theme.transitions.create('right', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen
+    })
+  },
+  header: {
+    backgroundColor: '#4E2CD4',
+    height: 60,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    paddingLeft: 15
+  },
+  headerText: {
+    color: '#ffffff',
+    '&:first-child': {
+      fontSize: 14,
+      lineHeight: 1.43,
+      fontWeight: 500
+    },
+    '&:last-child': {
+      fontSize: 12,
+      lineHeight: 1.5,
+      fontWeight: 'normal'
     }
   },
-  content: {
-    padding: theme.spacing(1, 2),
-    backgroundColor: 'rgb(75, 108, 183)',
-    width: 400,
-    // height: 150,
-    position: 'relative'
+  backButton: {
+    padding: '0 10px 0 0'
   },
-  personal: {
-    padding: '10px 0'
+  backIcon: {
+    color: '#7e919a',
+    fontSize: 20
   },
-  avatar: {
-    position: 'absolute',
-    top: -30,
-    left: 20,
-    width: 60,
-    height: 60
-  },
-  actions: {
-    padding: theme.spacing(2),
+  categoryItem: {
+    borderBottom: '1px solid #E2E7EB',
     display: 'flex',
-    justifyContent: 'flex-end'
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: '12px 15px 10px 15px'
   },
-  title: {
+  categoryText: {
+    '&:first-child': {
+      fontSize: 14,
+      lineHeight: 1.43,
+      fontWeight: 500,
+      color: '#333333'
+    },
+    '&:last-child': {
+      fontSize: 12,
+      lineHeight: 1.5,
+      fontWeight: 'normal',
+      color: '#4F4F4F'
+    }
+  },
+  timeText: {
+    textAlign: 'right',
+    fontSize: 12,
+    lineHeight: 1.5,
+    fontWeight: 'normal',
+    color: '#828282'
+  },
+  itemWrapper: {
+    borderBottom: '1px solid #E2E7EB',
+    padding: '12px 15px 10px 15px'
+  },
+  itemTime: {
+    fontSize: 12,
+    lineHeight: 1.5,
+    fontWeight: 500,
+    textAlign: 'center',
+    color: '#333333',
+    paddingBottom: 5
+  },
+  itemContent: {
+    fontSize: 12,
+    lineHeight: 1.5,
+    fontWeight: 'normal',
+    color: '#4f4f4f'
+  },
+  gotButton: {
+    backgroundColor: '#4E2CD4',
+    borderRadius: 8,
     color: '#ffffff',
-    textAlign: 'center',
-    padding: '5px 0'
+    textTransform: 'none',
+    '&:hover': {
+      backgroundColor: '#4E2CD4',
+      opacity: 0.8
+    }
   },
-  customer: {
-    textAlign: 'center',
-    padding: '5px 0'
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    flex: 1,
+    overflow: 'auto'
   },
-  agreeButton: {
-    backgroundColor: 'rgb(75, 108, 183)',
-    padding: '10px 6px',
-    minWidth: 50
+  listWrapper: {
+    overflow: 'auto',
+    flex: 1
   }
 }));
 
-function NewArea({isChecked, onCheckHandle, data}) {
-  const classes = useStyles();
-  const userData = JSON.parse(localStorage.getItem('user'));
-  const [open, setOpen] = useState(!isChecked);
-  
-  const handleClose = () => {
-    setOpen(false);
-    onCheckHandle();
-  };
-  
-  if (!open) {
-    return null;
-  }
+const title = ['Your dialogue', 'Notifications', 'News'];
 
-  const globalNews = data ? data.filter(item => item.userId === 0) : [];
-  const personalNews = data ? data.filter(item => item.userId !== 0) : [];
+function NewArea({
+  isChecked, notification, removeNotifications
+}) {
+  const classes = useStyles();
+  // const userData = JSON.parse(localStorage.getItem('user'));
+  const [open, setOpen] = useState(isChecked);
+  const [state, setState] = useState(0);
+  const notifications = notification.data.filter((item) => item.type !== 'news');
+  const news = notification.data.filter((item) => item.type === 'news');
+  const lastNotification = notifications[0] ?? { notification: 'No notifications to show', createdAt: new Date() };
+  const lastNews = news[0] ?? { notification: 'No notifications to show', createdAt: new Date() };
+
+  React.useEffect(() => {
+    setOpen(isChecked);
+  }, [isChecked]);
+
+  const onClickBack = () => {
+    setState(0);
+  };
+
+  const onClickGotIt = () => {
+    removeNotifications(title[state]);
+  };
 
   return (
     <Paper
-      className={classes.root}
+      className={clsx(classes.root, {
+        [classes.open]: open,
+        [classes.close]: !open
+      })}
       elevation={3}
     >
-      <div className={classes.content}>
-        <Avatar src='/images/logos/news.jpeg' className={classes.avatar} />
-        <Typography className={classes.title} variant="h4" gutterBottom>
-          {userData.username}
-        </Typography>
+      <div className={classes.header}>
+        {state > 0 && (
+          <IconButton className={classes.backButton} onClick={onClickBack}>
+            <ArrowBackIcon className={classes.backIcon} />
+          </IconButton>
+        )}
         <div>
-        {
-          globalNews.map((item, index) => (
-            <Typography key={index} variant="body1" style={{ color: '#fff' }}>
-              {item.news}
-          </Typography>
-          ))
-        }
-        </div>
-        <div className={classes.personal}>
-        {
-          personalNews.map((item, index) => (
-            <Typography key={index} variant="body1" style={{ color: '#fff' }}>
-              {item.news}
-          </Typography>
-          ))
-        }
+          <Typography className={classes.headerText}>Udevia</Typography>
+          <Typography className={classes.headerText}>{title[state]}</Typography>
         </div>
       </div>
-      <div className={classes.customer}>
-        <Typography className={classes.customer} variant="h4">
-          Support
-        </Typography>
-      </div>
-      <div className={classes.actions}>
-        <Button
-          className={classes.agreeButton}
-          color="primary"
-          onClick={handleClose}
-          variant="contained"
-        >
-          <CloseIcon style={{ fontSize: 30 }} />
-        </Button>
-      </div>
+      {state === 0 && (
+        <div>
+          <ListItem
+            className={classes.categoryItem}
+            button
+            onClick={() => setState(1)}
+          >
+            <div>
+              <Typography className={classes.categoryText}>
+                Notifications
+              </Typography>
+              <Typography className={classes.categoryText}>
+                {lastNotification.notification.length < 30
+                  ? lastNotification.notification
+                  : `${lastNotification.notification.substr(0, 30)}...`}
+              </Typography>
+            </div>
+            <Typography className={classes.timeText}>
+              {moment(lastNotification.createdAt).date()
+              === new Date().getDate()
+                ? moment(lastNotification.createdAt).format('hh:mm')
+                : moment(lastNotification.createdAt).format('DD/MM')}
+            </Typography>
+          </ListItem>
+          <ListItem
+            className={classes.categoryItem}
+            button
+            onClick={() => setState(2)}
+          >
+            <div>
+              <Typography className={classes.categoryText}>News</Typography>
+              <Typography className={classes.categoryText}>
+                {lastNews.notification.length < 30
+                  ? lastNews.notification
+                  : `${lastNews.notification.substr(0, 30)}...`}
+              </Typography>
+            </div>
+            <Typography className={classes.timeText}>
+              {moment(lastNews.createdAt).date() === new Date().getDate()
+                ? moment(lastNews.createdAt).format('hh:mm')
+                : moment(lastNews.createdAt).format('DD/MM')}
+            </Typography>
+          </ListItem>
+        </div>
+      )}
+      {state > 0 && (
+        <div className={classes.container}>
+          <div className={classes.listWrapper}>
+            {state === 1
+              ? notifications.map((item) => (
+                <div key={item.id} className={classes.itemWrapper}>
+                  <Typography className={classes.itemTime}>
+                    {moment(item.createdAt).date() === new Date().getDate()
+                      ? moment(item.createdAt).format('hh:mm')
+                      : moment(item.createdAt).format('dddd, Do MMMM')}
+                  </Typography>
+                  <Typography className={classes.itemContent}>
+                    {item.notification}
+                  </Typography>
+                </div>
+              ))
+              : news.map((item) => (
+                <div key={item.id} className={classes.itemWrapper}>
+                  <Typography className={classes.itemTime}>
+                    {moment(item.createdAt).date() === new Date().getDate()
+                      ? moment(item.createdAt).format('hh:mm')
+                      : moment(item.createdAt).format('dddd, Do MMMM')}
+                  </Typography>
+                  <Typography className={classes.itemContent}>
+                    {item.notification}
+                  </Typography>
+                </div>
+              ))}
+          </div>
+          <div style={{ padding: 15, width: '100%' }}>
+            <Button
+              className={classes.gotButton}
+              fullWidth
+              onClick={onClickGotIt}
+            >
+              Got it!
+            </Button>
+          </div>
+        </div>
+      )}
     </Paper>
   );
 }

@@ -3,10 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
 import { Container, Grid } from '@material-ui/core';
 import Page from 'src/components/Page';
-import { getProfit, getNews } from 'src/actions';
+import { getProfit, deleteNotificationByType } from 'src/actions';
 import * as constant from 'src/constant';
 import LoadingComponent from 'src/components/Loading';
 import moment from 'moment';
+import LiveHelpIcon from '@material-ui/icons/LiveHelp';
+import InsertCommentIcon from '@material-ui/icons/InsertComment';
+import CloseIcon from '@material-ui/icons/Close';
+import clsx from 'clsx';
 import Overview from './Overview';
 import MonthOverview from './MonthOverview';
 import WeekOverview from './WeekOverview';
@@ -18,13 +22,46 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: 10,
     paddingBottom: 36,
     position: 'relative',
-    height: 'calc(100vh - 165px)',
+    height: 'calc(100vh - 165px)'
   },
   container: {
     paddingRight: 0,
     paddingTop: 20,
     height: '100%',
     overflow: 'auto'
+  },
+  newsWrapper: {
+    position: 'absolute',
+    bottom: 40,
+    right: 20,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    background: '#4E2CD4',
+    cursor: 'pointer',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    boxShadow: '0px 4px 16px rgba(78, 44, 212, 0.32)'
+  },
+  newsIcon: {
+    color: '#ffffff',
+    fontSize: 35
+  },
+  openIconsWrapper: {
+    position: 'relative'
+  },
+  openIcons: {
+    fontSize: 23,
+    position: 'absolute',
+    '&:first-child': {
+      top: -9,
+      right: -5
+    },
+    '&:last-child': {
+      bottom: -9,
+      left: -5
+    }
   }
 }));
 
@@ -35,12 +72,11 @@ function DashboardAnalytics(props) {
   const month = now.getMonth();
   const dashboardData = useSelector((state) => state.dashboard);
   const session = useSelector((state) => state.session);
-  const newsData = useSelector((state) => state.news);
+  const notification = useSelector((state) => state.notification);
   const [loading, setLoading] = useState(dashboardData.loading);
   const [betData, setBetData] = useState({});
   const [monthData, setMonthData] = useState({});
   const [weekData, setWeekData] = useState({});
-  const [news, setNews] = useState(newsData.news);
   const [selectedMonth, setSelectMonth] = useState(month);
   const classes = useStyles();
 
@@ -55,7 +91,6 @@ function DashboardAnalytics(props) {
         props.selectedUser ? props.selectedUser.currency : null
       )
     );
-    dispatch(getNews());
   }, [year, dispatch, props.selectedUser]);
 
   useEffect(() => {
@@ -109,12 +144,6 @@ function DashboardAnalytics(props) {
     setLoading(dashboardData.loading);
   }, [loading, dashboardData]);
 
-  useEffect(() => {
-    if (!newsData.loading) {
-      setNews(newsData.news);
-    }
-  }, [news, newsData]);
-
   const clickHandle = (event, data) => {
     if (data.length > 0) {
       const curMonth = data[0]._index;
@@ -123,16 +152,23 @@ function DashboardAnalytics(props) {
   };
 
   const onCheckHandle = () => {
-    dispatch({ type: constant.CHECKING_NEWS, payload: true });
+    dispatch({
+      type: constant.CHECKING_NEWS,
+      payload: !dashboardData.checkNews
+    });
+  };
+
+  const removeNotifications = (type) => {
+    dispatch(deleteNotificationByType(type));
   };
 
   return (
     <Page className={classes.root} title="Analytics Dashboard">
       <Container maxWidth={false} className={classes.container}>
         <NewArea
-          data={news}
+          notification={notification}
           isChecked={dashboardData.checkNews}
-          onCheckHandle={onCheckHandle}
+          removeNotifications={removeNotifications}
         />
         <Grid
           container
@@ -183,6 +219,19 @@ function DashboardAnalytics(props) {
         </Grid>
       </Container>
       {loading && <LoadingComponent />}
+      <div className={classes.newsWrapper} onClick={onCheckHandle}>
+        {dashboardData.checkNews && <CloseIcon className={classes.newsIcon} />}
+        {!dashboardData.checkNews && (
+          <div className={classes.openIconsWrapper}>
+            <LiveHelpIcon
+              className={clsx(classes.newsIcon, classes.openIcons)}
+            />
+            <InsertCommentIcon
+              className={clsx(classes.newsIcon, classes.openIcons)}
+            />
+          </div>
+        )}
+      </div>
     </Page>
   );
 }

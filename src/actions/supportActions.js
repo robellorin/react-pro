@@ -94,6 +94,7 @@ export const updateUsersWithNews = (id, newsId, news) => async (dispatch) => {
   }
 
   if (response.status === 200) {
+    window.$client.updateNews(response.data);
     dispatch({
       type: constant.SUPPORT_UPDATE_REQUEST_SUCCESS,
       userId: id,

@@ -228,7 +228,7 @@ function TopBar({
   };
 
   const handleNotificationsOpen = () => {
-    setOpenNotifications(true);
+    if (session.user.role !== 'player') setOpenNotifications(true);
   };
 
   const handleSelectUser = (userItem) => {
@@ -238,7 +238,7 @@ function TopBar({
   };
 
   const handleNotificationsClose = (notificationItem) => {
-    if (notificationItem) {
+    if (notificationItem && notificationItem.id) {
       if (notificationItem.type === 'ticket') {
         history.push(`/ticket/${notificationItem.typeId}`);
       } else if (notificationItem.type === 'credentials') {

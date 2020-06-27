@@ -184,8 +184,8 @@ const useStyles = makeStyles((theme) => ({
     '&::placeholder': {
       color: '#bdbdbd',
     },
-    "&:-webkit-autofill": {
-      WebkitBoxShadow: "0 0 0 1000px #f5f9f9 inset"
+    '&:-webkit-autofill': {
+      WebkitBoxShadow: '0 0 0 1000px #f5f9f9 inset'
     }
   },
 
@@ -218,16 +218,17 @@ function ForgotPassword() {
   const dispatch = useDispatch();
   const [email, setEmail] = React.useState(localStorage.getItem('email'));
   const [open, setOpen] = React.useState(false);
-  
+
   const sendRequest = () => {
     dispatch(forgotPassword(email));
     setOpen(true);
-  }
+  };
 
   const handleChange = (event) => {
     event.persist();
     setEmail(event.target.value);
-  }
+  };
+
   return (
     <Page
       className={classes.root}
@@ -247,11 +248,11 @@ function ForgotPassword() {
       <div className={classes.container}>
         <Hidden mdDown>
           <div style={{ position: 'relative', filter: 'drop-shadow(0px 5px 24.5px rgba(33,51,109,0.56))' }}>
-            <img src='/images/auth/bg.png' alt='background' style={{ height: '100vh' }} />
+            <img src="/images/auth/bg.png" alt="background" style={{ height: '100vh' }} />
             <div className={classes.greetingWrapper}>
               <Typography className={classes.hello}>Welcome to Udevia</Typography>
               <Typography className={classes.greetings}>
-              The land where dreams come true. Access more insights in your Dashboard and learn how you can make Big Data work for you.
+                The land where dreams come true. Access more insights in your Dashboard and learn how you can make Big Data work for you.
               </Typography>
             </div>
           </div>
@@ -267,17 +268,17 @@ function ForgotPassword() {
           </Typography>
           <div>
             <TextField
-            classes={{ root: classes.textField}}
+              classes={{ root: classes.textField }}
               fullWidth
-              style={{marginTop: 25}}
+              style={{ marginTop: 25 }}
               placeholder="Email"
               name="email"
               type="email"
               onChange={handleChange}
               value={email}
-              autoComplete='off'
+              autoComplete="off"
               InputProps={{
-                classes: {input: classes.input},
+                classes: { input: classes.input },
                 startAdornment: (
                   <InputAdornment position="start">
                     <MailOutlineIcon className={classes.icon} />
@@ -294,7 +295,7 @@ function ForgotPassword() {
               type="button"
               variant="contained"
             >
-              Resend
+              Send
             </Button>
           </div>
           <Divider className={classes.divider} />

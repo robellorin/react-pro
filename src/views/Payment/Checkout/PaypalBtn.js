@@ -14,19 +14,18 @@ function PaypalButton(props) {
           value: props.invoice.amount.toString()
         }
       }
-    ]
+    ],
+    application_context: {
+      shipping_preference: 'NO_SHIPPING'
+    }
   });
 
-  const onApprove = (data, actions) => {
-    console.log(props.invoice);
-
-    return dispatch(
-      executePayment(
-        props.invoice.id,
-        data.orderID
-      )
-    );
-  };
+  const onApprove = (data, actions) => dispatch(
+    executePayment(
+      props.invoice.id,
+      data.orderID
+    )
+  );
 
   return (
     <PayPalButton

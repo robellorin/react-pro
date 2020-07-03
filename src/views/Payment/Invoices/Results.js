@@ -210,7 +210,7 @@ function Results({
   const [rowsPerPage, setRowsPerPage] = useState(4);
   const totalPages = Math.floor(invoices.length / rowsPerPage) + 1;
   const pageList = [];
-  const headers = selectedUserId === 0
+  const headers = (selectedUserId === 0 || selectedUserId === 490)
     ? ['Ref', 'Total', 'Status', 'Date', 'name', 'Actions']
     : ['Ref', 'Total', 'Status', 'Date', 'Actions'];
 
@@ -235,6 +235,7 @@ function Results({
     if (invoice.state === 'created') onPay(invoice);
     else onView(invoice);
   };
+  console.log(selectedUserId);
 
   return (
     <div {...rest} className={clsx(classes.root, className)}>
@@ -303,16 +304,16 @@ function Results({
                 >
                   {moment(invoice.updatedAt).format('DD MMM YYYY')}
                 </ListItemText>
-                {
-                  selectedUserId === 0
-                  && (
-                  <ListItemText
-                    classes={{ root: classes.alignCenter, primary: classes.text }}
-                  >
-                    {`${invoice.surname ?? ''} ${invoice.firstname ?? ''}`}
-                  </ListItemText>
-                  )
-                }
+                {(selectedUserId === 0 || selectedUserId === 490) && (
+                <ListItemText
+                  classes={{
+                    root: classes.alignCenter,
+                    primary: classes.text
+                  }}
+                >
+                  {`${invoice.surname ?? ''} ${invoice.firstname ?? ''}`}
+                </ListItemText>
+                )}
                 <div className={classes.actionsWrapper}>
                   <Button
                     className={clsx(classes.button, classes.rowButton)}

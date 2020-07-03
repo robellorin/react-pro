@@ -79,36 +79,32 @@ function InvoicesList(props) {
   };
 
   return (
-    <Page
-      className={classes.root}
-      title="Invoices Management List"
-    >
-      <Container
-        maxWidth={false}
-        className={classes.container}
-      >
+    <Page className={classes.root} title="Invoices Management List">
+      <Container maxWidth={false} className={classes.container}>
         <Results
           className={classes.results}
           invoices={invoices}
           onView={viewInvoice}
           onPay={pay}
           payDisabled={payDisabled}
-          selectedUserId={props.selectedUser.id}
+          selectedUserId={props.selectedUser.id ?? session.user.id}
         />
         <Modal open={openCheckout}>
-          <Container
-            maxWidth={false}
-            className={classes.modalContainer}
-          >
-            <Checkout isModal onClose={onCheckoutClose} invoice={selectedInvoice} />
+          <Container maxWidth={false} className={classes.modalContainer}>
+            <Checkout
+              isModal
+              onClose={onCheckoutClose}
+              invoice={selectedInvoice}
+            />
           </Container>
         </Modal>
-        <InvoiceModal invoice={selectedInvoice} isOpen={openView} onClose={onViewClose} />
+        <InvoiceModal
+          invoice={selectedInvoice}
+          isOpen={openView}
+          onClose={onViewClose}
+        />
       </Container>
-      {
-        paymentData.loading
-          && <LoadingComponent />
-      }
+      {paymentData.loading && <LoadingComponent />}
     </Page>
   );
 }

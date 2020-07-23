@@ -207,7 +207,7 @@ function Results({
 }) {
   const classes = useStyles();
   const [page, setPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(4);
+  const [rowsPerPage, setRowsPerPage] = useState(12);
   const totalPages = Math.floor(invoices.length / rowsPerPage) + 1;
   const pageList = [];
   const headers = (selectedUserId === 0 || selectedUserId === 490)

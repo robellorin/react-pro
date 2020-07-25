@@ -78,6 +78,7 @@ export const countryList = {
   IT: 'Italy',
   MX: 'Mexico',
   NL: 'Netherlands',
+  PK: 'Pakistan',
   PE: 'Peru',
   RU: 'Russia',
   SI: 'Slovenia',

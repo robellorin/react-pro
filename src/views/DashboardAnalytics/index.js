@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
 import { makeStyles } from '@material-ui/styles';
 import { Container, Grid } from '@material-ui/core';
 import Page from 'src/components/Page';
@@ -79,6 +80,11 @@ function DashboardAnalytics(props) {
   const [weekData, setWeekData] = useState({});
   const [selectedMonth, setSelectMonth] = useState(month);
   const classes = useStyles();
+  const history = useHistory();
+
+  useEffect(() => {
+    if (session.user.disabled) history.push('/payment/invoices');
+  }, [session, history]);
 
   useEffect(() => {
     const from = Date.parse(new Date(`${year}-01-01`));

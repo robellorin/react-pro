@@ -83,7 +83,7 @@ function Dashboard({ route }) {
 
   const [openNavBarMobile, setOpenNavBarMobile] = useState(false);
 
-  return (userData && !session.user.disabled) ? (
+  return userData ? (
     <div className={classes.root}>
       <NavBar
         onMobileClose={() => setOpenNavBarMobile(false)}

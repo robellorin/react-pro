@@ -210,7 +210,7 @@ function Results({
   const [rowsPerPage, setRowsPerPage] = useState(12);
   const totalPages = Math.floor(invoices.length / rowsPerPage) + 1;
   const pageList = [];
-  const headers = (selectedUserId === 0 || selectedUserId === 490)
+  const headers = selectedUserId === 0 || selectedUserId === 490 || selectedUserId === 516
     ? ['Ref', 'Total', 'Status', 'Date', 'name', 'Actions']
     : ['Ref', 'Total', 'Status', 'Date', 'Actions'];
 
@@ -304,15 +304,17 @@ function Results({
                 >
                   {moment(invoice.updatedAt).format('DD MMM YYYY')}
                 </ListItemText>
-                {(selectedUserId === 0 || selectedUserId === 490) && (
-                <ListItemText
-                  classes={{
-                    root: classes.alignCenter,
-                    primary: classes.text
-                  }}
-                >
-                  {`${invoice.surname ?? ''} ${invoice.firstname ?? ''}`}
-                </ListItemText>
+                {(selectedUserId === 0
+                  || selectedUserId === 490
+                  || selectedUserId === 516) && (
+                  <ListItemText
+                    classes={{
+                      root: classes.alignCenter,
+                      primary: classes.text
+                    }}
+                  >
+                    {`${invoice.surname ?? ''} ${invoice.firstname ?? ''}`}
+                  </ListItemText>
                 )}
                 <div className={classes.actionsWrapper}>
                   <Button
